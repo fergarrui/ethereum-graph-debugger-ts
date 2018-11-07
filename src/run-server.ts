@@ -14,4 +14,8 @@ const runServer = () => {
     .startOn(port)
 }
 
+server.express.get('/', function(request, response) {
+  response.sendFile(__dirname + '/src/index.html')
+})
+
 runServer()
