@@ -20,4 +20,8 @@ server.express.get('/', function(request, response) {
   response.sendFile(__dirname + '/src/index.html')
 })
 
+server.express.get('/bundle.js', function(request, response) {
+  response.sendFile(__dirname + '/bundle.js')
+})
+
 runServer()
