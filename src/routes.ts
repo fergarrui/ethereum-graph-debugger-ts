@@ -1,11 +1,33 @@
 /* tslint:disable */
 import { Controller, ValidateParam, FieldErrors, ValidateError, TsoaRoute } from 'tsoa';
 import { iocContainer } from './inversify/ioc';
+import { DebuggerController } from './controller/DebuggerController';
 
 const models: TsoaRoute.Models = {
 };
 
 export function RegisterRoutes(app: any) {
+    app.get('/debug',
+        function(request: any, response: any, next: any) {
+            const args = {
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = iocContainer.get<DebuggerController>(DebuggerController);
+            if (typeof controller['setStatus'] === 'function') {
+                (<any>controller).setStatus(undefined);
+            }
+
+
+            const promise = controller.hi.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
 
 
     function isController(object: any): object is Controller {

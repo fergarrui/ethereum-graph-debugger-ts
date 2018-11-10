@@ -1,6 +1,8 @@
 import { Server } from "./Server";
 import { RegisterRoutes } from './routes'
 
+import "./controller/DebuggerController"
+
 const server = new Server()
 // make it configurable
 const port = 9090
