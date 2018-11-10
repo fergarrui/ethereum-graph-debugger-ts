@@ -17,7 +17,7 @@ const runServer = () => {
 }
 
 server.express.get('/', function(request, response) {
-  response.sendFile(__dirname + '/src/index.html')
+  response.sendFile(__dirname + '/index.html')
 })
 
 server.express.get('/bundle.js', function(request, response) {
