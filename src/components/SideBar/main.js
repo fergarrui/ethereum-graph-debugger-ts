@@ -15,10 +15,7 @@ class SideBar extends React.Component {
     this.state = {
       sideBarOpen: true,
     }
-
-    this.inputOpenFile = React.createRef();
   }
-
 
   handleMenuIconClick() {
     this.setState({
@@ -30,10 +27,6 @@ class SideBar extends React.Component {
     this.setState({
       sideBarOpen: false,
     });
-  }
-
-  handleButtonClick(e) {
-    this.inputOpenFile.current.click();
   }
 
   render() {
@@ -51,7 +44,7 @@ class SideBar extends React.Component {
           <input type='text' />
         </div>
         <div className={styles['side-bar__button']}>
-          <input type='submit' onClick={(e) => this.handleButtonClick(e)} value='Load contracts from URI' />
+          <input type='submit' value='Load contracts from URI' />
         </div>
         <div className={styles['side-bar__icon']}>
         {sideBarOpen 
