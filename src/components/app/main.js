@@ -1,5 +1,9 @@
 import React from 'react';
 
+import SideBar from '../SideBar/main.js';
+
+import styles from '../../styles/App.scss';
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -7,7 +11,9 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>ciao</div>
+      <div className={styles['app']}>
+        <SideBar />
+      </div>
     );
   }
 }
