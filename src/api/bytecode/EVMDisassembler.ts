@@ -4,6 +4,7 @@ import { Opcodes } from "./Opcodes";
 import { injectable, inject } from "inversify";
 import { TYPES } from "../../inversify/types";
 import {BN} from "bn.js"
+import { Opcode } from "./Opcode";
 
 @injectable()
 export class EVMDisassembler implements Disassembler {
@@ -25,14 +26,36 @@ export class EVMDisassembler implements Disassembler {
     }
     let offset = 0;
     const operations = code.match(/.{1,2}/g)
-    .map(opcode => {
-        const operation = { offset: offset, 
-          opcode: this.ops.getOpcode(parseInt(opcode, 16)), 
-          argument: new BN(0) 
-        } as Operation
-        offset = offset + 2
-        return operation
-      })
-      return operations
+    const disassembledOperations: Operation[] = []
+
+    for(let i=0; i<operations.length; i++) {
+      const code = operations[i]
+      const opcode: Opcode = this.ops.getOpcode(parseInt(code, 16))
+      if(this.isPush(opcode)) {
+        const parameters = opcode.parameters
+        const argument = `${operations.slice(i+1, i+parameters+1).join('')}`
+        const operation = this.createOperation(offset, opcode, argument)
+        disassembledOperations.push(operation)
+        offset = offset + 1 + (parameters)
+        i = i + parameters
+      } else {
+        const operation = this.createOperation(offset, opcode, '0')
+        disassembledOperations.push(operation)
+        offset++
+      }
+    }
+    return disassembledOperations
+  }
+
+  private createOperation(offset: number, opcode: Opcode, argument: string) {
+    return {
+      offset: offset,
+      opcode: opcode,
+      argument: new BN(argument, 16)
+    } as Operation;
+  }
+
+  private isPush(opcode: Opcode): boolean {
+    return opcode.name.startsWith('PUSH')
   }
 }
