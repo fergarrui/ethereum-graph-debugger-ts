@@ -1,9 +1,24 @@
 /* tslint:disable */
 import { Controller, ValidateParam, FieldErrors, ValidateError, TsoaRoute } from 'tsoa';
 import { iocContainer } from './inversify/ioc';
-import { DebuggerController } from './controller/DebuggerController';
+import { DebuggerController } from './service/controller/DebuggerController';
+import { FileController } from './service/controller/FileController';
 
 const models: TsoaRoute.Models = {
+    "TransactionReceipt": {
+        "properties": {
+            "transactionHash": { "dataType": "string", "required": true },
+            "data": { "dataType": "string", "required": true },
+            "to": { "dataType": "string", "required": true },
+            "from": { "dataType": "string", "required": true },
+        },
+    },
+    "ContractFile": {
+        "properties": {
+            "name": { "dataType": "string", "required": true },
+            "code": { "dataType": "string", "required": true },
+        },
+    },
 };
 
 export function RegisterRoutes(app: any) {
@@ -26,6 +41,51 @@ export function RegisterRoutes(app: any) {
 
 
             const promise = controller.hi.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    app.get('/debug/tx/:tx',
+        function(request: any, response: any, next: any) {
+            const args = {
+                tx: { "in": "path", "name": "tx", "required": true, "dataType": "string" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = iocContainer.get<DebuggerController>(DebuggerController);
+            if (typeof controller['setStatus'] === 'function') {
+                (<any>controller).setStatus(undefined);
+            }
+
+
+            const promise = controller.debugTransaction.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    app.get('/files/:dir',
+        function(request: any, response: any, next: any) {
+            const args = {
+                dir: { "in": "path", "name": "dir", "required": true, "dataType": "string" },
+                extension: { "in": "query", "name": "extension", "required": true, "dataType": "string" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = iocContainer.get<FileController>(FileController);
+            if (typeof controller['setStatus'] === 'function') {
+                (<any>controller).setStatus(undefined);
+            }
+
+
+            const promise = controller.findContractsInDir.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, next);
         });
 

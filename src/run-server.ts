@@ -1,12 +1,23 @@
 import { Server } from "./Server";
 import { RegisterRoutes } from './routes'
 
-import "./controller/DebuggerController"
+import "./service/controller/DebuggerController"
+import "./service/controller/FileController"
 
 const server = new Server()
 // make it configurable
 const port = 9090
 RegisterRoutes(server.express)
+
+const clientErrorHandler = (err, req, res, next) => {
+  if ((err.hasOwnProperty('thrown') && err.thrown) || (err.name && err.name === 'ValidateError')) {
+    return res.status(err.status).send(err.response || { message: err.message, fields: err.fields })
+  } else {
+    return next(err)
+  }
+}
+
+server.express.use(clientErrorHandler)
 
 const runServer = () => {
 

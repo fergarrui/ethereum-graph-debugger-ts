@@ -15,25 +15,65 @@
     "start:dev": "$(npm bin)/npm-run-all -s clean build -p watch:*",
     "watch:node": "$(npm bin)/nodemon --inspect=0.0.0.0:9229 --watch './src/**/*.*' --delay 2.5 --exec npm run server-webpack -e ts",
     "watch:ts": "tsc --watch",
+    "test": "jest",
     "tsc": "$(npm bin)/tsc",
     "copy-index": "copyfiles ./index.html ./dist/",
     "routes-gen": "tsoa routes",
     "server-webpack": "$(npm bin)/npm-run-all -s webpack:prod copy-index start:simple",
     "webpack:prod": "webpack --mode production"
   },
+  "jest": {
+    "coverageThreshold": {
+      "global": {
+        "statements": 0,
+        "branches": 0,
+        "functions": 0,
+        "lines": 0
+      }
+    },
+    "globals": {
+      "ts-jest": {
+        "skipBabel": true,
+        "enableTsDiagnostics": true
+      }
+    },
+    "clearMocks": true,
+    "collectCoverageFrom": [
+      "src/*/**/*.{ts,js}",
+      "!src/**/{routes,index}.{ts,js}"
+    ],
+    "modulePathIgnorePatterns": [
+      "<rootDir>/dist/",
+      "<rootDir>/node_modules/"
+    ],
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "js",
+      "json",
+      "node"
+    ],
+    "testEnvironment": "node"
+  },
   "dependencies": {
     "@types/express": "^4.16.0",
     "async-polling": "^0.2.1",
+    "bn.js": "^4.11.8",
     "body-parser": "^1.18.3",
     "copyfiles": "^2.1.0",
+    "ethereumjs-util": "^6.0.0",
     "express": "^4.16.4",
     "express-winston": "^1.4.2",
     "inversify": "^4.13.0",
     "inversify-binding-decorators": "^3.2.0",
     "method-override": "^3.0.0",
-    "react": "^16.6.1",
-    "react-dom": "^16.6.1",
     "react-svg-inline": "^2.1.1",
+    "react": "^16.6.0",
+    "react-dom": "^16.6.0",
+    "recursive-readdir": "^2.2.2",
     "reflect-metadata": "^0.1.12",
     "solc": "^0.4.25",
     "tsoa": "2.1.8",
@@ -44,11 +84,14 @@
     "@babel/core": "^7.1.5",
     "@babel/preset-env": "^7.1.5",
     "@babel/preset-react": "^7.0.0",
+    "@types/jest": "^23.3.1",
+    "babel-core": "^6.26.3",
     "babel-loader": "^8.0.4",
     "classnames": "^2.2.6",
     "css-loader": "^1.0.1",
     "node-sass": "^4.10.0",
     "nodemon": "^1.18.3",
+    "jest": "^23.5.0",
     "npm-run-all": "^4.1.3",
     "onchange": "^4.1.0",
     "postcss-loader": "^3.0.0",
@@ -58,6 +101,7 @@
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
     "typescript": "^3.1.3",
+    "ts-jest": "^22.4.6",
     "webpack": "^4.25.1",
     "webpack-cli": "^3.1.2",
     "webpack-dev-server": "^3.1.10"
