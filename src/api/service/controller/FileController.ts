@@ -1,7 +1,7 @@
 import { Route, Controller, Get, Path, Query } from "tsoa";
-import { provideSingleton, inject } from "../../inversify/ioc";
+import { provideSingleton, inject } from "../../../inversify/ioc";
 import { ContractFile } from "../bean/ContractFile";
-import { TYPES } from "../../inversify/types";
+import { TYPES } from "../../../inversify/types";
 import { FileService } from "../service/FileService";
 import Errors from "./Errors";
 

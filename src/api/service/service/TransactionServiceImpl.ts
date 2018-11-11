@@ -1,6 +1,6 @@
 import { TransactionService } from "./TransactionService";
 import { injectable, inject } from "inversify";
-import { TYPES } from "../../inversify/types";
+import { TYPES } from "../../../inversify/types";
 import { IWeb3 } from "../../blockchain/IWeb3";
 import { TransactionReceipt } from "../bean/TransactionReceipt";
 import { Opcodes } from "../../bytecode/Opcodes";

@@ -1,8 +1,8 @@
 /* tslint:disable */
 import { Controller, ValidateParam, FieldErrors, ValidateError, TsoaRoute } from 'tsoa';
 import { iocContainer } from './inversify/ioc';
-import { DebuggerController } from './service/controller/DebuggerController';
-import { FileController } from './service/controller/FileController';
+import { DebuggerController } from './api/service/controller/DebuggerController';
+import { FileController } from './api/service/controller/FileController';
 
 const models: TsoaRoute.Models = {
     "TransactionReceipt": {

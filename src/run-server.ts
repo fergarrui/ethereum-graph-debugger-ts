@@ -1,8 +1,8 @@
 import { Server } from "./Server";
 import { RegisterRoutes } from './routes'
 
-import "./service/controller/DebuggerController"
-import "./service/controller/FileController"
+import "./api/service/controller/DebuggerController"
+import "./api/service/controller/FileController"
 
 const server = new Server()
 // make it configurable

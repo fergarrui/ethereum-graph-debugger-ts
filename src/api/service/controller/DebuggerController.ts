@@ -1,6 +1,6 @@
 import { Route, Path, Controller, Get, Post } from "tsoa";
-import { provideSingleton, inject } from "../../inversify/ioc";
-import { TYPES } from "../../inversify/types";
+import { provideSingleton, inject } from "../../../inversify/ioc";
+import { TYPES } from "../../../inversify/types";
 import { TransactionService } from "../service/TransactionService";
 import { TransactionReceipt } from "../bean/TransactionReceipt";
 

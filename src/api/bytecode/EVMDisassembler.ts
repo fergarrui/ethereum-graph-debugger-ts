@@ -2,7 +2,7 @@ import { Disassembler } from "./Disassembler";
 import { Operation } from "./Operation";
 import { Opcodes } from "./Opcodes";
 import { injectable, inject } from "inversify";
-import { TYPES } from "../inversify/types";
+import { TYPES } from "../../inversify/types";
 import {BN} from "bn.js"
 
 @injectable()

@@ -1,14 +1,14 @@
 import { Container, inject, interfaces, decorate, injectable } from 'inversify'
 import { autoProvide, makeProvideDecorator, makeFluentProvideDecorator } from 'inversify-binding-decorators'
 import { Controller } from 'tsoa'
-import { IWeb3 } from '../blockchain/IWeb3';
+import { IWeb3 } from '../api/blockchain/IWeb3';
 import { TYPES } from './types';
-import { Web3Instance } from '../blockchain/Web3Instance';
-import { FileServiceDefault } from '../service/service/FileServiceDefault';
-import { FileService } from '../service/service/FileService';
-import { TransactionServiceImpl } from '../service/service/TransactionServiceImpl';
-import { TransactionService } from '../service/service/TransactionService';
-import { Opcodes } from '../bytecode/Opcodes';
+import { Web3Instance } from '../api/blockchain/Web3Instance';
+import { FileServiceDefault } from '../api/service/service/FileServiceDefault';
+import { FileService } from '../api/service/service/FileService';
+import { TransactionServiceImpl } from '../api/service/service/TransactionServiceImpl';
+import { TransactionService } from '../api/service/service/TransactionService';
+import { Opcodes } from '../api/bytecode/Opcodes';
 
 const iocContainer = new Container()
 const provide = makeProvideDecorator(iocContainer)
