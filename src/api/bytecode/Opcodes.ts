@@ -7,6 +7,8 @@ export class Opcodes {
   opcodes = {}
 
   constructor() {
+    this.opcodes[-1] = { name: 'UNKNOWN', opcode: 0x00, parameters: 0} as Opcode
+    
     this.opcodes[0x00] = { name: 'STOP', opcode: 0x00, parameters: 0} as Opcode
     this.opcodes[0x01] = { name: 'ADD', opcode: 0x01, parameters: 0} as Opcode
     this.opcodes[0x02] = { name: 'MUL', opcode: 0x02, parameters: 0} as Opcode

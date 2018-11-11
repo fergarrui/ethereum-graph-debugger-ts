@@ -9,6 +9,10 @@ import { FileService } from '../api/service/service/FileService';
 import { TransactionServiceImpl } from '../api/service/service/TransactionServiceImpl';
 import { TransactionService } from '../api/service/service/TransactionService';
 import { Opcodes } from '../api/bytecode/Opcodes';
+import { Disassembler } from '../api/bytecode/Disassembler';
+import { EVMDisassembler } from '../api/bytecode/EVMDisassembler';
+import { CFGCreator } from '../api/cfg/CFGCreator';
+import { EthereumCFGCreator } from '../api/cfg/EthereumCFGCreator';
 
 const iocContainer = new Container()
 const provide = makeProvideDecorator(iocContainer)
@@ -19,6 +23,8 @@ decorate(injectable(), Controller)
 iocContainer.bind<IWeb3>(TYPES.Web3Instance).to(Web3Instance)
 iocContainer.bind<FileService>(TYPES.FileService).to(FileServiceDefault)
 iocContainer.bind<TransactionService>(TYPES.TransactionService).to(TransactionServiceImpl)
+iocContainer.bind<Disassembler>(TYPES.Disassembler).to(EVMDisassembler)
+iocContainer.bind<CFGCreator>(TYPES.CFGCreator).to(EthereumCFGCreator)
 iocContainer.bind<Opcodes>(TYPES.Opcodes).to(Opcodes)
 
 const provideNamed = (
