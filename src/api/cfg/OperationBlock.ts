@@ -1,4 +1,4 @@
-import { Operation } from "../bytecode/Operation";
+import { Operation } from '../bytecode/Operation'
 
 export interface OperationBlock {
   offset: number

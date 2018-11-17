@@ -1,20 +1,15 @@
-import { TransactionService } from "./TransactionService";
-import { injectable, inject } from "inversify";
-import { TYPES } from "../../../inversify/types";
-import { IWeb3 } from "../../blockchain/IWeb3";
-import { TransactionReceipt } from "../bean/TransactionReceipt";
-import { Opcodes } from "../../bytecode/Opcodes";
+import { TransactionService } from './TransactionService'
+import { injectable, inject } from 'inversify'
+import { TYPES } from '../../../inversify/types'
+import { IWeb3 } from '../../blockchain/IWeb3'
+import { TransactionReceipt } from '../bean/TransactionReceipt'
+import { Opcodes } from '../../bytecode/Opcodes'
 
 @injectable()
 export class TransactionServiceImpl implements TransactionService {
-
   web3
 
-  constructor(
-    @inject(TYPES.Web3Instance) private web3Instance: IWeb3,
-    @inject(TYPES.Opcodes) private opcs: Opcodes
-
-  ) {
+  constructor(@inject(TYPES.Web3Instance) private web3Instance: IWeb3, @inject(TYPES.Opcodes) private opcs: Opcodes) {
     this.web3 = this.web3Instance.getInstance()
   }
 

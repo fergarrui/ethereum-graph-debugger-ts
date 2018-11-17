@@ -1,4 +1,4 @@
 export interface ContractFile {
-  name: string,
+  name: string
   code: string
 }

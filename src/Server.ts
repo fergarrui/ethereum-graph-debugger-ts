@@ -1,6 +1,6 @@
 import 'reflect-metadata'
 import { Express } from 'express'
-import express = require('express');
+import express = require('express')
 import methodOverride = require('method-override')
 import * as bodyParser from 'body-parser'
 import { logger } from './Logger'
