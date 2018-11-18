@@ -1,6 +1,6 @@
 import React from 'react';
 
-import styles from '../../styles/Input.scss';
+import styles from '../../../styles/Input.scss';
 
 class Input extends React.Component {
   constructor(props) {
@@ -49,8 +49,8 @@ class Input extends React.Component {
     const { value } = this.state;
 
     return (
-      <div className={styles['input-box']}>
-        <div className={styles['input-box__text']}>
+      <div className={styles['input']}>
+        <div className={styles['input__item']}>
           <input 
             type='text' 
             placeholder='Insert contracts path' 
@@ -59,7 +59,7 @@ class Input extends React.Component {
             autoFocus
           />
         </div>
-        <div className={styles['input-box__submit']}>
+        <div className={styles['input__item']}>
           <input 
             type='submit' 
             value='Load contracts from URI'

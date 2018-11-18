@@ -1,0 +1,79 @@
+.tab-panel {
+  display: flex;
+  padding: 34px 20px;
+  background: #1D1D1B;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+
+  &__left {
+    width: 30%;
+    position: relative;
+    padding-top: 30px;
+
+    &__controls {
+      display: flex;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 4;
+
+      &__item {
+
+        button {
+          background: transparent;
+          outline: transparent;
+          cursor: pointer;
+        }
+
+        &:not(:first-of-type) {
+          margin-left: 10px;
+        }
+      }
+    }
+
+    &__editor {
+      position: relative;
+      left: -108%;
+      transition: left 0.3s;
+      z-index: 1;
+    }
+
+    &__side-bar {
+      position: absolute;
+      top: 0;
+      left: 15%;
+      opacity: 0;
+      z-index: 0;
+      transition: opacity 0.2s;
+    }
+  }
+
+  &__right {
+    width: 70%;
+    height: 100%;
+    background: #393E41;
+  }
+}
+
+//State
+
+.tab-panel {
+
+  &__left {
+      
+    &__editor {
+
+      &--open {
+        left: 0;
+      }
+    }
+
+    &__side-bar {
+
+      &--open {
+        opacity: 1;
+        z-index: 3;
+      }
+    }
+  }
+}
