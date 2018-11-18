@@ -11,11 +11,6 @@ export class DebuggerController extends Controller {
     super()
   }
 
-  @Get()
-  async hi(): Promise<string> {
-    return '222'
-  }
-
   @Get('tx/{tx}')
   async debugTransaction(@Path() tx: string): Promise<TransactionReceipt> {
     return this.transactionService.findTransactionReceipt(tx)

@@ -15,8 +15,6 @@ export class TransactionServiceImpl implements TransactionService {
 
   async findTransactionReceipt(transactionHash: string): Promise<TransactionReceipt> {
     const receipt: TransactionReceipt = await this.web3.eth.getTransactionReceipt(transactionHash)
-    const op = this.opcs.getOpcode(0)
-    console.log(op)
     return receipt
   }
 }

@@ -2,16 +2,23 @@ import { Disassembler } from './Disassembler'
 import { Operation } from './Operation'
 import { Opcodes } from './Opcodes'
 import { injectable, inject } from 'inversify'
-import { TYPES } from '../../inversify/types'
 import { BN } from 'bn.js'
 import { Opcode } from './Opcode'
 import { DisassembledContract } from './DisassembledContract'
+let solc = require('solc')
 
 @injectable()
 export class EVMDisassembler implements Disassembler {
   readonly metadataPrefix = 'a165627a7a72305820'
 
   constructor() {}
+
+  disassembleSourceCode(contractName: string, source: string): DisassembledContract {
+    const compileJson = this.generateCompileObject(contractName, source)
+    const compiledContract = JSON.parse(solc.compileStandardWrapper(JSON.stringify(compileJson)))
+    const bytecode = compiledContract.contracts[contractName][contractName].evm.bytecode.object
+    return this.disassembleContract(bytecode)
+  }
 
   disassembleContract(bytecode: string): DisassembledContract {
     let code = bytecode
@@ -90,6 +97,25 @@ export class EVMDisassembler implements Disassembler {
       opcode: opcode,
       argument: new BN(argument, 16)
     } as Operation
+  }
+
+  private generateCompileObject(contractName: string, source: string) {
+    const sources = {}
+    sources[contractName] = {
+      content: source
+    }
+    const compileJson = {
+      language: 'Solidity',
+      sources,
+      settings: {
+        outputSelection: {
+          '*': {
+            '*': ['evm.bytecode']
+          }
+        }
+      }
+    }
+    return compileJson
   }
 
   private isPush(opcode: Opcode): boolean {

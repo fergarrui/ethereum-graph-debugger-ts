@@ -3,6 +3,6 @@ import { Operation } from '../bytecode/Operation'
 export interface OperationBlock {
   offset: number
   operations: Operation[]
-  childA?: OperationBlock
-  childB?: OperationBlock
+  childA?: number
+  childB?: number
 }

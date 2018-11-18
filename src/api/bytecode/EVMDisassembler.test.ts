@@ -11,6 +11,15 @@ describe('Disassembler test', () => {
     disass = new EVMDisassembler()
   })
 
+  it('Test disassemble source code', () => {
+    const source = 'pragma solidity ^0.4.24; contract x { function g() public pure {} }'
+    const expectedBytecode =
+      '6080604052348015600f57600080fd5b5060868061001e6000396000f300608060405260043610603f576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063e2179b8e146044575b600080fd5b348015604f57600080fd5b5060566058565b005b5600a165627a7a7230582082ce3faa940a3a581b2d80edb99ef6992f095df7805a44124cfe6e0aeda782940029'
+    const disassembled: DisassembledContract = disass.disassembleSourceCode('x', source)
+    expect(disassembled.hasConstructor).toBeTruthy()
+    expect(disassembled.bytecode).toEqual(expectedBytecode)
+  })
+
   it('Test disassembler bytecode', async () => {
     const bytecode = '0x161718'
     const expectedOpcodes = [

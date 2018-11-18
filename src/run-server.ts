@@ -3,6 +3,7 @@ import { RegisterRoutes } from './routes'
 
 import './api/service/controller/DebuggerController'
 import './api/service/controller/FileController'
+import './api/service/controller/DisassembleController'
 
 const server = new Server()
 // make it configurable

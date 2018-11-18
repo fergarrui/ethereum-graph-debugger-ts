@@ -3,7 +3,6 @@ import { EthereumCFGCreator } from './EthereumCFGCreator'
 import { EVMDisassembler } from '../bytecode/EVMDisassembler'
 import { Disassembler } from '../bytecode/Disassembler'
 import { Operation } from '../bytecode/Operation'
-import { OperationBlock } from './OperationBlock'
 import { BN } from 'bn.js'
 import { Opcodes } from '../bytecode/Opcodes'
 import { CFGBlocks } from './CFGBlocks'
@@ -17,7 +16,7 @@ describe('EthereumCFGCreator', () => {
     disassembler = new EVMDisassembler()
   })
 
-  it.only('Test blocks correctly created, no jumps', () => {
+  it('Test blocks correctly created, no jumps', () => {
     const bytecode = '60806040'
     const ops: Operation[] = disassembler.disassembleBytecode(bytecode)
     const cfg: CFGBlocks = cfgCreator.divideBlocks(ops)
@@ -25,26 +24,7 @@ describe('EthereumCFGCreator', () => {
     expectedBlocks.push(
       {
         offset: 0,
-        operations: [
-          {
-            offset: 0,
-            argument: new BN('80', 16),
-            opcode: {
-              name: 'PUSH1',
-              opcode: 0x60,
-              parameters: 1
-            }
-          },
-          {
-            offset: 2,
-            argument: new BN('40', 16),
-            opcode: {
-              name: 'PUSH1',
-              opcode: 0x60,
-              parameters: 1
-            }
-          }
-        ]
+        operations: [createOperation(0, '80', 'PUSH1'), createOperation(2, '40', 'PUSH1')]
       },
       0
     )
@@ -56,49 +36,30 @@ describe('EthereumCFGCreator', () => {
     const bytecode = '60806040565b5050'
     const ops: Operation[] = disassembler.disassembleBytecode(bytecode)
     const cfg: CFGBlocks = cfgCreator.divideBlocks(ops)
-    const expectedBlocks: OperationBlock[] = [
+    const expectedBlocks: CFGBlocks = new CFGBlocks()
+    expectedBlocks.push(
       {
         offset: 0,
         operations: [
-          {
-            offset: 0,
-            argument: new BN('80', 16),
-            opcode: Opcodes.opcodes['PUSH1']
-          },
-          {
-            offset: 2,
-            argument: new BN('40', 16),
-            opcode: Opcodes.opcodes['PUSH1']
-          },
-          {
-            offset: 4,
-            argument: new BN('0', 16),
-            opcode: Opcodes.opcodes['JUMP']
-          }
+          createOperation(0, '80', 'PUSH1'),
+          createOperation(2, '40', 'PUSH1'),
+          createOperation(4, '0', 'JUMP')
         ]
       },
+      0
+    )
+    expectedBlocks.push(
       {
         offset: 5,
         operations: [
-          {
-            offset: 5,
-            argument: new BN('0', 16),
-            opcode: Opcodes.opcodes['JUMPDEST']
-          },
-          {
-            offset: 6,
-            argument: new BN('0', 16),
-            opcode: Opcodes.opcodes['POP']
-          },
-          {
-            offset: 7,
-            argument: new BN('0', 16),
-            opcode: Opcodes.opcodes['POP']
-          }
+          createOperation(5, '0', 'JUMPDEST'),
+          createOperation(6, '0', 'POP'),
+          createOperation(7, '0', 'POP')
         ]
-      }
-    ]
-    expect(cfg.length).toEqual(2)
+      },
+      5
+    )
+    expect(cfg.length()).toEqual(2)
     expect(cfg).toEqual(expectedBlocks)
   })
 
@@ -106,49 +67,30 @@ describe('EthereumCFGCreator', () => {
     const bytecode = '60806040575b5050'
     const ops: Operation[] = disassembler.disassembleBytecode(bytecode)
     const cfg: CFGBlocks = cfgCreator.divideBlocks(ops)
-    const expectedBlocks: OperationBlock[] = [
+    const expectedBlocks: CFGBlocks = new CFGBlocks()
+    expectedBlocks.push(
       {
         offset: 0,
         operations: [
-          {
-            offset: 0,
-            argument: new BN('80', 16),
-            opcode: Opcodes.opcodes['PUSH1']
-          },
-          {
-            offset: 2,
-            argument: new BN('40', 16),
-            opcode: Opcodes.opcodes['PUSH1']
-          },
-          {
-            offset: 4,
-            argument: new BN('0', 16),
-            opcode: Opcodes.opcodes['JUMPI']
-          }
+          createOperation(0, '80', 'PUSH1'),
+          createOperation(2, '40', 'PUSH1'),
+          createOperation(4, '0', 'JUMPI')
         ]
       },
+      0
+    )
+    expectedBlocks.push(
       {
         offset: 5,
         operations: [
-          {
-            offset: 5,
-            argument: new BN('0', 16),
-            opcode: Opcodes.opcodes['JUMPDEST']
-          },
-          {
-            offset: 6,
-            argument: new BN('0', 16),
-            opcode: Opcodes.opcodes['POP']
-          },
-          {
-            offset: 7,
-            argument: new BN('0', 16),
-            opcode: Opcodes.opcodes['POP']
-          }
+          createOperation(5, '0', 'JUMPDEST'),
+          createOperation(6, '0', 'POP'),
+          createOperation(7, '0', 'POP')
         ]
-      }
-    ]
-    expect(cfg.length).toEqual(2)
+      },
+      5
+    )
+    expect(cfg.length()).toEqual(2)
     expect(cfg).toEqual(expectedBlocks)
   })
 
@@ -156,44 +98,26 @@ describe('EthereumCFGCreator', () => {
     const bytecode = '60806040005050'
     const ops: Operation[] = disassembler.disassembleBytecode(bytecode)
     const cfg: CFGBlocks = cfgCreator.divideBlocks(ops)
-    const expectedBlocks: OperationBlock[] = [
+    const expectedBlocks: CFGBlocks = new CFGBlocks()
+    expectedBlocks.push(
       {
         offset: 0,
         operations: [
-          {
-            offset: 0,
-            argument: new BN('80', 16),
-            opcode: Opcodes.opcodes['PUSH1']
-          },
-          {
-            offset: 2,
-            argument: new BN('40', 16),
-            opcode: Opcodes.opcodes['PUSH1']
-          },
-          {
-            offset: 4,
-            argument: new BN('0', 16),
-            opcode: Opcodes.opcodes['STOP']
-          }
+          createOperation(0, '80', 'PUSH1'),
+          createOperation(2, '40', 'PUSH1'),
+          createOperation(4, '0', 'STOP')
         ]
       },
+      0
+    )
+    expectedBlocks.push(
       {
         offset: 5,
-        operations: [
-          {
-            offset: 5,
-            argument: new BN('0', 16),
-            opcode: Opcodes.opcodes['POP']
-          },
-          {
-            offset: 6,
-            argument: new BN('0', 16),
-            opcode: Opcodes.opcodes['POP']
-          }
-        ]
-      }
-    ]
-    expect(cfg.length).toEqual(2)
+        operations: [createOperation(5, '0', 'POP'), createOperation(6, '0', 'POP')]
+      },
+      5
+    )
+    expect(cfg.length()).toEqual(2)
     expect(cfg).toEqual(expectedBlocks)
   })
 
@@ -201,44 +125,26 @@ describe('EthereumCFGCreator', () => {
     const bytecode = '60806040f35050'
     const ops: Operation[] = disassembler.disassembleBytecode(bytecode)
     const cfg: CFGBlocks = cfgCreator.divideBlocks(ops)
-    const expectedBlocks: OperationBlock[] = [
+    const expectedBlocks: CFGBlocks = new CFGBlocks()
+    expectedBlocks.push(
       {
         offset: 0,
         operations: [
-          {
-            offset: 0,
-            argument: new BN('80', 16),
-            opcode: Opcodes.opcodes['PUSH1']
-          },
-          {
-            offset: 2,
-            argument: new BN('40', 16),
-            opcode: Opcodes.opcodes['PUSH1']
-          },
-          {
-            offset: 4,
-            argument: new BN('0', 16),
-            opcode: Opcodes.opcodes['RETURN']
-          }
+          createOperation(0, '80', 'PUSH1'),
+          createOperation(2, '40', 'PUSH1'),
+          createOperation(4, '0', 'RETURN')
         ]
       },
+      0
+    )
+    expectedBlocks.push(
       {
         offset: 5,
-        operations: [
-          {
-            offset: 5,
-            argument: new BN('0', 16),
-            opcode: Opcodes.opcodes['POP']
-          },
-          {
-            offset: 6,
-            argument: new BN('0', 16),
-            opcode: Opcodes.opcodes['POP']
-          }
-        ]
-      }
-    ]
-    expect(cfg.length).toEqual(2)
+        operations: [createOperation(5, '0', 'POP'), createOperation(6, '0', 'POP')]
+      },
+      5
+    )
+    expect(cfg.length()).toEqual(2)
     expect(cfg).toEqual(expectedBlocks)
   })
 
@@ -246,44 +152,26 @@ describe('EthereumCFGCreator', () => {
     const bytecode = '60806040fd5050'
     const ops: Operation[] = disassembler.disassembleBytecode(bytecode)
     const cfg: CFGBlocks = cfgCreator.divideBlocks(ops)
-    const expectedBlocks: OperationBlock[] = [
+    const expectedBlocks: CFGBlocks = new CFGBlocks()
+    expectedBlocks.push(
       {
         offset: 0,
         operations: [
-          {
-            offset: 0,
-            argument: new BN('80', 16),
-            opcode: Opcodes.opcodes['PUSH1']
-          },
-          {
-            offset: 2,
-            argument: new BN('40', 16),
-            opcode: Opcodes.opcodes['PUSH1']
-          },
-          {
-            offset: 4,
-            argument: new BN('0', 16),
-            opcode: Opcodes.opcodes['REVERT']
-          }
+          createOperation(0, '80', 'PUSH1'),
+          createOperation(2, '40', 'PUSH1'),
+          createOperation(4, '0', 'REVERT')
         ]
       },
+      0
+    )
+    expectedBlocks.push(
       {
         offset: 5,
-        operations: [
-          {
-            offset: 5,
-            argument: new BN('0', 16),
-            opcode: Opcodes.opcodes['POP']
-          },
-          {
-            offset: 6,
-            argument: new BN('0', 16),
-            opcode: Opcodes.opcodes['POP']
-          }
-        ]
-      }
-    ]
-    expect(cfg.length).toEqual(2)
+        operations: [createOperation(5, '0', 'POP'), createOperation(6, '0', 'POP')]
+      },
+      5
+    )
+    expect(cfg.length()).toEqual(2)
     expect(cfg).toEqual(expectedBlocks)
   })
 
@@ -291,44 +179,34 @@ describe('EthereumCFGCreator', () => {
     const bytecode = '60806040fe5050'
     const ops: Operation[] = disassembler.disassembleBytecode(bytecode)
     const cfg: CFGBlocks = cfgCreator.divideBlocks(ops)
-    const expectedBlocks: OperationBlock[] = [
+    const expectedBlocks: CFGBlocks = new CFGBlocks()
+    expectedBlocks.push(
       {
         offset: 0,
         operations: [
-          {
-            offset: 0,
-            argument: new BN('80', 16),
-            opcode: Opcodes.opcodes['PUSH1']
-          },
-          {
-            offset: 2,
-            argument: new BN('40', 16),
-            opcode: Opcodes.opcodes['PUSH1']
-          },
-          {
-            offset: 4,
-            argument: new BN('0', 16),
-            opcode: Opcodes.opcodes['INVALID']
-          }
+          createOperation(0, '80', 'PUSH1'),
+          createOperation(2, '40', 'PUSH1'),
+          createOperation(4, '0', 'INVALID')
         ]
       },
+      0
+    )
+    expectedBlocks.push(
       {
         offset: 5,
-        operations: [
-          {
-            offset: 5,
-            argument: new BN('0', 16),
-            opcode: Opcodes.opcodes['POP']
-          },
-          {
-            offset: 6,
-            argument: new BN('0', 16),
-            opcode: Opcodes.opcodes['POP']
-          }
-        ]
-      }
-    ]
-    expect(cfg.length).toEqual(2)
+        operations: [createOperation(5, '0', 'POP'), createOperation(6, '0', 'POP')]
+      },
+      5
+    )
+    expect(cfg.length()).toEqual(2)
     expect(cfg).toEqual(expectedBlocks)
   })
 })
+
+function createOperation(offset: number, argument: string, opcodeName: string): Operation {
+  return {
+    offset: offset,
+    argument: new BN(argument, 16),
+    opcode: Opcodes.opcodes[opcodeName]
+  }
+}

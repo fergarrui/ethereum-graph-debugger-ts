@@ -3,6 +3,7 @@ import { Controller, ValidateParam, FieldErrors, ValidateError, TsoaRoute } from
 import { iocContainer } from './inversify/ioc';
 import { DebuggerController } from './api/service/controller/DebuggerController';
 import { FileController } from './api/service/controller/FileController';
+import { DisassembleController } from './api/service/controller/DisassembleController';
 
 const models: TsoaRoute.Models = {
     "TransactionReceipt": {
@@ -19,30 +20,31 @@ const models: TsoaRoute.Models = {
             "code": { "dataType": "string", "required": true },
         },
     },
+    "Opcode": {
+        "properties": {
+            "name": { "dataType": "string", "required": true },
+            "opcode": { "dataType": "double", "required": true },
+            "parameters": { "dataType": "double", "required": true },
+        },
+    },
+    "OperationResponse": {
+        "properties": {
+            "offset": { "dataType": "double", "required": true },
+            "opcode": { "ref": "Opcode", "required": true },
+            "argument": { "dataType": "string", "required": true },
+        },
+    },
+    "DisassembledContractResponse": {
+        "properties": {
+            "hasConstructor": { "dataType": "boolean", "required": true },
+            "constructorOperations": { "dataType": "array", "array": { "ref": "OperationResponse" }, "required": true },
+            "runtimeOperations": { "dataType": "array", "array": { "ref": "OperationResponse" }, "required": true },
+            "bytecode": { "dataType": "string", "required": true },
+        },
+    },
 };
 
 export function RegisterRoutes(app: any) {
-    app.get('/debug',
-        function(request: any, response: any, next: any) {
-            const args = {
-            };
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = getValidatedArgs(args, request);
-            } catch (err) {
-                return next(err);
-            }
-
-            const controller = iocContainer.get<DebuggerController>(DebuggerController);
-            if (typeof controller['setStatus'] === 'function') {
-                (<any>controller).setStatus(undefined);
-            }
-
-
-            const promise = controller.hi.apply(controller, validatedArgs);
-            promiseHandler(controller, promise, response, next);
-        });
     app.get('/debug/tx/:tx',
         function(request: any, response: any, next: any) {
             const args = {
@@ -86,6 +88,29 @@ export function RegisterRoutes(app: any) {
 
 
             const promise = controller.findContractsInDir.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    app.get('/disassemble',
+        function(request: any, response: any, next: any) {
+            const args = {
+                code: { "in": "query", "name": "code", "required": true, "dataType": "string" },
+                contractName: { "in": "query", "name": "contractName", "required": true, "dataType": "string" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = iocContainer.get<DisassembleController>(DisassembleController);
+            if (typeof controller['setStatus'] === 'function') {
+                (<any>controller).setStatus(undefined);
+            }
+
+
+            const promise = controller.disassembleSourceCode.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, next);
         });
 
