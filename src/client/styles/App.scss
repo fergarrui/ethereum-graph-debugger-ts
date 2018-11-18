@@ -1,4 +1,9 @@
 .app {
   width: 100%;
   position: relative;
+
+  &__tabs {
+    margin-top: 50px;
+    padding: 50px;
+  }
 }

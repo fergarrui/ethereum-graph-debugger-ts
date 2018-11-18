@@ -2,7 +2,7 @@ import React from 'react';
 
 import TabMenuItem from './TabMenuItem/main.js';
 
-import styles from '../../styles/Tab.scss';
+import styles from '../../styles/Tab/Tab.scss';
 
 import classnames from 'classnames/bind';
 
@@ -28,25 +28,19 @@ class Tab extends React.Component {
 
     const currentTab = React.Children.toArray(children).find((child, index) => index === currentTabIndex);
 
-    const classes = cx({
-      'tab': true,
-      'tab--state-active': '',
-    });
-
     return (
-      <div className={classes}>
+      <div className={styles['tab']}>
         <div className={styles['tab__navigation']}>
           {React.Children.map(children, (child, i) => (
-            <div className={styles['tab__navigation__item']}>
-              <TabMenuItem
-                key={i}
-                name={child.props.name}
-                onClick={() => this.setActiveTab(i)}
-              />
-            </div>
+            <TabMenuItem
+              key={i}
+              name={child.props.name}
+              onClick={() => this.setActiveTab(i)}
+              active={currentTabIndex === i}
+            />
           ))}
         </div>
-        <div className={styles['tab__body']}>
+        <div className={styles['tab__panels']}>
           {currentTab}
         </div>
       </div>
