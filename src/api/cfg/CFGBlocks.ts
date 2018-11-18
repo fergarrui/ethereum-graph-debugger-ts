@@ -7,7 +7,7 @@ export class CFGBlocks {
     this.blocks[offset] = block
   }
 
-  get(offset: number): OperationBlock[] {
+  get(offset: number): OperationBlock {
     return this.blocks[offset]
   }
 

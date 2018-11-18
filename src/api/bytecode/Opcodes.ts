@@ -149,6 +149,10 @@ export class Opcodes {
       }
     }
   }
+
+  static isJump(op: Opcode) {
+    return op.name.startsWith('JUMP')
+  }
 }
 
 Opcodes.populate()
