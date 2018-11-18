@@ -3,11 +3,9 @@ import { EVMExecutor } from './EVMExecutor'
 import { EthereumCFGCreator } from '../../cfg/EthereumCFGCreator'
 import { Disassembler } from '../../bytecode/Disassembler'
 import { EVMDisassembler } from '../../bytecode/EVMDisassembler'
-import { Operation } from '../../bytecode/Operation'
-import { CFGBlocks } from '../../cfg/CFGBlocks'
 import { OpcodeExecutor } from './exec/OpcodeExecutor'
 import { Word } from './Word'
-import { BN } from 'bn.js'
+import { createLiteralWord, createExecutor } from './exec/TestUtils';
 
 describe('EVMExecutor', () => {
   let cfgCreator: EthereumCFGCreator
@@ -43,18 +41,3 @@ describe('EVMExecutor', () => {
     expect(executor.blocks.keys()).toEqual([0])
   })
 })
-
-function createLiteralWord(value: string): Word {
-  return { isSymbolic: false, value: new BN(value, 16) }
-}
-
-function createExecutor(
-  disassembler: Disassembler,
-  bytecode: string,
-  cfgCreator: EthereumCFGCreator,
-  opcodeExecutor: OpcodeExecutor
-) {
-  const ops: Operation[] = disassembler.disassembleBytecode(bytecode)
-  const blocks: CFGBlocks = cfgCreator.divideBlocks(ops)
-  return new EVMExecutor(blocks, opcodeExecutor)
-}

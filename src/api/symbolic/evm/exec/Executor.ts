@@ -1,6 +1,6 @@
 import { EVM } from '../EVM'
-import { BN } from 'bn.js'
+import { Operation } from '../../../bytecode/Operation';
 
 export interface Executor {
-  execute(argument: BN, evm: EVM)
+  execute(op: Operation, evm: EVM)
 }

@@ -1,6 +1,7 @@
 import { EVMMemory } from './EVMMemory'
 import { Word } from './Word'
 import { BN } from 'bn.js'
+import { createLiteralWord } from './exec/TestUtils';
 
 describe('EVMMemory', () => {
   let memory: EVMMemory
@@ -66,8 +67,4 @@ describe('EVMMemory', () => {
     expect(memory.bufferLength()).toEqual(64)
     expect(word.value.eq(loadedWord.value))
   })
-
-  function createLiteralWord(value: string): Word {
-    return { isSymbolic: false, value: new BN(value, 16) }
-  }
 })

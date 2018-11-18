@@ -1,3 +1,4 @@
+import 'reflect-metadata'
 import { CFGCreator } from './CFGCreator'
 import { injectable } from 'inversify'
 import { Operation } from '../bytecode/Operation'

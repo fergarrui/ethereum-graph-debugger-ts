@@ -42,7 +42,7 @@ export class EVMExecutor {
       if (!executor) {
         throw new Error(`Operation not implemented: ${op.opcode.name}`)
       }
-      executor.execute(op.argument, this.evm)
+      executor.execute(op, this.evm)
     }
   }
 

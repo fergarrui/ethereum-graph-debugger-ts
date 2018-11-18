@@ -1,9 +1,9 @@
 import { Executor } from './Executor'
 import { EVM } from '../EVM'
-import { BN } from 'bn.js'
+import { Operation } from '../../../bytecode/Operation';
 
 export class Pop implements Executor {
-  execute(argument: BN, evm: EVM) {
+  execute(op: Operation, evm: EVM) {
     evm.stack.pop()
   }
 }

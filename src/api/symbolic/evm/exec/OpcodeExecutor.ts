@@ -2,6 +2,8 @@ import { Opcodes } from '../../../bytecode/Opcodes'
 import { Push } from './Push'
 import { Pop } from './Pop'
 import { injectable } from 'inversify'
+import { Dup } from './Dup';
+import { MStore } from './Mstore';
 
 @injectable()
 export class OpcodeExecutor {
@@ -40,6 +42,25 @@ export class OpcodeExecutor {
     this.ops['PUSH30'] = new Push()
     this.ops['PUSH31'] = new Push()
     this.ops['PUSH32'] = new Push()
+    
+    this.ops['DUP1'] = new Dup()
+    this.ops['DUP2'] = new Dup()
+    this.ops['DUP3'] = new Dup()
+    this.ops['DUP4'] = new Dup()
+    this.ops['DUP5'] = new Dup()
+    this.ops['DUP6'] = new Dup()
+    this.ops['DUP7'] = new Dup()
+    this.ops['DUP8'] = new Dup()
+    this.ops['DUP9'] = new Dup()
+    this.ops['DUP10'] = new Dup()
+    this.ops['DUP11'] = new Dup()
+    this.ops['DUP12'] = new Dup()
+    this.ops['DUP13'] = new Dup()
+    this.ops['DUP14'] = new Dup()
+    this.ops['DUP15'] = new Dup()
+    this.ops['DUP16'] = new Dup()
+
     this.ops['POP'] = new Pop()
+    this.ops['MSTORE'] = new MStore()
   }
 }
