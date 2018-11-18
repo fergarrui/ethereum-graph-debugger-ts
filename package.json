@@ -73,7 +73,6 @@
     "inversify-binding-decorators": "^3.2.0",
     "method-override": "^3.0.0",
     "react": "^16.6.0",
-    "react-ace-editor": "0.0.3",
     "react-dom": "^16.6.0",
     "react-svg-inline": "^2.1.1",
     "recursive-readdir": "^2.2.2",

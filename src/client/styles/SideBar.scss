@@ -1,51 +1,15 @@
 .side-bar {
-  width: 300px;
-  height: 100%;
-  position: fixed;
-  top: 0;
-  left: -260px;
-  background: #ddd;
-  transition: left 0.3s linear;
-  padding: 50px;
-
-  &__input, &__button {
-
-    input {
-      border: 1px solid #ccc;
-      padding: 10px;
-      border-radius: 5px;
-    }
-  }
-
-  &__input {
-    margin-top: 100px;
-
-    input[type='text'] {
-      width: 100%;
-    }
-  }
-
-  &__button {
-    display: table;
-    margin: 50px auto;
-
-    input[type='submit'] {
-      cursor: pointer;
-    }
-  }
-
-  &__icon {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-  }
-}
-
-//States
-
-.side-bar {
-
-  &--open {
-    left: 0;
+  width: 100%;
+  padding: 10px 0;
+  background: #000;
+  
+  &__item {
+    width: 100%;
+    padding: 20px;
+    background: #000;
+    color: #E2C044;
+    text-transform: uppercase;
+    border-bottom: 1px solid #E2C044;
+    border-top: 1px solid #E2C044;
   }
 }

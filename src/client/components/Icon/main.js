@@ -2,15 +2,18 @@ import React from 'react';
 
 import SVGInline from 'react-svg-inline';
 
+import CircleLeft from './SVG/circle-left.svg';
+import CircleRight from './SVG/circle-right.svg';
 import Menu from './SVG/menu.svg';
-import Cross from './SVG/cross.svg';
+
+import styles from '../../styles/Icon.scss';
 
 const Icon = ({ iconName }) => {
 
-  const icons = { Menu, Cross };
+  const icons = { CircleLeft, CircleRight, Menu };
 
   return (
-    <div>
+    <div className={styles['icon']}>
       <SVGInline svg={icons[iconName]} />
     </div>
   );

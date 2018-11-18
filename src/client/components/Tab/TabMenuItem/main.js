@@ -1,14 +1,25 @@
 import React from 'react';
 
-import styles from '../../../styles/TabMenuItem.scss';
+import classnames from 'classnames/bind';
 
-const TabMenuItem = ({ name, onClick }) => {
+import styles from '../../../styles/Tab/TabMenuItem.scss';
+
+const cx = classnames.bind(styles);
+
+const TabMenuItem = ({ name, onClick, active }) => {
+
+  const classes = cx({
+    'tab-menu-item': true,
+    'tab-menu-item--active': !!active,
+  });
+
   return (
-    <div className={styles['tab-menu-item']} onClick={onClick}>
+    <div className={classes} onClick={onClick}>
       <span>{name}</span>
     </div>
   );
 }
+
 
 TabMenuItem.displayName = 'TabMenuItem';
 
