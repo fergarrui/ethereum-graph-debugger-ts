@@ -5,7 +5,7 @@ import { Disassembler } from '../../bytecode/Disassembler'
 import { EVMDisassembler } from '../../bytecode/EVMDisassembler'
 import { OpcodeExecutor } from './exec/OpcodeExecutor'
 import { Word } from './Word'
-import { createLiteralWord, createExecutor } from './exec/TestUtils';
+import { createExecutor } from './exec/TestUtils'
 
 describe('EVMExecutor', () => {
   let cfgCreator: EthereumCFGCreator
@@ -21,8 +21,8 @@ describe('EVMExecutor', () => {
     const bytecode = '60406080'
     const executor: EVMExecutor = createExecutor(disassembler, bytecode, cfgCreator, opcodeExecutor)
     executor.run(0)
-    const expectedWord1: Word = createLiteralWord('40')
-    const expectedWord2: Word = createLiteralWord('80')
+    const expectedWord1: Word = Word.createLiteral('40')
+    const expectedWord2: Word = Word.createLiteral('80')
     expect(executor.evm.stack.stack).toContainEqual(expectedWord1)
     expect(executor.evm.stack.stack).toContainEqual(expectedWord2)
     expect(executor.evm.stack.length()).toEqual(2)
@@ -34,7 +34,7 @@ describe('EVMExecutor', () => {
     const bytecode = '6040608050'
     const executor: EVMExecutor = createExecutor(disassembler, bytecode, cfgCreator, opcodeExecutor)
     executor.run(0)
-    const expectedWord1: Word = createLiteralWord('40')
+    const expectedWord1: Word = Word.createLiteral('40')
     expect(executor.evm.stack.stack).toContainEqual(expectedWord1)
     expect(executor.evm.stack.length()).toEqual(1)
     expect(executor.blocks.length()).toEqual(1)

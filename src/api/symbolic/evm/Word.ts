@@ -7,4 +7,12 @@ export class Word {
   isSymbolic: boolean
   value?: BN
   symbol?: Symbols
+
+  static createLiteral(valueHex: string): Word {
+    return { isSymbolic: false, value: new BN(valueHex, 16) } as Word
+  }
+
+  static createSymbolic(symbol: Symbols): Word {
+    return { isSymbolic: true, symbol: symbol } as Word
+  }
 }

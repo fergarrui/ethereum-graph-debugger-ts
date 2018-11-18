@@ -1,9 +1,15 @@
-import { Opcodes } from '../../../bytecode/Opcodes'
 import { Push } from './Push'
 import { Pop } from './Pop'
 import { injectable } from 'inversify'
-import { Dup } from './Dup';
-import { MStore } from './Mstore';
+import { Dup } from './Dup'
+import { MStore } from './MStore'
+import { MStore8 } from './Mstore8'
+import { IsZero } from './IsZero'
+import { Callvalue } from './Callvalue'
+import { Nop } from './Nop'
+import { Calldatasize } from './Calldatasize'
+import { Jumpi } from './Jumpi'
+import { Jump } from './Jump'
 
 @injectable()
 export class OpcodeExecutor {
@@ -42,7 +48,7 @@ export class OpcodeExecutor {
     this.ops['PUSH30'] = new Push()
     this.ops['PUSH31'] = new Push()
     this.ops['PUSH32'] = new Push()
-    
+
     this.ops['DUP1'] = new Dup()
     this.ops['DUP2'] = new Dup()
     this.ops['DUP3'] = new Dup()
@@ -60,7 +66,24 @@ export class OpcodeExecutor {
     this.ops['DUP15'] = new Dup()
     this.ops['DUP16'] = new Dup()
 
+    this.ops['JUMPI'] = new Jumpi()
+    this.ops['JUMP'] = new Jump()
+
     this.ops['POP'] = new Pop()
+    this.ops['ISZERO'] = new IsZero()
     this.ops['MSTORE'] = new MStore()
+    this.ops['MSTORE8'] = new MStore8()
+
+    // Symbolic opcodes
+    this.ops['CALLVALUE'] = new Callvalue()
+    this.ops['CALLDATASIZE'] = new Calldatasize()
+
+    // Those are NOP's for now
+    this.ops['REVERT'] = new Nop()
+    this.ops['JUMPDEST'] = new Nop()
+    this.ops['RETURN'] = new Nop()
+    this.ops['CODECOPY'] = new Nop()
+    this.ops['STOP'] = new Nop()
+    this.ops['INVALID'] = new Nop()
   }
 }

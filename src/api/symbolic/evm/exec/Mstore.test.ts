@@ -1,13 +1,12 @@
-import { createExecutor, createLiteralWord } from "./TestUtils";
-import { EVMExecutor } from "../EVMExecutor";
-import { EthereumCFGCreator } from "../../../cfg/EthereumCFGCreator";
-import { Disassembler } from "../../../bytecode/Disassembler";
-import { OpcodeExecutor } from "./OpcodeExecutor";
-import { EVMDisassembler } from "../../../bytecode/EVMDisassembler";
-import { Word } from "../Word";
+import { createExecutor, createLiteralWord } from './TestUtils'
+import { EVMExecutor } from '../EVMExecutor'
+import { EthereumCFGCreator } from '../../../cfg/EthereumCFGCreator'
+import { Disassembler } from '../../../bytecode/Disassembler'
+import { OpcodeExecutor } from './OpcodeExecutor'
+import { EVMDisassembler } from '../../../bytecode/EVMDisassembler'
+import { Word } from '../Word'
 
 describe('Mstore', () => {
-
   let cfgCreator: EthereumCFGCreator
   let disassembler: Disassembler
   let opcodeExecutor: OpcodeExecutor = new OpcodeExecutor()
@@ -22,6 +21,8 @@ describe('Mstore', () => {
     const executor: EVMExecutor = createExecutor(disassembler, bytecode, cfgCreator, opcodeExecutor)
     executor.run(0)
     expect(executor.evm.stack.length()).toEqual(0)
-    expect(executor.evm.memory.memory.toString('hex')).toEqual('0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000000')
+    expect(executor.evm.memory.memory.toString('hex')).toEqual(
+      '0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000000'
+    )
   })
 })

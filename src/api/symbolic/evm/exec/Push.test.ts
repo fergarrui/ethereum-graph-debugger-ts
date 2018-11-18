@@ -1,13 +1,12 @@
-import { createExecutor, createLiteralWord } from "./TestUtils";
-import { EVMExecutor } from "../EVMExecutor";
-import { EthereumCFGCreator } from "../../../cfg/EthereumCFGCreator";
-import { Disassembler } from "../../../bytecode/Disassembler";
-import { OpcodeExecutor } from "./OpcodeExecutor";
-import { EVMDisassembler } from "../../../bytecode/EVMDisassembler";
-import { Word } from "../Word";
+import { createExecutor } from './TestUtils'
+import { EVMExecutor } from '../EVMExecutor'
+import { EthereumCFGCreator } from '../../../cfg/EthereumCFGCreator'
+import { Disassembler } from '../../../bytecode/Disassembler'
+import { OpcodeExecutor } from './OpcodeExecutor'
+import { EVMDisassembler } from '../../../bytecode/EVMDisassembler'
+import { Word } from '../Word'
 
 describe('Push', () => {
-
   let cfgCreator: EthereumCFGCreator
   let disassembler: Disassembler
   let opcodeExecutor: OpcodeExecutor = new OpcodeExecutor()
@@ -21,8 +20,8 @@ describe('Push', () => {
     const bytecode = '60406080'
     const executor: EVMExecutor = createExecutor(disassembler, bytecode, cfgCreator, opcodeExecutor)
     executor.run(0)
-    const expectedWord1: Word = createLiteralWord('40')
-    const expectedWord2: Word = createLiteralWord('80')
+    const expectedWord1: Word = Word.createLiteral('40')
+    const expectedWord2: Word = Word.createLiteral('80')
     expect(executor.evm.stack.stack).toContainEqual(expectedWord1)
     expect(executor.evm.stack.stack).toContainEqual(expectedWord2)
     expect(executor.evm.stack.length()).toEqual(2)
@@ -32,7 +31,7 @@ describe('Push', () => {
     const bytecode = '611234'
     const executor: EVMExecutor = createExecutor(disassembler, bytecode, cfgCreator, opcodeExecutor)
     executor.run(0)
-    const expectedWord1: Word = createLiteralWord('1234')
+    const expectedWord1: Word = Word.createLiteral('1234')
     expect(executor.evm.stack.stack).toContainEqual(expectedWord1)
     expect(executor.evm.stack.length()).toEqual(1)
   })
@@ -41,7 +40,7 @@ describe('Push', () => {
     const bytecode = '62123456'
     const executor: EVMExecutor = createExecutor(disassembler, bytecode, cfgCreator, opcodeExecutor)
     executor.run(0)
-    const expectedWord1: Word = createLiteralWord('123456')
+    const expectedWord1: Word = Word.createLiteral('123456')
     expect(executor.evm.stack.stack).toContainEqual(expectedWord1)
     expect(executor.evm.stack.length()).toEqual(1)
   })
@@ -50,7 +49,7 @@ describe('Push', () => {
     const bytecode = '6312345678'
     const executor: EVMExecutor = createExecutor(disassembler, bytecode, cfgCreator, opcodeExecutor)
     executor.run(0)
-    const expectedWord1: Word = createLiteralWord('12345678')
+    const expectedWord1: Word = Word.createLiteral('12345678')
     expect(executor.evm.stack.stack).toContainEqual(expectedWord1)
     expect(executor.evm.stack.length()).toEqual(1)
   })
@@ -59,7 +58,7 @@ describe('Push', () => {
     const bytecode = '641234567890'
     const executor: EVMExecutor = createExecutor(disassembler, bytecode, cfgCreator, opcodeExecutor)
     executor.run(0)
-    const expectedWord1: Word = createLiteralWord('1234567890')
+    const expectedWord1: Word = Word.createLiteral('1234567890')
     expect(executor.evm.stack.stack).toContainEqual(expectedWord1)
     expect(executor.evm.stack.length()).toEqual(1)
   })
@@ -68,7 +67,7 @@ describe('Push', () => {
     const bytecode = '65123456789001'
     const executor: EVMExecutor = createExecutor(disassembler, bytecode, cfgCreator, opcodeExecutor)
     executor.run(0)
-    const expectedWord1: Word = createLiteralWord('123456789001')
+    const expectedWord1: Word = Word.createLiteral('123456789001')
     expect(executor.evm.stack.stack).toContainEqual(expectedWord1)
     expect(executor.evm.stack.length()).toEqual(1)
   })
@@ -77,7 +76,7 @@ describe('Push', () => {
     const bytecode = '6612345678900123'
     const executor: EVMExecutor = createExecutor(disassembler, bytecode, cfgCreator, opcodeExecutor)
     executor.run(0)
-    const expectedWord1: Word = createLiteralWord('12345678900123')
+    const expectedWord1: Word = Word.createLiteral('12345678900123')
     expect(executor.evm.stack.stack).toContainEqual(expectedWord1)
     expect(executor.evm.stack.length()).toEqual(1)
   })
@@ -86,7 +85,7 @@ describe('Push', () => {
     const bytecode = '671234567890012345'
     const executor: EVMExecutor = createExecutor(disassembler, bytecode, cfgCreator, opcodeExecutor)
     executor.run(0)
-    const expectedWord1: Word = createLiteralWord('1234567890012345')
+    const expectedWord1: Word = Word.createLiteral('1234567890012345')
     expect(executor.evm.stack.stack).toContainEqual(expectedWord1)
     expect(executor.evm.stack.length()).toEqual(1)
   })
@@ -95,7 +94,7 @@ describe('Push', () => {
     const bytecode = '68123456789001234567'
     const executor: EVMExecutor = createExecutor(disassembler, bytecode, cfgCreator, opcodeExecutor)
     executor.run(0)
-    const expectedWord1: Word = createLiteralWord('123456789001234567')
+    const expectedWord1: Word = Word.createLiteral('123456789001234567')
     expect(executor.evm.stack.stack).toContainEqual(expectedWord1)
     expect(executor.evm.stack.length()).toEqual(1)
   })
@@ -104,7 +103,7 @@ describe('Push', () => {
     const bytecode = '6912345678900123456789'
     const executor: EVMExecutor = createExecutor(disassembler, bytecode, cfgCreator, opcodeExecutor)
     executor.run(0)
-    const expectedWord1: Word = createLiteralWord('12345678900123456789')
+    const expectedWord1: Word = Word.createLiteral('12345678900123456789')
     expect(executor.evm.stack.stack).toContainEqual(expectedWord1)
     expect(executor.evm.stack.length()).toEqual(1)
   })
@@ -113,7 +112,7 @@ describe('Push', () => {
     const bytecode = '6a1234567890012345678901'
     const executor: EVMExecutor = createExecutor(disassembler, bytecode, cfgCreator, opcodeExecutor)
     executor.run(0)
-    const expectedWord1: Word = createLiteralWord('1234567890012345678901')
+    const expectedWord1: Word = Word.createLiteral('1234567890012345678901')
     expect(executor.evm.stack.stack).toContainEqual(expectedWord1)
     expect(executor.evm.stack.length()).toEqual(1)
   })
@@ -122,7 +121,7 @@ describe('Push', () => {
     const bytecode = '6b123456789001234567890123'
     const executor: EVMExecutor = createExecutor(disassembler, bytecode, cfgCreator, opcodeExecutor)
     executor.run(0)
-    const expectedWord1: Word = createLiteralWord('123456789001234567890123')
+    const expectedWord1: Word = Word.createLiteral('123456789001234567890123')
     expect(executor.evm.stack.stack).toContainEqual(expectedWord1)
     expect(executor.evm.stack.length()).toEqual(1)
   })
@@ -131,7 +130,7 @@ describe('Push', () => {
     const bytecode = '7fa12b7e68c7bbc4e1f6080c96a7461d449d27e98c31020e4229d8cd8b4942009a'
     const executor: EVMExecutor = createExecutor(disassembler, bytecode, cfgCreator, opcodeExecutor)
     executor.run(0)
-    const expectedWord1: Word = createLiteralWord('a12b7e68c7bbc4e1f6080c96a7461d449d27e98c31020e4229d8cd8b4942009a')
+    const expectedWord1: Word = Word.createLiteral('a12b7e68c7bbc4e1f6080c96a7461d449d27e98c31020e4229d8cd8b4942009a')
     expect(executor.evm.stack.stack).toContainEqual(expectedWord1)
     expect(executor.evm.stack.length()).toEqual(1)
   })

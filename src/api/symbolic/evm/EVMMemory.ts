@@ -13,7 +13,7 @@ export class EVMMemory {
   }
 
   writeWord(offset: number, word: Word) {
-    if (offset + Word.WORD_LENGTH_IN_BYTES > this.memory.length) {
+    while (offset + Word.WORD_LENGTH_IN_BYTES > this.memory.length) {
       this.increaseBufferLength(offset)
     }
     if (!word.isSymbolic) {
@@ -24,11 +24,13 @@ export class EVMMemory {
   }
 
   writeByte(offset: number, word: Word) {
-    if (offset + 1 > this.memory.length) {
+    while (offset + 1 > this.memory.length) {
       this.increaseBufferLength(offset)
     }
     if (!word.isSymbolic) {
-      const valueBuffer = word.value.toBuffer('be', 1)
+      const mask = new BN('ff', 16)
+      const valueLastByte = word.value.and(mask)
+      const valueBuffer = valueLastByte.toBuffer('be', 1)
       this.memory.fill(valueBuffer, offset, offset + valueBuffer.length)
     }
     // TODO handle symbolic values
@@ -43,8 +45,6 @@ export class EVMMemory {
   }
 
   private increaseBufferLength(offset: number) {
-    while (offset + Word.WORD_LENGTH_IN_BYTES > this.memory.length) {
-      this.memory = Buffer.concat([this.memory, Buffer.alloc(this.memory.length)])
-    }
+    this.memory = Buffer.concat([this.memory, Buffer.alloc(this.memory.length)])
   }
 }

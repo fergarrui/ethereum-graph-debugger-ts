@@ -16,7 +16,7 @@ export class EVMStack {
   }
 
   get(index: number): Word {
-    return this.stack[this.stack.length -1 - index]
+    return this.stack[this.stack.length - 1 - index]
   }
 
   length(): number {

@@ -51,17 +51,19 @@ export class EVMExecutor {
     const ops = block.operations
     const lastOp: Operation = ops[ops.length - 1]
     if (Opcodes.isJump(lastOp.opcode)) {
-      const jumpLocation = this.evm.stack.peek()
-      if (!jumpLocation.isSymbolic) {
-        const locationBlock: OperationBlock = this.blocks.get(jumpLocation.value)
+      const jumpLocation = this.evm.nextJumpLocation
+      if (jumpLocation && !jumpLocation.isSymbolic) {
+        const locationBlock: OperationBlock = this.blocks.get(jumpLocation.value.toNumber())
         if (locationBlock) {
           nextBlocks.push(locationBlock)
         }
       }
     }
-    const nextBlock = this.blocks.get(lastOp.offset + 1)
-    if (nextBlock) {
-      nextBlocks.push(nextBlock)
+    if (lastOp.opcode.name !== 'JUMP') {
+      const nextBlock = this.blocks.get(lastOp.offset + 1)
+      if (nextBlock) {
+        nextBlocks.push(nextBlock)
+      }
     }
     return nextBlocks
   }
