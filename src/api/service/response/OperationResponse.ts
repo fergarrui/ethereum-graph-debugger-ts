@@ -1,4 +1,4 @@
-import { Opcode } from "../../bytecode/Opcode";
+import { Opcode } from '../../bytecode/Opcode'
 
 export interface OperationResponse {
   offset: number

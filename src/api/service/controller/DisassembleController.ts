@@ -3,7 +3,7 @@ import { provideSingleton, inject } from '../../../inversify/ioc'
 import { TYPES } from '../../../inversify/types'
 import { Disassembler } from '../../bytecode/Disassembler'
 import { DisassembledContract } from '../../bytecode/DisassembledContract'
-import { DisassembledContractResponse } from '../response/DisassembledContractResponse';
+import { DisassembledContractResponse } from '../response/DisassembledContractResponse'
 
 @Route('disassemble')
 @provideSingleton(DisassembleController)
@@ -17,7 +17,7 @@ export class DisassembleController extends Controller {
     @Query('code') code: string,
     @Query('contractName') contractName: string
   ): Promise<DisassembledContractResponse> {
-    const disassembled: DisassembledContract =  this.disassembler.disassembleSourceCode(contractName, code)
+    const disassembled: DisassembledContract = this.disassembler.disassembleSourceCode(contractName, code)
     return this.contractToResponse(disassembled)
   }
 
@@ -27,16 +27,16 @@ export class DisassembleController extends Controller {
       hasConstructor: disassembled.hasConstructor,
       constructorOperations: disassembled.constructor.map(op => {
         return {
-          offset: op.offset, 
+          offset: op.offset,
           opcode: op.opcode,
-          argument: op.argument.toString(16) 
+          argument: op.argument.toString(16)
         }
       }),
       runtimeOperations: disassembled.runtime.map(op => {
         return {
-          offset: op.offset, 
+          offset: op.offset,
           opcode: op.opcode,
-          argument: op.argument.toString(16) 
+          argument: op.argument.toString(16)
         }
       })
     } as DisassembledContractResponse
