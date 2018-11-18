@@ -11,7 +11,6 @@
     "clean:dist": "$(npm bin)/rimraf dist",
     "clean:cov": "$(npm bin)/rimraf coverage",
     "start": "$(npm bin)/npm-run-all -s clean build start:simple",
-    "start:test": "webpack-dev-server --progress --mode=development",
     "start:simple": "node ./dist/run-server.js",
     "start:dev": "$(npm bin)/npm-run-all -s clean build -p watch:*",
     "watch:node": "$(npm bin)/nodemon --inspect=0.0.0.0:9229 --watch './src/**/*.*' --delay 2.5 --exec npm run server-webpack -e ts",
