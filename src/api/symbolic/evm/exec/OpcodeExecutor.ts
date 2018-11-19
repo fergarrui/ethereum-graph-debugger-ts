@@ -12,6 +12,8 @@ import { Jumpi } from './Jumpi'
 import { Jump } from './Jump'
 import { Add } from './Add'
 import { Sub } from './Sub'
+import { Mul } from './Mul'
+import { Div } from './Div'
 
 @injectable()
 export class OpcodeExecutor {
@@ -75,6 +77,8 @@ export class OpcodeExecutor {
     this.ops['ISZERO'] = new IsZero()
     this.ops['ADD'] = new Add()
     this.ops['SUB'] = new Sub()
+    this.ops['MUL'] = new Mul()
+    this.ops['DIV'] = new Div()
     this.ops['MSTORE'] = new MStore()
     this.ops['MSTORE8'] = new MStore8()
 
