@@ -10,6 +10,8 @@ import { Nop } from './Nop'
 import { Calldatasize } from './Calldatasize'
 import { Jumpi } from './Jumpi'
 import { Jump } from './Jump'
+import { Add } from './Add'
+import { Sub } from './Sub'
 
 @injectable()
 export class OpcodeExecutor {
@@ -71,6 +73,8 @@ export class OpcodeExecutor {
 
     this.ops['POP'] = new Pop()
     this.ops['ISZERO'] = new IsZero()
+    this.ops['ADD'] = new Add()
+    this.ops['SUB'] = new Sub()
     this.ops['MSTORE'] = new MStore()
     this.ops['MSTORE8'] = new MStore8()
 
