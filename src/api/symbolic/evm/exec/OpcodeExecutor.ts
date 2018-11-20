@@ -14,6 +14,9 @@ import { Add } from './Add'
 import { Sub } from './Sub'
 import { Mul } from './Mul'
 import { Div } from './Div'
+import { Return } from './Return';
+import { Lt } from './Lt';
+import { Calldataload } from './Calldataload';
 
 @injectable()
 export class OpcodeExecutor {
@@ -73,23 +76,26 @@ export class OpcodeExecutor {
     this.ops['JUMPI'] = new Jumpi()
     this.ops['JUMP'] = new Jump()
 
+    this.ops['RETURN'] = new Return()
+
     this.ops['POP'] = new Pop()
     this.ops['ISZERO'] = new IsZero()
     this.ops['ADD'] = new Add()
     this.ops['SUB'] = new Sub()
     this.ops['MUL'] = new Mul()
     this.ops['DIV'] = new Div()
+    this.ops['LT'] = new Lt()
     this.ops['MSTORE'] = new MStore()
     this.ops['MSTORE8'] = new MStore8()
 
     // Symbolic opcodes
     this.ops['CALLVALUE'] = new Callvalue()
     this.ops['CALLDATASIZE'] = new Calldatasize()
+    this.ops['CALLDATALOAD'] = new Calldataload()
 
     // Those are NOP's for now
     this.ops['REVERT'] = new Nop()
     this.ops['JUMPDEST'] = new Nop()
-    this.ops['RETURN'] = new Nop()
     this.ops['CODECOPY'] = new Nop()
     this.ops['STOP'] = new Nop()
     this.ops['INVALID'] = new Nop()

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for api/symbolic/evm/exec/Nop.ts</title>
+    <title>Code coverage report for api/symbolic/evm/exec/Mul.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../../prettify.css" />
     <link rel="stylesheet" href="../../../../base.css" />
@@ -16,18 +16,18 @@
 <div class='wrapper'>
   <div class='pad1'>
     <h1>
-      <a href="../../../../index.html">All files</a> / <a href="index.html">api/symbolic/evm/exec</a> Nop.ts
+      <a href="../../../../index.html">All files</a> / <a href="index.html">api/symbolic/evm/exec</a> Mul.ts
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>1/1</span>
+        <span class='fraction'>12/12</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/0</span>
+        <span class='fraction'>4/4</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -37,7 +37,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>1/1</span>
+        <span class='fraction'>12/12</span>
       </div>
     </div>
   </div>
@@ -50,19 +50,61 @@
 5
 6
 7
-8</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Executor } from './Executor'
 import { EVM } from '../EVM'
 import { Operation } from '../../../bytecode/Operation'
+import { Word } from '../Word'
+import { Symbols } from '../Symbols'
+import { UintUtils } from '../UintUtils'
 &nbsp;
-export class Nop implements Executor {
-  execute(op: Operation, evm: EVM) {}
+export class Mul implements Executor {
+  execute(op: Operation, evm: EVM) {
+    const operand1 = evm.stack.pop()
+    const operand2 = evm.stack.pop()
+    if (!operand1.isSymbolic &amp;&amp; !operand2.isSymbolic) {
+      const op1Value = operand1.value
+      const op2Value = operand2.value
+      let result = op1Value.mul(op2Value).mod(UintUtils.TWO_POW_256)
+      evm.stack.push(Word.createLiteral(result.toString(16)))
+    } else {
+      evm.stack.push(Word.createSymbolic(Symbols.UNKNOWN))
+    }
+  }
 }
 &nbsp;</pre></td></tr>
 </table></pre>

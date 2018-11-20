@@ -16,11 +16,10 @@ describe('Jump', () => {
     disassembler = new EVMDisassembler()
   })
 
-  it('Test Jumpi', () => {
+  it('Test Jump', () => {
     const bytecode = '6001604056'
     const executor: EVMExecutor = createExecutor(disassembler, bytecode, cfgCreator, opcodeExecutor)
     executor.run(0)
-    expect(executor.evm.nextJumpLocation).toEqual(Word.createLiteral('40'))
     expect(executor.evm.stack.length()).toEqual(1)
   })
 })

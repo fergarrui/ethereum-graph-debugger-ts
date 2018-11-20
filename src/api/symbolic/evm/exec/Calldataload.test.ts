@@ -4,8 +4,10 @@ import { EthereumCFGCreator } from '../../../cfg/EthereumCFGCreator'
 import { Disassembler } from '../../../bytecode/Disassembler'
 import { OpcodeExecutor } from './OpcodeExecutor'
 import { EVMDisassembler } from '../../../bytecode/EVMDisassembler'
+import { Word } from '../Word'
+import { Symbols } from '../Symbols'
 
-describe('Jumpi', () => {
+describe('Calldataload', () => {
   let cfgCreator: EthereumCFGCreator
   let disassembler: Disassembler
   let opcodeExecutor: OpcodeExecutor = new OpcodeExecutor()
@@ -15,10 +17,11 @@ describe('Jumpi', () => {
     disassembler = new EVMDisassembler()
   })
 
-  it('Test Jumpi', () => {
-    const bytecode = '6001604057'
+  it('Test calldataload', () => {
+    const bytecode = '604035'
     const executor: EVMExecutor = createExecutor(disassembler, bytecode, cfgCreator, opcodeExecutor)
     executor.run(0)
-    expect(executor.evm.stack.length()).toEqual(0)
+    expect(executor.evm.stack.get(0)).toEqual(Word.createSymbolic(Symbols.CALLDATALOAD))
+    expect(executor.evm.stack.length()).toEqual(1)
   })
 })

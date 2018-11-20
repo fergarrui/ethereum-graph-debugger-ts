@@ -7,6 +7,7 @@ import { OpcodeExecutor } from './exec/OpcodeExecutor'
 import { Executor } from './exec/Executor'
 
 export class EVMExecutor {
+  readonly NO_NEXT_BLOCK = ['JUMP', 'STOP', 'REVERT', 'RETURN', 'INVALID']
   evm: EVM
   blocks: CFGBlocks
   executor: OpcodeExecutor
@@ -52,6 +53,7 @@ export class EVMExecutor {
     const lastOp: Operation = ops[ops.length - 1]
     if (Opcodes.isJump(lastOp.opcode)) {
       const jumpLocation = this.evm.nextJumpLocation
+      this.evm.nextJumpLocation = undefined
       if (jumpLocation && !jumpLocation.isSymbolic) {
         const locationBlock: OperationBlock = this.blocks.get(jumpLocation.value.toNumber())
         if (locationBlock) {
@@ -59,7 +61,7 @@ export class EVMExecutor {
         }
       }
     }
-    if (lastOp.opcode.name !== 'JUMP') {
+    if (!this.NO_NEXT_BLOCK.includes(lastOp.opcode.name)) {
       const nextBlock = this.blocks.get(lastOp.offset + 1)
       if (nextBlock) {
         nextBlocks.push(nextBlock)

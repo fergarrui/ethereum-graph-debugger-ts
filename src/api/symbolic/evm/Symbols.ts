@@ -3,5 +3,6 @@ export enum Symbols {
   UNKNOWN,
   CALLVALUE,
   CALLDATASIZE,
+  CALLDATALOAD,
   GAS
 }

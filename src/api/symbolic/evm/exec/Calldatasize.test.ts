@@ -17,7 +17,7 @@ describe('Calldatasize', () => {
     disassembler = new EVMDisassembler()
   })
 
-  it('Test callvalue', () => {
+  it('Test calldatasize', () => {
     const bytecode = '604036'
     const executor: EVMExecutor = createExecutor(disassembler, bytecode, cfgCreator, opcodeExecutor)
     executor.run(0)
