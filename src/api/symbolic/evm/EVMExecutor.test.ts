@@ -130,6 +130,5 @@ describe('EVMExecutor', () => {
     expect(block88.childB).toBeUndefined()
     expect(block90.childA).toBeUndefined()
     expect(block90.childB).toBeUndefined()
-    
   })
 })
