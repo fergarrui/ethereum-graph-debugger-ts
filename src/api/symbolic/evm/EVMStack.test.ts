@@ -42,4 +42,18 @@ describe('EVMStack', () => {
     expect(get2).toEqual(Word.createLiteral('80'))
     expect(stack.length()).toEqual(3)
   })
+
+  it('Test put', () => {
+    stack.push(Word.createLiteral('01'))
+    stack.push(Word.createLiteral('02'))
+    stack.push(Word.createLiteral('03'))
+    stack.put(2, Word.createLiteral('99'))
+    stack.put(0, Word.createLiteral('ff'))
+    const top0 = stack.pop()
+    const top1 = stack.pop()
+    const top2 = stack.pop()
+    expect(top0).toEqual(Word.createLiteral('ff'))
+    expect(top1).toEqual(Word.createLiteral('02'))
+    expect(top2).toEqual(Word.createLiteral('99'))
+  })
 })

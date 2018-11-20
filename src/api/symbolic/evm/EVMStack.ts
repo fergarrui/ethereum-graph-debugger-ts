@@ -19,6 +19,10 @@ export class EVMStack {
     return this.stack[this.stack.length - 1 - index]
   }
 
+  put(index: number, word: Word) {
+    this.stack[this.stack.length - 1 - index] = word
+  }
+
   length(): number {
     return this.stack.length
   }

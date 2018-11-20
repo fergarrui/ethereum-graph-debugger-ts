@@ -17,6 +17,9 @@ import { Div } from './Div'
 import { Return } from './Return';
 import { Lt } from './Lt';
 import { Calldataload } from './Calldataload';
+import { Swap } from './Swap';
+import { And } from './And';
+import { Eq } from './Eq';
 
 @injectable()
 export class OpcodeExecutor {
@@ -73,20 +76,41 @@ export class OpcodeExecutor {
     this.ops['DUP15'] = new Dup()
     this.ops['DUP16'] = new Dup()
 
+    this.ops['SWAP1'] = new Swap()
+    this.ops['SWAP2'] = new Swap()
+    this.ops['SWAP3'] = new Swap()
+    this.ops['SWAP4'] = new Swap()
+    this.ops['SWAP5'] = new Swap()
+    this.ops['SWAP6'] = new Swap()
+    this.ops['SWAP7'] = new Swap()
+    this.ops['SWAP8'] = new Swap()
+    this.ops['SWAP9'] = new Swap()
+    this.ops['SWAP10'] = new Swap()
+    this.ops['SWAP11'] = new Swap()
+    this.ops['SWAP12'] = new Swap()
+    this.ops['SWAP13'] = new Swap()
+    this.ops['SWAP14'] = new Swap()
+    this.ops['SWAP15'] = new Swap()
+    this.ops['SWAP16'] = new Swap()
+
     this.ops['JUMPI'] = new Jumpi()
     this.ops['JUMP'] = new Jump()
 
     this.ops['RETURN'] = new Return()
 
     this.ops['POP'] = new Pop()
-    this.ops['ISZERO'] = new IsZero()
     this.ops['ADD'] = new Add()
     this.ops['SUB'] = new Sub()
     this.ops['MUL'] = new Mul()
     this.ops['DIV'] = new Div()
-    this.ops['LT'] = new Lt()
+    this.ops['AND'] = new And()
+
     this.ops['MSTORE'] = new MStore()
     this.ops['MSTORE8'] = new MStore8()
+    
+    this.ops['ISZERO'] = new IsZero()
+    this.ops['LT'] = new Lt()
+    this.ops['EQ'] = new Eq()
 
     // Symbolic opcodes
     this.ops['CALLVALUE'] = new Callvalue()
