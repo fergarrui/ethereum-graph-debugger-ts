@@ -14,12 +14,13 @@ import { Add } from './Add'
 import { Sub } from './Sub'
 import { Mul } from './Mul'
 import { Div } from './Div'
-import { Return } from './Return';
-import { Lt } from './Lt';
-import { Calldataload } from './Calldataload';
-import { Swap } from './Swap';
-import { And } from './And';
-import { Eq } from './Eq';
+import { Return } from './Return'
+import { Lt } from './Lt'
+import { Calldataload } from './Calldataload'
+import { Swap } from './Swap'
+import { And } from './And'
+import { Eq } from './Eq'
+import { Or } from './Or'
 
 @injectable()
 export class OpcodeExecutor {
@@ -104,10 +105,11 @@ export class OpcodeExecutor {
     this.ops['MUL'] = new Mul()
     this.ops['DIV'] = new Div()
     this.ops['AND'] = new And()
+    this.ops['OR'] = new Or()
 
     this.ops['MSTORE'] = new MStore()
     this.ops['MSTORE8'] = new MStore8()
-    
+
     this.ops['ISZERO'] = new IsZero()
     this.ops['LT'] = new Lt()
     this.ops['EQ'] = new Eq()

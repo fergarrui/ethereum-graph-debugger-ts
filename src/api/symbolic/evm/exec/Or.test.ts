@@ -7,7 +7,7 @@ import { EVMDisassembler } from '../../../bytecode/EVMDisassembler'
 import { Word } from '../Word'
 import { Symbols } from '../Symbols'
 
-describe('And', () => {
+describe('Or', () => {
   let cfgCreator: EthereumCFGCreator
   let disassembler: Disassembler
   let opcodeExecutor: OpcodeExecutor = new OpcodeExecutor()
@@ -17,40 +17,40 @@ describe('And', () => {
     disassembler = new EVMDisassembler()
   })
 
-  it('Test And 1', () => {
-    const bytecode = '6001600316'
-    const executor: EVMExecutor = createExecutor(disassembler, bytecode, cfgCreator, opcodeExecutor)
-    executor.run(0)
-    expect(executor.evm.stack.get(0)).toEqual(Word.createLiteral('01'))
-    expect(executor.evm.stack.length()).toEqual(1)
-  })
-
-  it('Test And 2', () => {
-    const bytecode = '60ff600316'
+  it('Test Or 1', () => {
+    const bytecode = '6001600317'
     const executor: EVMExecutor = createExecutor(disassembler, bytecode, cfgCreator, opcodeExecutor)
     executor.run(0)
     expect(executor.evm.stack.get(0)).toEqual(Word.createLiteral('03'))
     expect(executor.evm.stack.length()).toEqual(1)
   })
 
-  it('Test And 3', () => {
-    const bytecode = '6000600316'
+  it('Test Or 2', () => {
+    const bytecode = '60ff600317'
     const executor: EVMExecutor = createExecutor(disassembler, bytecode, cfgCreator, opcodeExecutor)
     executor.run(0)
-    expect(executor.evm.stack.get(0)).toEqual(Word.createLiteral('00'))
+    expect(executor.evm.stack.get(0)).toEqual(Word.createLiteral('ff'))
     expect(executor.evm.stack.length()).toEqual(1)
   })
 
-  it('Test And 4', () => {
-    const bytecode = '60ff600016'
+  it('Test Or 3', () => {
+    const bytecode = '6000600317'
     const executor: EVMExecutor = createExecutor(disassembler, bytecode, cfgCreator, opcodeExecutor)
     executor.run(0)
-    expect(executor.evm.stack.get(0)).toEqual(Word.createLiteral('00'))
+    expect(executor.evm.stack.get(0)).toEqual(Word.createLiteral('03'))
     expect(executor.evm.stack.length()).toEqual(1)
   })
 
-  it('Test And Symbolic', () => {
-    const bytecode = '60203416'
+  it('Test Or 4', () => {
+    const bytecode = '60ff600017'
+    const executor: EVMExecutor = createExecutor(disassembler, bytecode, cfgCreator, opcodeExecutor)
+    executor.run(0)
+    expect(executor.evm.stack.get(0)).toEqual(Word.createLiteral('ff'))
+    expect(executor.evm.stack.length()).toEqual(1)
+  })
+
+  it('Test Or Symbolic', () => {
+    const bytecode = '60203417'
     const executor: EVMExecutor = createExecutor(disassembler, bytecode, cfgCreator, opcodeExecutor)
     executor.run(0)
     expect(executor.evm.stack.get(0)).toEqual(Word.createSymbolic(Symbols.UNKNOWN))

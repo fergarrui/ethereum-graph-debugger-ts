@@ -9,7 +9,7 @@ export class Lt implements Executor {
     const operand1 = evm.stack.pop()
     const operand2 = evm.stack.pop()
     if (!operand1.isSymbolic && !operand2.isSymbolic) {
-      if(operand1.value.lt(operand2.value)) {
+      if (operand1.value.lt(operand2.value)) {
         evm.stack.push(Word.createLiteral('01'))
       } else {
         evm.stack.push(Word.createLiteral('00'))

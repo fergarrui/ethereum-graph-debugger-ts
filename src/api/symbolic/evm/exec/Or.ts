@@ -4,16 +4,15 @@ import { Operation } from '../../../bytecode/Operation'
 import { Word } from '../Word'
 import { Symbols } from '../Symbols'
 
-export class Eq implements Executor {
+export class Or implements Executor {
   execute(op: Operation, evm: EVM) {
     const operand1 = evm.stack.pop()
     const operand2 = evm.stack.pop()
     if (!operand1.isSymbolic && !operand2.isSymbolic) {
-      if (operand1.value.eq(operand2.value)) {
-        evm.stack.push(Word.createLiteral('01'))
-      } else {
-        evm.stack.push(Word.createLiteral('00'))
-      }
+      const op1Value = operand1.value
+      const op2Value = operand2.value
+      let result = op1Value.or(op2Value)
+      evm.stack.push(Word.createLiteral(result.toString(16)))
     } else {
       evm.stack.push(Word.createSymbolic(Symbols.UNKNOWN))
     }
