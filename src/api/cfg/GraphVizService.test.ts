@@ -24,8 +24,6 @@ describe('GraphVizService', () => {
     const executor: EVMExecutor = createExecutor(disassembler, bytecode, cfgCreator, opcodeExecutor)
     executor.run(0)
     const blocks = executor.blocks
-    console.log(blocks.length())
     const dotString = graph.createDotFromBlocks(blocks)
-    console.log(dotString)
   })
 })

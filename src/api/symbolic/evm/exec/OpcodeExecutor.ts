@@ -21,6 +21,8 @@ import { Swap } from './Swap'
 import { And } from './And'
 import { Eq } from './Eq'
 import { Or } from './Or'
+import { Not } from './Not'
+import { Xor } from './Xor'
 
 @injectable()
 export class OpcodeExecutor {
@@ -106,6 +108,8 @@ export class OpcodeExecutor {
     this.ops['DIV'] = new Div()
     this.ops['AND'] = new And()
     this.ops['OR'] = new Or()
+    this.ops['XOR'] = new Xor()
+    this.ops['NOT'] = new Not()
 
     this.ops['MSTORE'] = new MStore()
     this.ops['MSTORE8'] = new MStore8()
