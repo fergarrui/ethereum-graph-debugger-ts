@@ -23,6 +23,12 @@ import { Eq } from './Eq'
 import { Or } from './Or'
 import { Not } from './Not'
 import { Xor } from './Xor'
+import { Address } from './Address'
+import { Balance } from './Balance'
+import { Origin } from './Origin'
+import { Caller } from './Caller'
+import { Calldatacopy } from './Calldatacopy'
+import { Codesize } from './Codesize'
 
 @injectable()
 export class OpcodeExecutor {
@@ -119,9 +125,15 @@ export class OpcodeExecutor {
     this.ops['EQ'] = new Eq()
 
     // Symbolic opcodes
+    this.ops['ADDRESS'] = new Address()
+    this.ops['ORIGIN'] = new Origin()
+    this.ops['CALLER'] = new Caller()
+    this.ops['BALANCE'] = new Balance()
     this.ops['CALLVALUE'] = new Callvalue()
-    this.ops['CALLDATASIZE'] = new Calldatasize()
     this.ops['CALLDATALOAD'] = new Calldataload()
+    this.ops['CALLDATASIZE'] = new Calldatasize()
+    this.ops['CALLDATACOPY'] = new Calldatacopy()
+    this.ops['CODESIZE'] = new Codesize()
 
     // Those are NOP's for now
     this.ops['REVERT'] = new Nop()

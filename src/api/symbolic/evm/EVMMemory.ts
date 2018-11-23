@@ -38,6 +38,7 @@ export class EVMMemory {
 
   loadWord(offset: number): Word {
     const bytes = this.memory.slice(offset, Word.WORD_LENGTH_IN_BYTES)
+    // TODO handle symbolic values
     return {
       value: new BN(bytes.toString('hex'), 16),
       isSymbolic: false

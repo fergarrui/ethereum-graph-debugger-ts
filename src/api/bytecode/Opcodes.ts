@@ -40,7 +40,6 @@ export class Opcodes {
     this.opcodes[0x37] = { name: 'CALLDATACOPY', opcode: 0x37, parameters: 0 } as Opcode
     this.opcodes[0x38] = { name: 'CODESIZE', opcode: 0x38, parameters: 0 } as Opcode
     this.opcodes[0x39] = { name: 'CODECOPY', opcode: 0x39, parameters: 0 } as Opcode
-    this.opcodes[0x39] = { name: 'CODECOPY', opcode: 0x39, parameters: 0 } as Opcode
     this.opcodes[0x3a] = { name: 'GASPRICE', opcode: 0x3a, parameters: 0 } as Opcode
     this.opcodes[0x3b] = { name: 'EXTCODESIZE', opcode: 0x3b, parameters: 0 } as Opcode
     this.opcodes[0x3c] = { name: 'EXTCODECOPY', opcode: 0x3c, parameters: 0 } as Opcode
