@@ -29,6 +29,8 @@ import { Origin } from './Origin'
 import { Caller } from './Caller'
 import { Calldatacopy } from './Calldatacopy'
 import { Codesize } from './Codesize'
+import { Codecopy } from './Codecopy'
+import { Gasprice } from './Gasprice'
 
 @injectable()
 export class OpcodeExecutor {
@@ -134,11 +136,12 @@ export class OpcodeExecutor {
     this.ops['CALLDATASIZE'] = new Calldatasize()
     this.ops['CALLDATACOPY'] = new Calldatacopy()
     this.ops['CODESIZE'] = new Codesize()
+    this.ops['CODECOPY'] = new Codecopy()
+    this.ops['GASPRICE'] = new Gasprice()
 
     // Those are NOP's for now
     this.ops['REVERT'] = new Nop()
     this.ops['JUMPDEST'] = new Nop()
-    this.ops['CODECOPY'] = new Nop()
     this.ops['STOP'] = new Nop()
     this.ops['INVALID'] = new Nop()
   }
