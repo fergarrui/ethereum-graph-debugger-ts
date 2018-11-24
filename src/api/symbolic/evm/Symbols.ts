@@ -10,5 +10,6 @@ export enum Symbols {
   CALLDATALOAD,
   CODESIZE,
   GAS,
-  GASPRICE
+  GASPRICE,
+  EXTCODESIZE
 }

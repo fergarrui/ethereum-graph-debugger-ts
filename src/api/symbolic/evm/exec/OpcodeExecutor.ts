@@ -31,6 +31,8 @@ import { Calldatacopy } from './Calldatacopy'
 import { Codesize } from './Codesize'
 import { Codecopy } from './Codecopy'
 import { Gasprice } from './Gasprice'
+import { Extcodesize } from './Extcodesize'
+import { Extcodecopy } from './Extcodecopy'
 
 @injectable()
 export class OpcodeExecutor {
@@ -138,6 +140,8 @@ export class OpcodeExecutor {
     this.ops['CODESIZE'] = new Codesize()
     this.ops['CODECOPY'] = new Codecopy()
     this.ops['GASPRICE'] = new Gasprice()
+    this.ops['EXTCODESIZE'] = new Extcodesize()
+    this.ops['EXTCODECOPY'] = new Extcodecopy()
 
     // Those are NOP's for now
     this.ops['REVERT'] = new Nop()
