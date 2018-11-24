@@ -6,12 +6,12 @@ import { TYPES } from './types'
 import { Web3Instance } from '../api/blockchain/Web3Instance'
 import { FileServiceDefault } from '../api/service/service/FileServiceDefault'
 import { FileService } from '../api/service/service/FileService'
-import { TransactionServiceImpl } from '../api/service/service/TransactionServiceImpl'
 import { TransactionService } from '../api/service/service/TransactionService'
 import { Disassembler } from '../api/bytecode/Disassembler'
 import { EVMDisassembler } from '../api/bytecode/EVMDisassembler'
 import { CFGCreator } from '../api/cfg/CFGCreator'
 import { EthereumCFGCreator } from '../api/cfg/EthereumCFGCreator'
+import { TransactionServiceImpl } from '../api/service/service/TransactionServiceImpl';
 
 const iocContainer = new Container()
 const provide = makeProvideDecorator(iocContainer)

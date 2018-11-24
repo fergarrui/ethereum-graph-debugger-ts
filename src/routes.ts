@@ -14,6 +14,13 @@ const models: TsoaRoute.Models = {
             "from": { "dataType": "string", "required": true },
         },
     },
+    "TransactionTrace": {
+        "properties": {
+            "id": { "dataType": "double" },
+            "jsonrpc": { "dataType": "double" },
+            "result": { "dataType": "array", "array": { "dataType": "any" }, "required": true },
+        },
+    },
     "ContractFile": {
         "properties": {
             "name": { "dataType": "string", "required": true },
@@ -45,7 +52,7 @@ const models: TsoaRoute.Models = {
 };
 
 export function RegisterRoutes(app: any) {
-    app.get('/debug/tx/:tx',
+    app.get('/debug/receipt/:tx',
         function(request: any, response: any, next: any) {
             const args = {
                 tx: { "in": "path", "name": "tx", "required": true, "dataType": "string" },
@@ -65,6 +72,28 @@ export function RegisterRoutes(app: any) {
 
 
             const promise = controller.debugTransaction.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    app.get('/debug/trace/:tx',
+        function(request: any, response: any, next: any) {
+            const args = {
+                tx: { "in": "path", "name": "tx", "required": true, "dataType": "string" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = iocContainer.get<DebuggerController>(DebuggerController);
+            if (typeof controller['setStatus'] === 'function') {
+                (<any>controller).setStatus(undefined);
+            }
+
+
+            const promise = controller.getTransactionTrace.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, next);
         });
     app.get('/files/:dir',

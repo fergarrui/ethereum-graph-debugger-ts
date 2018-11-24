@@ -3,8 +3,7 @@ const TYPES = {
   FileService: Symbol.for('FileService'),
   TransactionService: Symbol.for('TransactionService'),
   Disassembler: Symbol.for('EVMDisassembler'),
-  CFGCreator: Symbol.for('CFGCreator'),
-  Opcodes: Symbol.for('Opcodes')
+  CFGCreator: Symbol.for('CFGCreator')
 }
 
 export { TYPES }
