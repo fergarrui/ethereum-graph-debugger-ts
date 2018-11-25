@@ -5,7 +5,7 @@ import { Disassembler } from '../../../bytecode/Disassembler'
 import { OpcodeExecutor } from './OpcodeExecutor'
 import { EVMDisassembler } from '../../../bytecode/EVMDisassembler'
 
-describe('Mstore', () => {
+describe('MStore', () => {
   let cfgCreator: EthereumCFGCreator
   let disassembler: Disassembler
   let opcodeExecutor: OpcodeExecutor = new OpcodeExecutor()
@@ -15,7 +15,7 @@ describe('Mstore', () => {
     disassembler = new EVMDisassembler()
   })
 
-  it('Test Mstore', () => {
+  it('Test MStore', () => {
     const bytecode = '6080604052'
     const executor: EVMExecutor = createExecutor(disassembler, bytecode, cfgCreator, opcodeExecutor)
     executor.run(0)

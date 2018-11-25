@@ -35,6 +35,7 @@ import { Extcodesize } from './Extcodesize'
 import { Extcodecopy } from './Extcodecopy'
 import { Sstore } from './Sstore'
 import { Sload } from './Sload'
+import { MLoad } from './MLoad'
 
 @injectable()
 export class OpcodeExecutor {
@@ -127,6 +128,7 @@ export class OpcodeExecutor {
     this.ops['SLOAD'] = new Sload()
     this.ops['MSTORE'] = new MStore()
     this.ops['MSTORE8'] = new MStore8()
+    this.ops['MLOAD'] = new MLoad()
 
     this.ops['ISZERO'] = new IsZero()
     this.ops['LT'] = new Lt()
