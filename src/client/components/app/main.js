@@ -3,6 +3,7 @@ import React from 'react';
 import TopNavBar from '../TopNavBar/main.js';
 import Tab from '../Tab/main.js';
 import TabPanel from '../Tab/TabPanel/main.js';
+import TabMenuItem from '../Tab/TabMenuItem/main.js';
 
 import styles from '../../styles/App.scss';
 
@@ -59,8 +60,6 @@ class App extends React.Component {
       fetchRequestStatus: 'success',
       contracts: response,
     });
-
-    console.log(this.state.contracts);
   }
 
   handleRequestFail() {
@@ -72,7 +71,8 @@ class App extends React.Component {
   render() {
 
     const { fetchRequestStatus, contracts } = this.state;
-
+    const { children } = this.props;
+  
     return (
       <div className={styles['app']}>
         <div classname={styles['app__navigation']}>
@@ -83,19 +83,11 @@ class App extends React.Component {
         </div>
         <div className={styles['app__tabs']}>
           {fetchRequestStatus === 'pending' &&
-          <div>pending</div>
+            <div>pending</div>
           }
           {fetchRequestStatus === 'success' && 
-            <Tab>
-            {contracts.map((item, index) => {
-              return (
-                <TabPanel 
-                  key={index}
-                  code={item.code}
-                  name={item.name}
-                />
-              )
-            })}
+            <Tab contracts={contracts}>
+              {children}
             </Tab>        
           }
           {fetchRequestStatus === 'fail' &&

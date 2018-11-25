@@ -3,6 +3,10 @@ import React from 'react';
 import Editor from './Editor/main.js';
 import Icon from '../../Icon/main.js';
 import SideBar from './SideBar/main.js';
+import ByteCodeComp from '../../ByteCodeComp/main.js';
+import DisassembleComp from '../../DisassembleComp/main.js';
+
+import InnerTabPanel from '../../InnerTab/InnerTabPanel/main.js';
 
 import styles from '../../../styles/Tab/TabPanel.scss';
 
@@ -16,7 +20,6 @@ class TabPanel extends React.Component {
 
     this.state = {
       editorOpen: true,
-      sideBarOpen: false,
     }
   }
 
@@ -32,31 +35,24 @@ class TabPanel extends React.Component {
     });
   }
 
-  handleMenuIconClick() {
-    this.setState(previousState => ({
-      sideBarOpen: !previousState.sideBarOpen,
-    }));
-
-    console.log('clicked');
-  }
-
   render() {
     
-    const { code } = this.props;
-    const { editorOpen, sideBarOpen} = this.state;
+    const { code, active, contracts, index } = this.props;
+    const { editorOpen } = this.state;
 
     const editorClasses = cx({
       'tab-panel__left__editor': true,
       'tab-panel__left__editor--open': !!editorOpen,
     });
 
-    const sideBarClasses = cx({
-      'tab-panel__left__side-bar': true,
-      'tab-panel__left__side-bar--open': !!sideBarOpen,
+    const tabPanelClasses = cx({
+      'tab-panel': true,
+      'tab-panel--active': !!active,
     });
+
     
     return (
-      <div className={styles['tab-panel']}>
+      <div className={tabPanelClasses}>
         <div className={styles['tab-panel__left']}>
           <div className={styles['tab-panel__left__controls']}>
             <div className={styles['tab-panel__left__controls__item']}>
@@ -71,13 +67,11 @@ class TabPanel extends React.Component {
             </div>
           </div>
           <div className={editorClasses}>
-            <Editor code={code} />
-          </div>
-          <div className={sideBarClasses}>
-            <SideBar />
+            <Editor code={code} index={index}/>
           </div>
         </div>
-        <div className={styles['tab-panel__right']}></div>
+        <div className={styles['tab-panel__right']}>
+        </div>
       </div>
     )
   }
