@@ -3,10 +3,8 @@ import React from 'react';
 import Editor from './Editor/main.js';
 import Icon from '../../Icon/main.js';
 import SideBar from './SideBar/main.js';
-import ByteCodeComp from '../../ByteCodeComp/main.js';
-import DisassembleComp from '../../DisassembleComp/main.js';
 
-import InnerTabPanel from '../../InnerTab/InnerTabPanel/main.js';
+import InnerTab from './InnerTab/main.js';
 
 import styles from '../../../styles/Tab/TabPanel.scss';
 
@@ -20,6 +18,9 @@ class TabPanel extends React.Component {
 
     this.state = {
       editorOpen: true,
+      sideBarOpen: false,
+      tabs: [],
+      innerTabVisible: false,
     }
   }
 
@@ -35,10 +36,24 @@ class TabPanel extends React.Component {
     });
   }
 
+  handleMenuIconClick() {
+    this.setState(prevState => ({
+      sideBarOpen: !prevState.sideBarOpen,
+    }));
+  }
+
+  handleSideBarItemClick(compType) {
+    const newTabs = [...this.state.tabs, {'title': compType, 'type': compType}];
+    this.setState({
+      tabs: newTabs,
+      innerTabVisible: true,
+    }); 
+  }
+
   render() {
     
-    const { code, active, contracts, index } = this.props;
-    const { editorOpen } = this.state;
+    const { code, active, index, children } = this.props;
+    const { editorOpen, sideBarOpen, innerTabVisible, tabs } = this.state;
 
     const editorClasses = cx({
       'tab-panel__left__editor': true,
@@ -49,6 +64,11 @@ class TabPanel extends React.Component {
       'tab-panel': true,
       'tab-panel--active': !!active,
     });
+
+    const sideBarClasses = cx({
+      'tab-panel__left__side-bar': true,
+      'tab-panel__left__side-bar--open': !!sideBarOpen,
+    })
 
     
     return (
@@ -66,11 +86,15 @@ class TabPanel extends React.Component {
               <button onClick={() => this.handleMenuIconClick()}><Icon iconName='Menu' /></button>
             </div>
           </div>
+          <div className={sideBarClasses}>
+            <SideBar onClick={(compType) => this.handleSideBarItemClick(compType)}/>
+          </div>
           <div className={editorClasses}>
             <Editor code={code} index={index}/>
           </div>
         </div>
         <div className={styles['tab-panel__right']}>
+          {innerTabVisible && <InnerTab data={tabs}>{children}</InnerTab>}
         </div>
       </div>
     )

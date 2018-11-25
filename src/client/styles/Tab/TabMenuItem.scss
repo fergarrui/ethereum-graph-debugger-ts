@@ -9,7 +9,7 @@
   z-index: 0;
   box-shadow: inset 2px 1px 5px (#000 + 30);
   transform: translate(0, 20px);
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, color 0.2s ease-in-out, background 0.2s ease-in-out;
   cursor: pointer;
 
   &:first-of-type {
@@ -23,14 +23,20 @@
   &:hover {
     transform: translate(0, 15px);
   }
+}
+
+//State 
+.tab-menu-item {
 
   &--active {
     transform: translate(0, 10px);
     box-shadow: 2px 3px 6px 2px (#393E41 - 30);
     z-index: 1;
+    color: #393E41;
+    background: #E2C044;
 
     &:hover {
       transform: translate(0, 10px);
     }
-  }
+  }  
 }

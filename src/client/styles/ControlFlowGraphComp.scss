@@ -1,4 +1,4 @@
-.disassemble-comp {
+.control-flow-graph-comp {
   position: relative;
 
   &__header {
@@ -6,7 +6,7 @@
   }
 
   &__body {
-    padding: 50px;
     width: 100%;
+    padding: 50px;
   }
 }
