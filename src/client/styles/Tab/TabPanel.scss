@@ -41,10 +41,10 @@
     &__side-bar {
       position: absolute;
       top: 0;
-      left: 15%;
+      left: 18%;
       opacity: 0;
-      z-index: 0;
       transition: opacity 0.2s;
+      pointer-events: none;
     }
   }
 
@@ -72,11 +72,10 @@
 }
 
 //State
-
 .tab-panel {
 
   &--active {
-    display: block;
+    display: flex;
   }
 
   &__left {
@@ -92,7 +91,8 @@
 
       &--open {
         opacity: 1;
-        z-index: 3;
+        z-index: 6;
+        pointer-events: auto;
       }
     }
   }

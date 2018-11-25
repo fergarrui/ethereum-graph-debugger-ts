@@ -1,9 +1,9 @@
 import React from 'react';
 
 import InnerTabMenuItem from './InnerTabMenuItem/main.js';
-import InnerTabPanel from './TabPanel/main.js';
+import InnerTabPanel from './InnerTabPanel/main.js';
 
-import styles from '../../styles/Tab/Tab.scss';
+import styles from '../../../../styles/Tab/Tab.scss';
 
 import classnames from 'classnames/bind';
 
@@ -25,35 +25,36 @@ class InnerTab extends React.Component {
   }
 
   render() {
-    const { contracts } = this.props;
+
+    const { data } = this.props;
     const { currentInnerTabIndex } = this.state;
-    console.log('CHILDREN')
-    console.log(this.props.children)
+
+    console.log(data);
 
     return (
       <div className={styles['tab']}>
         <div className={styles['tab__navigation']}>
-          {contracts.map((item, i) => {
+          {data.map((item, i) => {
             return (
-              <InnerTabMenuItem
-                key={i}
-                name={item.name}
-                onClick={() => this.setActiveInnerTab(i)}
+              <InnerTabMenuItem 
+                key={i}  
+                title={item.title}
                 active={currentInnerTabIndex === i}
+                onClick={() => this.setActiveInnerTab(i)}
               />
             )
-          })}        
+          })}
         </div>
         <div className={styles['tab__panels']}>
-          {contracts.map((item, i) => {
+          {data.map((item, i) => {
             return (
               <InnerTabPanel
-                key={i}
+                key={i}  
+                type={item.type}
                 active={currentInnerTabIndex === i}
               />
             )
-          })}    
-
+          })}
         </div>
       </div>
     );
