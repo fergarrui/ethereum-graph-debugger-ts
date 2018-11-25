@@ -6,7 +6,10 @@ import { Operation } from '../bytecode/Operation'
 @injectable()
 export class GraphVizService {
   createDotFromBlocks(blocks: CFGBlocks): string {
-    return `digraph G {
+    return `digraph " " {
+      graph [splines=ortho ranksep="2" nodesep="2"]
+      rankdir=LR
+      node [shape=plain fillcolor="#2A2A2A" style=filled fontcolor="#12cc12" fontname="Courier"]
       ${this.buildBody(blocks)}
     }`
   }
@@ -15,30 +18,35 @@ export class GraphVizService {
     let body: string = ''
     blocks.keys().forEach(key => {
       const block = blocks.get(key)
-      body += `${block.offset} [label="${this.buildOps(block.operations)}"]`
+      body += `/* START block ${block.offset} */`
+      body += `${block.offset} [label=${this.buildLabel(block.operations)}]`
       body += this.buildRelations(block)
+      body += `/* END block ${block.offset} */`
     })
     return body
   }
 
-  private buildOps(operations: Operation[]): string {
-    let ops = ''
+  private buildLabel(operations: Operation[]): string {
+    let ops = '< <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">'
     for (const op of operations) {
-      ops += ` 0x${op.offset.toString(16)} | ${op.opcode.name}`
+      ops += `<TR>`
+      ops += `<TD>0x${op.offset.toString(16)}</TD><TD>${op.opcode.name}</TD>`
       if (op.opcode.name.startsWith('PUSH')) {
-        ops += `0x${op.argument.toString(16)}`
+        ops += `<TD>0x${op.argument.toString(16)}</TD>`
       }
+      ops += `</TR>`
     }
+    ops += '</TABLE> >'
     return ops
   }
 
   private buildRelations(block: OperationBlock): string {
     let relations = ''
     if (block.childA) {
-      relations += `${block.offset} -> ${block.childA}\n`
+      relations += `${block.offset} -> ${block.childA} `
     }
     if (block.childB) {
-      relations += `${block.offset} -> ${block.childB}\n`
+      relations += `${block.offset} -> ${block.childB} `
     }
     return relations
   }
