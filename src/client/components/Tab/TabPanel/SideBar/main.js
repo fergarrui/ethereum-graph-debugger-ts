@@ -9,20 +9,24 @@ class SideBar extends React.Component {
 
   handleFirstItemClick() {
     console.log('i m clicked');
+
+    this.props.onByteCodeClick();
   }
 
   handleSecondItemClick() {
     console.log('me too');
+
+    this.props.onDisassembleClick();
   }
 
   render() {
     return(
       <div className={styles['side-bar']}>
-        <div className={styles['side-bar__item']}>
-          <div onClick={() => this.handleFirstItemClick()}><span>ByteCode</span></div>
+        <div className={styles['side-bar__item']} onClick={() => this.handleFirstItemClick()}>
+          <span>ByteCode</span>
         </div>
-        <div className={styles['side-bar__item']}>
-          <div onClick={() => this.handleSecondItemClick()}><span>Disassemble</span></div>
+        <div className={styles['side-bar__item']} onClick={() => this.handleSecondItemClick()}>
+          <span>Disassemble</span>
         </div>
       </div>
     )

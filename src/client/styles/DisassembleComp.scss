@@ -1,0 +1,12 @@
+.disassemble-comp {
+  position: relative;
+
+  &__header {
+    padding: 20px;
+  }
+
+  &__body {
+    padding: 50px;
+    width: 100%;
+  }
+}

@@ -1,8 +1,7 @@
 import React from 'react';
 
-import TabMenuItem from './TabMenuItem/main.js';
-import TabPanel from './TabPanel/main.js';
-import Editor from './TabPanel/Editor/main.js';
+import InnerTabMenuItem from './InnerTabMenuItem/main.js';
+import InnerTabPanel from './TabPanel/main.js';
 
 import styles from '../../styles/Tab/Tab.scss';
 
@@ -10,35 +9,37 @@ import classnames from 'classnames/bind';
 
 const cx = classnames.bind(styles);
 
-class Tab extends React.Component {
+class InnerTab extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      currentTabIndex: 0,
+      currentInnerTabIndex: 0,
     }
   }
 
-  setActiveTab(index) {
+  setActiveInnerTab(index) {
     this.setState({
-      currentTabIndex: index,
+      currentInnerTabIndex: index,
     });
   }
 
   render() {
     const { contracts } = this.props;
-    const { currentTabIndex } = this.state;
+    const { currentInnerTabIndex } = this.state;
+    console.log('CHILDREN')
+    console.log(this.props.children)
 
     return (
       <div className={styles['tab']}>
         <div className={styles['tab__navigation']}>
           {contracts.map((item, i) => {
             return (
-              <TabMenuItem
+              <InnerTabMenuItem
                 key={i}
                 name={item.name}
-                onClick={() => this.setActiveTab(i)}
-                active={currentTabIndex === i}
+                onClick={() => this.setActiveInnerTab(i)}
+                active={currentInnerTabIndex === i}
               />
             )
           })}        
@@ -46,13 +47,10 @@ class Tab extends React.Component {
         <div className={styles['tab__panels']}>
           {contracts.map((item, i) => {
             return (
-              <TabPanel
+              <InnerTabPanel
                 key={i}
-                name={item.name}
-                code={item.code}
-                index={i}
-                active={currentTabIndex === i}>
-              </TabPanel>
+                active={currentInnerTabIndex === i}
+              />
             )
           })}    
 
@@ -62,6 +60,6 @@ class Tab extends React.Component {
   }
 }
 
-export default Tab;
+export default InnerTab;
 
-Tab.displayName = 'Tab';
+InnerTab.displayName = 'InnerTab';

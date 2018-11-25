@@ -1,5 +1,5 @@
 .tab-panel {
-  display: flex;
+  display: none;
   padding: 34px 20px;
   background: #1D1D1B;
   border-bottom-left-radius: 8px;
@@ -35,7 +35,7 @@
       position: relative;
       left: -108%;
       transition: left 0.3s;
-      z-index: 1;
+      z-index: 4;
     }
 
     &__side-bar {
@@ -49,15 +49,35 @@
   }
 
   &__right {
-    width: 70%;
-    height: 100%;
-    background: #393E41;
+    flex: 1 1 auto;
+    width: 100%;
+    padding: 0 30px;
+
+    &__tabs {
+      display: flex;
+
+      &__item {
+        flex: 1 1 auto;
+        padding: 20px;
+        background: #393E41;
+        color: #E2C044;
+        text-transform: uppercase;
+
+        &--clicked {
+          transform: scale(1.5);
+        }
+      }
+    }
   }
 }
 
 //State
 
 .tab-panel {
+
+  &--active {
+    display: block;
+  }
 
   &__left {
       
