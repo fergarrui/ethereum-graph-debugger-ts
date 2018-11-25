@@ -1,24 +1,31 @@
-import { Route, Path, Controller, Get, Post } from 'tsoa'
+import { Route, Controller, Get, Query } from 'tsoa'
 import { provideSingleton, inject } from '../../../inversify/ioc'
 import { TYPES } from '../../../inversify/types'
-import { TransactionService } from '../service/TransactionService'
-import { TransactionReceipt } from '../bean/TransactionReceipt'
-import { TransactionTrace } from '../response/TransactionTrace';
+import { CFGService } from '../service/CFGService'
+import { CFGContract } from '../bean/CFGContract'
+import { GraphVizService } from '../../cfg/GraphVizService'
 
 @Route('debug')
 @provideSingleton(DebuggerController)
 export class DebuggerController extends Controller {
-  constructor(@inject(TYPES.TransactionService) private transactionService: TransactionService) {
+  constructor(
+    @inject(TYPES.CFGService) private cfgService: CFGService,
+    @inject(TYPES.GraphVizService) private graphVizService: GraphVizService
+  ) {
     super()
   }
 
-  @Get('receipt/{tx}')
-  async debugTransaction(@Path() tx: string): Promise<TransactionReceipt> {
-    return this.transactionService.findTransactionReceipt(tx)
-  }
-
-  @Get('trace/{tx}')
-  async getTransactionTrace(@Path() tx: string): Promise<TransactionTrace> {
-    return this.transactionService.findTransactionTrace(tx)
+  @Get('cfg')
+  async getCFGFromSource(
+    @Query('source') source: string,
+    @Query('name') name: string,
+    @Query('constructor') constructor?: boolean
+  ): Promise<string> {
+    const contractBlocks: CFGContract = this.cfgService.buildCFGFromSource(name, source)
+    let blocks = contractBlocks.contractRuntime.blocks
+    if (constructor) {
+      blocks = contractBlocks.contractConstructor.blocks
+    }
+    return this.graphVizService.createDotFromBlocks(blocks)
   }
 }

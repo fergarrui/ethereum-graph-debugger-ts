@@ -33,6 +33,8 @@ import { Codecopy } from './Codecopy'
 import { Gasprice } from './Gasprice'
 import { Extcodesize } from './Extcodesize'
 import { Extcodecopy } from './Extcodecopy'
+import { Sstore } from './Sstore'
+import { Sload } from './Sload'
 
 @injectable()
 export class OpcodeExecutor {
@@ -121,6 +123,8 @@ export class OpcodeExecutor {
     this.ops['XOR'] = new Xor()
     this.ops['NOT'] = new Not()
 
+    this.ops['SSTORE'] = new Sstore()
+    this.ops['SLOAD'] = new Sload()
     this.ops['MSTORE'] = new MStore()
     this.ops['MSTORE8'] = new MStore8()
 

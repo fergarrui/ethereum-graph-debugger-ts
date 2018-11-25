@@ -4,23 +4,9 @@ import { iocContainer } from './inversify/ioc';
 import { DebuggerController } from './api/service/controller/DebuggerController';
 import { FileController } from './api/service/controller/FileController';
 import { DisassembleController } from './api/service/controller/DisassembleController';
+import { TransactionController } from './api/service/controller/TransactionController';
 
 const models: TsoaRoute.Models = {
-    "TransactionReceipt": {
-        "properties": {
-            "transactionHash": { "dataType": "string", "required": true },
-            "data": { "dataType": "string", "required": true },
-            "to": { "dataType": "string", "required": true },
-            "from": { "dataType": "string", "required": true },
-        },
-    },
-    "TransactionTrace": {
-        "properties": {
-            "id": { "dataType": "double" },
-            "jsonrpc": { "dataType": "double" },
-            "result": { "dataType": "array", "array": { "dataType": "any" }, "required": true },
-        },
-    },
     "ContractFile": {
         "properties": {
             "name": { "dataType": "string", "required": true },
@@ -49,13 +35,30 @@ const models: TsoaRoute.Models = {
             "bytecode": { "dataType": "string", "required": true },
         },
     },
+    "TransactionReceipt": {
+        "properties": {
+            "transactionHash": { "dataType": "string", "required": true },
+            "data": { "dataType": "string", "required": true },
+            "to": { "dataType": "string", "required": true },
+            "from": { "dataType": "string", "required": true },
+        },
+    },
+    "TransactionTrace": {
+        "properties": {
+            "id": { "dataType": "double" },
+            "jsonrpc": { "dataType": "double" },
+            "result": { "dataType": "array", "array": { "dataType": "any" }, "required": true },
+        },
+    },
 };
 
 export function RegisterRoutes(app: any) {
-    app.get('/debug/receipt/:tx',
+    app.get('/debug/cfg',
         function(request: any, response: any, next: any) {
             const args = {
-                tx: { "in": "path", "name": "tx", "required": true, "dataType": "string" },
+                source: { "in": "query", "name": "source", "required": true, "dataType": "string" },
+                name: { "in": "query", "name": "name", "required": true, "dataType": "string" },
+                constructor: { "in": "query", "name": "constructor", "dataType": "boolean" },
             };
 
             let validatedArgs: any[] = [];
@@ -71,29 +74,7 @@ export function RegisterRoutes(app: any) {
             }
 
 
-            const promise = controller.debugTransaction.apply(controller, validatedArgs);
-            promiseHandler(controller, promise, response, next);
-        });
-    app.get('/debug/trace/:tx',
-        function(request: any, response: any, next: any) {
-            const args = {
-                tx: { "in": "path", "name": "tx", "required": true, "dataType": "string" },
-            };
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = getValidatedArgs(args, request);
-            } catch (err) {
-                return next(err);
-            }
-
-            const controller = iocContainer.get<DebuggerController>(DebuggerController);
-            if (typeof controller['setStatus'] === 'function') {
-                (<any>controller).setStatus(undefined);
-            }
-
-
-            const promise = controller.getTransactionTrace.apply(controller, validatedArgs);
+            const promise = controller.getCFGFromSource.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, next);
         });
     app.get('/files/:dir',
@@ -140,6 +121,50 @@ export function RegisterRoutes(app: any) {
 
 
             const promise = controller.disassembleSourceCode.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    app.get('/tx/:tx/receipt',
+        function(request: any, response: any, next: any) {
+            const args = {
+                tx: { "in": "path", "name": "tx", "required": true, "dataType": "string" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = iocContainer.get<TransactionController>(TransactionController);
+            if (typeof controller['setStatus'] === 'function') {
+                (<any>controller).setStatus(undefined);
+            }
+
+
+            const promise = controller.getReceipt.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    app.get('/tx/:tx/trace',
+        function(request: any, response: any, next: any) {
+            const args = {
+                tx: { "in": "path", "name": "tx", "required": true, "dataType": "string" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = iocContainer.get<TransactionController>(TransactionController);
+            if (typeof controller['setStatus'] === 'function') {
+                (<any>controller).setStatus(undefined);
+            }
+
+
+            const promise = controller.getTransactionTrace.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, next);
         });
 

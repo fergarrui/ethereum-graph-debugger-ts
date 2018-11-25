@@ -11,7 +11,10 @@ import { Disassembler } from '../api/bytecode/Disassembler'
 import { EVMDisassembler } from '../api/bytecode/EVMDisassembler'
 import { CFGCreator } from '../api/cfg/CFGCreator'
 import { EthereumCFGCreator } from '../api/cfg/EthereumCFGCreator'
-import { TransactionServiceImpl } from '../api/service/service/TransactionServiceImpl';
+import { TransactionServiceImpl } from '../api/service/service/TransactionServiceImpl'
+import { GraphVizService } from '../api/cfg/GraphVizService'
+import { CFGService } from '../api/service/service/CFGService'
+import { OpcodeExecutor } from '../api/symbolic/evm/exec/OpcodeExecutor'
 
 const iocContainer = new Container()
 const provide = makeProvideDecorator(iocContainer)
@@ -24,6 +27,9 @@ iocContainer.bind<FileService>(TYPES.FileService).to(FileServiceDefault)
 iocContainer.bind<TransactionService>(TYPES.TransactionService).to(TransactionServiceImpl)
 iocContainer.bind<Disassembler>(TYPES.Disassembler).to(EVMDisassembler)
 iocContainer.bind<CFGCreator>(TYPES.CFGCreator).to(EthereumCFGCreator)
+iocContainer.bind<GraphVizService>(TYPES.GraphVizService).to(GraphVizService)
+iocContainer.bind<CFGService>(TYPES.CFGService).to(CFGService)
+iocContainer.bind<OpcodeExecutor>(TYPES.OpcodeExecutor).to(OpcodeExecutor)
 
 const provideNamed = (
   identifier: string | symbol | interfaces.Newable<any> | interfaces.Abstract<any>,
