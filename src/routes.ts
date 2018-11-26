@@ -5,6 +5,7 @@ import { DebuggerController } from './api/service/controller/DebuggerController'
 import { FileController } from './api/service/controller/FileController';
 import { DisassembleController } from './api/service/controller/DisassembleController';
 import { TransactionController } from './api/service/controller/TransactionController';
+import { ControlFlowGraphController } from './api/service/controller/ControlFlowGraphController';
 
 const models: TsoaRoute.Models = {
     "ContractFile": {
@@ -53,30 +54,6 @@ const models: TsoaRoute.Models = {
 };
 
 export function RegisterRoutes(app: any) {
-    app.get('/debug/cfg',
-        function(request: any, response: any, next: any) {
-            const args = {
-                source: { "in": "query", "name": "source", "required": true, "dataType": "string" },
-                name: { "in": "query", "name": "name", "required": true, "dataType": "string" },
-                constructor: { "in": "query", "name": "constructor", "dataType": "boolean" },
-            };
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = getValidatedArgs(args, request);
-            } catch (err) {
-                return next(err);
-            }
-
-            const controller = iocContainer.get<DebuggerController>(DebuggerController);
-            if (typeof controller['setStatus'] === 'function') {
-                (<any>controller).setStatus(undefined);
-            }
-
-
-            const promise = controller.getCFGFromSource.apply(controller, validatedArgs);
-            promiseHandler(controller, promise, response, next);
-        });
     app.get('/files/:dir',
         function(request: any, response: any, next: any) {
             const args = {
@@ -165,6 +142,53 @@ export function RegisterRoutes(app: any) {
 
 
             const promise = controller.getTransactionTrace.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    app.get('/cfg/source',
+        function(request: any, response: any, next: any) {
+            const args = {
+                source: { "in": "query", "name": "source", "required": true, "dataType": "string" },
+                name: { "in": "query", "name": "name", "required": true, "dataType": "string" },
+                constructor: { "in": "query", "name": "constructor", "dataType": "boolean" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = iocContainer.get<ControlFlowGraphController>(ControlFlowGraphController);
+            if (typeof controller['setStatus'] === 'function') {
+                (<any>controller).setStatus(undefined);
+            }
+
+
+            const promise = controller.getCFGFromSource.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    app.get('/cfg/bytecode',
+        function(request: any, response: any, next: any) {
+            const args = {
+                bytecode: { "in": "query", "name": "bytecode", "required": true, "dataType": "string" },
+                constructor: { "in": "query", "name": "constructor", "dataType": "boolean" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = iocContainer.get<ControlFlowGraphController>(ControlFlowGraphController);
+            if (typeof controller['setStatus'] === 'function') {
+                (<any>controller).setStatus(undefined);
+            }
+
+
+            const promise = controller.getCFGFromBytecode.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, next);
         });
 

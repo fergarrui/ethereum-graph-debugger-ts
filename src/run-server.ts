@@ -5,6 +5,7 @@ import './api/service/controller/DebuggerController'
 import './api/service/controller/TransactionController'
 import './api/service/controller/FileController'
 import './api/service/controller/DisassembleController'
+import './api/service/controller/ControlFlowGraphController'
 
 const server = new Server()
 // make it configurable

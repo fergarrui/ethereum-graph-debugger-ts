@@ -19,6 +19,15 @@ export class CFGService {
 
   buildCFGFromSource(contractName: string, source: string): CFGContract {
     const contract: DisassembledContract = this.disassembler.disassembleSourceCode(contractName, source)
+    return this.buildCfgContract(contract)
+  }
+
+  buildCFGFromBytecode(bytecode: string): CFGContract {
+    const contract: DisassembledContract = this.disassembler.disassembleContract(bytecode)
+    return this.buildCfgContract(contract)
+  }
+
+  private buildCfgContract(contract: DisassembledContract) {
     const runtimeBlocks = this.calculateCfgBlocks(contract.runtime)
     const cfgContract: CFGContract = {
       contractRuntime: {
