@@ -14,10 +14,10 @@ export class DisassembleController extends Controller {
 
   @Get()
   async disassembleSourceCode(
-    @Query('code') code: string,
-    @Query('contractName') contractName: string
+    @Query('source') source: string,
+    @Query('name') name: string
   ): Promise<DisassembledContractResponse> {
-    const disassembled: DisassembledContract = this.disassembler.disassembleSourceCode(contractName, code)
+    const disassembled: DisassembledContract = this.disassembler.disassembleSourceCode(name, source)
     return this.contractToResponse(disassembled)
   }
 

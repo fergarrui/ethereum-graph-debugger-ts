@@ -1,7 +1,7 @@
 import { Disassembler } from './Disassembler'
 import { Operation } from './Operation'
 import { Opcodes } from './Opcodes'
-import { injectable, inject } from 'inversify'
+import { injectable } from 'inversify'
 import { BN } from 'bn.js'
 import { Opcode } from './Opcode'
 import { DisassembledContract } from './DisassembledContract'

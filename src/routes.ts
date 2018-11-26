@@ -103,8 +103,8 @@ export function RegisterRoutes(app: any) {
     app.get('/disassemble',
         function(request: any, response: any, next: any) {
             const args = {
-                code: { "in": "query", "name": "code", "required": true, "dataType": "string" },
-                contractName: { "in": "query", "name": "contractName", "required": true, "dataType": "string" },
+                source: { "in": "query", "name": "source", "required": true, "dataType": "string" },
+                name: { "in": "query", "name": "name", "required": true, "dataType": "string" },
             };
 
             let validatedArgs: any[] = [];
