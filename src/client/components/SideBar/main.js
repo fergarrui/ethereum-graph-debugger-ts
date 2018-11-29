@@ -1,7 +1,7 @@
 import React from 'react';
 
 //import Button from '../../Button/main.js';
-import styles from '../../../../styles/SideBar.scss';
+import styles from '../../styles/SideBar.scss';
 
 class SideBar extends React.Component {
   constructor(props) {

@@ -2,7 +2,6 @@ import React from 'react';
 
 import TabMenuItem from './TabMenuItem/main.js';
 import TabPanel from './TabPanel/main.js';
-import Editor from './TabPanel/Editor/main.js';
 
 import styles from '../../styles/Tab/Tab.scss';
 
