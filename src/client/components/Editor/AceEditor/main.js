@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import brace from 'brace';
 
 if (typeof window !== 'undefined') {
   const ace = require('brace');
@@ -15,12 +16,13 @@ class CodeEditor extends Component {
         theme,
         mode,
         setUseWorker,
+        index,
       } = this.props;
 
       require(`brace/mode/${mode}`);
       require(`brace/theme/${theme}`);
 
-      const editor = ace.edit('ace-editor');
+      const editor = ace.edit(`ace-editor-${index}`);
       this.editor = editor;
       editor.getSession().setMode(`ace/mode/${mode}`);
       editor.getSession().setUseWorker(setUseWorker);
@@ -36,9 +38,9 @@ class CodeEditor extends Component {
   }
 
   render() {
-    const { style, editorId } = this.props;
+    const { style, editorId, index } = this.props;
     return (
-      <div id={editorId} style={style}></div>
+      <div id={`ace-editor-${index}`} style={style}></div>
     );
   }
 }
@@ -54,7 +56,6 @@ CodeEditor.propTypes = {
 };
 
 CodeEditor.defaultProps = {
-  editorId: 'ace-editor',
   onChange: () => {},
   setValue: '',
   setReadOnly: false,

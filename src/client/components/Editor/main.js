@@ -2,14 +2,15 @@ import React from 'react';
 
 import CodeEditor from './AceEditor/main.js';
 
-const Editor = ({ code }) => {
+const Editor = ({ code, index }) => {
   
   return (
     <CodeEditor
+      index={index}
       mode='javascript'
       theme='twilight'
       setReadOnly={true}
-      style={{ height: '400px', width: '100%' }}
+      style={{ height: '500px', width: '100%' }}
       setValue={code}
       setUseWorker={false}
     >

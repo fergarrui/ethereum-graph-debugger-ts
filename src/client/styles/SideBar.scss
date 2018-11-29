@@ -11,5 +11,15 @@
     text-transform: uppercase;
     border-bottom: 1px solid #E2C044;
     border-top: 1px solid #E2C044;
+    transition: background 0.2s, color 0.2s;
+    cursor: pointer;
+
+    &:hover {
+      background: #E2C044;
+      color: #000;
+    }
   }
 }
+
+
+

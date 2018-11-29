@@ -1,0 +1,19 @@
+.inner-tab-panel {
+  width: 100%;
+  height: 100%;
+  // background:#393E41;
+  background: #232323;
+  color: #E2C044;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  overflow: hidden;
+  display: none;
+}
+
+//State
+.inner-tab-panel {
+
+  &--active {
+    display: block;
+  }
+}

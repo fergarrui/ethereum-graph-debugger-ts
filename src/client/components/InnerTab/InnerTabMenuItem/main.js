@@ -6,7 +6,7 @@ import styles from '../../../styles/Tab/TabMenuItem.scss';
 
 const cx = classnames.bind(styles);
 
-const TabMenuItem = ({ name, onClick, active }) => {
+const InnerTabMenuItem = ({ title, onClick, active }) => {
 
   const classes = cx({
     'tab-menu-item': true,
@@ -15,12 +15,12 @@ const TabMenuItem = ({ name, onClick, active }) => {
 
   return (
     <div className={classes} onClick={onClick}>
-      <span>{name}</span>
+      <span>{title}</span>
     </div>
   );
 }
 
 
-TabMenuItem.displayName = 'TabMenuItem';
+InnerTabMenuItem.displayName = 'InnerTabMenuItem';
 
-export default TabMenuItem;
+export default InnerTabMenuItem;
