@@ -10,7 +10,7 @@ const Editor = ({ code, index }) => {
       mode='javascript'
       theme='twilight'
       setReadOnly={true}
-      style={{ height: '400px', width: '100%' }}
+      style={{ height: '500px', width: '100%' }}
       setValue={code}
       setUseWorker={false}
     >

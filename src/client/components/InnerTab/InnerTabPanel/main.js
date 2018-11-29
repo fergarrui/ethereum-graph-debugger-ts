@@ -1,10 +1,10 @@
 import React from 'react';
 
-import DebugTransactionComp from './DebugTransactionComp/main.js';
-import DisassembleComp from './DisassembleComp/main.js';
-import ControlFlowGraphComp from './ControlFlowGraphComp/main.js';
+import DebugTransactionComp from '../../DebugTransactionComp/main.js';
+import DisassembleComp from '../../DisassembleComp/main.js';
+import ControlFlowGraphComp from '../../ControlFlowGraphComp/main.js';
 
-import styles from '../../../../../styles/Tab/InnerTabPanel.scss';
+import styles from '../../../styles/Tab/InnerTabPanel.scss';
 
 import classnames from 'classnames/bind';
 

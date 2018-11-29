@@ -3,7 +3,7 @@ import React from 'react';
 import InnerTabMenuItem from './InnerTabMenuItem/main.js';
 import InnerTabPanel from './InnerTabPanel/main.js';
 
-import styles from '../../../../styles/Tab/Tab.scss';
+import styles from '../../styles/Tab/Tab.scss';
 
 import classnames from 'classnames/bind';
 

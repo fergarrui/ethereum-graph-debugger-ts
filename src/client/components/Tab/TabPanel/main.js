@@ -1,10 +1,9 @@
 import React from 'react';
 
-import Editor from './Editor/main.js';
+import Editor from '../../Editor/main.js';
 import Icon from '../../Icon/main.js';
-import SideBar from './SideBar/main.js';
-
-import InnerTab from './InnerTab/main.js';
+import SideBar from '../../SideBar/main.js';
+import InnerTab from '../../InnerTab/main.js';
 
 import styles from '../../../styles/Tab/TabPanel.scss';
 
