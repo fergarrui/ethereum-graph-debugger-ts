@@ -15,6 +15,7 @@ class Tab extends React.Component {
 
     this.state = {
       currentTabIndex: 0,
+      tabs: this.props.contracts,
     }
   }
 
@@ -24,26 +25,38 @@ class Tab extends React.Component {
     });
   }
 
+  deleteTab(index) {
+
+    const { tabs } = this.state;
+
+    const newTabs = tabs.filter((item, i, arr) => arr.indexOf(item) !== index);
+
+    this.setState({
+      tabs: newTabs,
+    });
+  }
+
   render() {
     const { contracts } = this.props;
-    const { currentTabIndex } = this.state;
+    const { currentTabIndex, tabs } = this.state;
 
     return (
       <div className={styles['tab']}>
         <div className={styles['tab__navigation']}>
-          {contracts.map((item, i) => {
+          {tabs.map((item, i) => {
             return (
               <TabMenuItem
                 key={i}
                 name={item.name}
                 onClick={() => this.setActiveTab(i)}
+                onIconClick={() => this.deleteTab(i)}
                 active={currentTabIndex === i}
               />
             )
           })}        
         </div>
         <div className={styles['tab__panels']}>
-          {contracts.map((item, i) => {
+          {tabs.map((item, i) => {
             return (
               <TabPanel
                 key={i}

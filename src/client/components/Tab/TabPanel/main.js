@@ -42,7 +42,9 @@ class TabPanel extends React.Component {
   }
 
   handleSideBarItemClick(compType) {
+
     const newTabs = [...this.state.tabs, {'title': compType, 'type': compType}];
+    
     this.setState({
       tabs: newTabs,
       innerTabVisible: true,

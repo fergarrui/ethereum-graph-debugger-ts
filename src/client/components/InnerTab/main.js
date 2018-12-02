@@ -1,6 +1,6 @@
 import React from 'react';
 
-import InnerTabMenuItem from './InnerTabMenuItem/main.js';
+import TabMenuItem from '../Tab/TabMenuItem/main.js';
 import InnerTabPanel from './InnerTabPanel/main.js';
 
 import styles from '../../styles/Tab/Tab.scss';
@@ -24,21 +24,34 @@ class InnerTab extends React.Component {
     });
   }
 
+  // deleteTab(index) {
+
+  //   const { tabs } = this.state;
+
+  //   const newTabs = tabs.filter((item, i, arr) => arr.indexOf(item) !== index);
+
+  //   this.setState({
+  //     tabs: newTabs,
+  //   });
+  // }
+
+
   render() {
 
     const { data, contractName, contractCode } = this.props;
-    const { currentInnerTabIndex } = this.state;
+    const { currentInnerTabIndex, tabs } = this.state;
 
     return (
       <div className={styles['tab']}>
         <div className={styles['tab__navigation']}>
           {data.map((item, i) => {
             return (
-              <InnerTabMenuItem 
+              <TabMenuItem 
                 key={i}  
                 title={item.title}
                 active={currentInnerTabIndex === i}
                 onClick={() => this.setActiveInnerTab(i)}
+                //onIconClick={() => this.deleteTab(i)}
               />
             )
           })}
