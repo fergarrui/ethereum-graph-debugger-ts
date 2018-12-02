@@ -34,7 +34,7 @@ export class ControlFlowGraphController extends Controller {
     return this.createCFG(contractBlocks, constructor)
   }
 
-  private createCFG(contractBlocks: CFGContract, constructor: boolean) {
+  private createCFG(contractBlocks: CFGContract, constructor: boolean): string {
     let blocks = contractBlocks.contractRuntime.blocks
     if (constructor) {
       blocks = contractBlocks.contractConstructor.blocks

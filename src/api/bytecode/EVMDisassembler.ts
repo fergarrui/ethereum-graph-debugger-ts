@@ -17,7 +17,10 @@ export class EVMDisassembler implements Disassembler {
     const compileJson = this.generateCompileObject(contractName, source)
     const compiledContract = JSON.parse(solc.compileStandardWrapper(JSON.stringify(compileJson)))
     const bytecode = compiledContract.contracts[contractName][contractName].evm.bytecode.object
-    return this.disassembleContract(bytecode)
+    const asmRuntime = compiledContract.contracts[contractName][contractName].evm.legacyAssembly['.data'][0]['.code'].filter(elem => elem.name !== 'tag')
+    const asmConstructor = compiledContract.contracts[contractName][contractName].evm.legacyAssembly['.code'].filter(elem => elem.name !== 'tag')
+    const disassembledCode: DisassembledContract = this.disassembleContract(bytecode)
+    return this.populateStartEnd(disassembledCode, asmRuntime, asmConstructor)
   }
 
   disassembleContract(bytecode: string): DisassembledContract {
@@ -85,6 +88,30 @@ export class EVMDisassembler implements Disassembler {
     return disassembledOperations
   }
 
+  private populateStartEnd(disassembledCode: DisassembledContract, asmRuntime, asmConstructor ): DisassembledContract {
+    const constructor = disassembledCode.constructor
+    const runtime = disassembledCode.runtime
+    if (constructor.length !== asmConstructor.length + 1 || runtime.length !== asmRuntime.length + 1) {
+      throw new Error('Source mappings do not match with bytecode')
+    }
+
+    if (disassembledCode.hasConstructor) {
+      for (let i = 0; i < asmConstructor.length; i++) {
+        const op = asmConstructor[i]
+        constructor[i].begin = op.begin
+        constructor[i].end = op.end
+      }
+    }
+
+    for (let i = 0; i < asmRuntime.length; i++) {
+      const op = asmRuntime[i]
+      runtime[i].begin = op.begin
+      runtime[i].end = op.end
+    }
+
+    return disassembledCode
+  }
+
   private adjustRuntimeOffset(operations: Operation[]) {
     const firstOffset = operations[0].offset
     operations.forEach(op => (op.offset = op.offset - firstOffset))
@@ -110,7 +137,7 @@ export class EVMDisassembler implements Disassembler {
       settings: {
         outputSelection: {
           '*': {
-            '*': ['evm.bytecode']
+            '*': ['evm.bytecode','evm.legacyAssembly']
           }
         }
       }
