@@ -26,10 +26,8 @@ class InnerTab extends React.Component {
 
   render() {
 
-    const { data } = this.props;
+    const { data, contractName, contractCode } = this.props;
     const { currentInnerTabIndex } = this.state;
-
-    console.log(data);
 
     return (
       <div className={styles['tab']}>
@@ -52,6 +50,8 @@ class InnerTab extends React.Component {
                 key={i}  
                 type={item.type}
                 active={currentInnerTabIndex === i}
+                contractName={contractName}
+                contractCode={contractCode}
               />
             )
           })}

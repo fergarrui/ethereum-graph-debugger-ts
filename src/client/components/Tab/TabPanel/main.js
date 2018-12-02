@@ -51,7 +51,7 @@ class TabPanel extends React.Component {
 
   render() {
     
-    const { code, active, index, children } = this.props;
+    const { code, name, active, index, children } = this.props;
     const { editorOpen, sideBarOpen, innerTabVisible, tabs } = this.state;
 
     const editorClasses = cx({
@@ -93,7 +93,7 @@ class TabPanel extends React.Component {
           </div>
         </div>
         <div className={styles['tab-panel__right']}>
-          {innerTabVisible && <InnerTab data={tabs}>{children}</InnerTab>}
+          {innerTabVisible && <InnerTab data={tabs} contractName={name} contractCode={code}>{children}</InnerTab>}
         </div>
       </div>
     )
