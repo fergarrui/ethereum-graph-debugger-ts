@@ -26,6 +26,8 @@ const models: TsoaRoute.Models = {
             "offset": { "dataType": "double", "required": true },
             "opcode": { "ref": "Opcode", "required": true },
             "argument": { "dataType": "string", "required": true },
+            "begin": { "dataType": "double" },
+            "end": { "dataType": "double" },
         },
     },
     "DisassembledContractResponse": {
@@ -49,6 +51,12 @@ const models: TsoaRoute.Models = {
             "id": { "dataType": "double" },
             "jsonrpc": { "dataType": "double" },
             "result": { "dataType": "array", "array": { "dataType": "any" }, "required": true },
+        },
+    },
+    "GFCResponse": {
+        "properties": {
+            "cfg": { "dataType": "string", "required": true },
+            "operations": { "dataType": "array", "array": { "ref": "OperationResponse" }, "required": true },
         },
     },
 };

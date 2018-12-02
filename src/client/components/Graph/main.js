@@ -16,11 +16,20 @@ class Graph extends React.Component {
     const graphclass = graphId.replace('.sol', '');
 
     d3.select(`.graph--${graphclass}`).graphviz().renderDot(cfg);
+    d3.selectAll("a").attr("href", null).attr("title", null);
   }
 
   handleClick(event) {
-    console.log(event.target);
-    console.dir(event.target);
+    const { operations } = this.props;
+    if (event.target.tagName === 'text') {
+      const elem = d3.select(event.target.parentElement.parentElement)
+      const id = elem.attr('id').replace('a_', '') 
+      const idNum = parseInt(id, 16)
+      const selectedOperation = operations.find(op => op.offset === idNum)
+      if (selectedOperation && selectedOperation.begin && selectedOperation.end) {
+        
+      }
+    }
   }
 
   render() {
