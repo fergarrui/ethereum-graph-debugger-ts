@@ -7,14 +7,64 @@ import styles from '../../styles/ControlFlowGraphComp.scss';
 class ControlFlowGraphComp extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      fetchRequestStatus: undefined,
+      cfg: '',
+    }
+  }
+
+  componentDidMount() {
+    const { contractName, contractCode } = this.props;
+    this.fetchData(contractName, contractCode);   
+  }
+
+  fetchData(name, source) {
+    this.handleRequestPending();
+
+    const { contractName } = this.props;
+    
+    fetch(`http://localhost:9090/cfg/source?source=${encodeURIComponent(source)}&name=${contractName.replace('.sol', '')}&constructor=false`)
+      .then(res => res.json())
+      .then(data => this.handleRequestSuccess(data))
+      .catch(err => console.log(err));
+  }
+
+  handleRequestPending() {
+    this.setState({
+      fetchRequestStatus: 'pending',
+    });
+  }
+
+  handleRequestSuccess(response) {
+
+    this.setState({
+      fetchRequestStatus: 'success',
+      cfg: response,
+    });
+  }
+
+  handleRequestFail() {
+    this.setState({
+      fetchRequestStatus: 'fail',
+    });
   }
 
   render() {
+    const { cfg, fetchRequestStatus } = this.state;
+    const { contractName } = this.props;
+
     return (
-      <div className={styles['control-flow-graph-comp']} name={name}>
-        <div className={styles['control-flow-graph-comp__body']}>
-        <Graph />
-       </div>
+      <div className={styles['control-flow-graph-comp']}>
+        {fetchRequestStatus === 'pending' && 
+          <div>loading</div>
+        }
+        {fetchRequestStatus === 'success' &&
+          <Graph graphId={contractName}  cfg={cfg}/>
+        }
+        {fetchRequestStatus === 'fail' &&
+          <div>failed</div>
+        }      
       </div>
     );
   }
