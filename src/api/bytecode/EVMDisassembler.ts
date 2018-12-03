@@ -17,8 +17,12 @@ export class EVMDisassembler implements Disassembler {
     const compileJson = this.generateCompileObject(contractName, source)
     const compiledContract = JSON.parse(solc.compileStandardWrapper(JSON.stringify(compileJson)))
     const bytecode = compiledContract.contracts[contractName][contractName].evm.bytecode.object
-    const asmRuntime = compiledContract.contracts[contractName][contractName].evm.legacyAssembly['.data'][0]['.code'].filter(elem => elem.name !== 'tag')
-    const asmConstructor = compiledContract.contracts[contractName][contractName].evm.legacyAssembly['.code'].filter(elem => elem.name !== 'tag')
+    const asmRuntime = compiledContract.contracts[contractName][contractName].evm.legacyAssembly['.data'][0][
+      '.code'
+    ].filter(elem => elem.name !== 'tag')
+    const asmConstructor = compiledContract.contracts[contractName][contractName].evm.legacyAssembly['.code'].filter(
+      elem => elem.name !== 'tag'
+    )
     const disassembledCode: DisassembledContract = this.disassembleContract(bytecode)
     return this.populateStartEnd(disassembledCode, asmRuntime, asmConstructor)
   }
@@ -88,7 +92,7 @@ export class EVMDisassembler implements Disassembler {
     return disassembledOperations
   }
 
-  private populateStartEnd(disassembledCode: DisassembledContract, asmRuntime, asmConstructor ): DisassembledContract {
+  private populateStartEnd(disassembledCode: DisassembledContract, asmRuntime, asmConstructor): DisassembledContract {
     const constructor = disassembledCode.constructor
     const runtime = disassembledCode.runtime
     if (constructor.length !== asmConstructor.length + 1 || runtime.length !== asmRuntime.length + 1) {
@@ -137,7 +141,7 @@ export class EVMDisassembler implements Disassembler {
       settings: {
         outputSelection: {
           '*': {
-            '*': ['evm.bytecode','evm.legacyAssembly']
+            '*': ['evm.bytecode', 'evm.legacyAssembly']
           }
         }
       }

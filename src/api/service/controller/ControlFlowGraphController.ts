@@ -5,7 +5,7 @@ import { CFGService } from '../service/CFGService'
 import { GraphVizService } from '../../cfg/GraphVizService'
 import { CFGContract } from '../bean/CFGContract'
 import { GFCResponse } from '../response/CFGResponse'
-import { OperationResponse } from '../response/OperationResponse';
+import { OperationResponse } from '../response/OperationResponse'
 
 @Route('cfg')
 @provideSingleton(ControlFlowGraphController)
@@ -28,7 +28,7 @@ export class ControlFlowGraphController extends Controller {
       throw new Error('Constructor is true but no constructor found in bytecode')
     }
     const cfg = this.createCFG(contractBlocks, constructor)
-    return this.buildResponse(contractBlocks, constructor, cfg);
+    return this.buildResponse(contractBlocks, constructor, cfg)
   }
 
   @Get('bytecode')
@@ -41,7 +41,7 @@ export class ControlFlowGraphController extends Controller {
       throw new Error('Constructor is true but no constructor found in bytecode')
     }
     const cfg = this.createCFG(contractBlocks, constructor)
-    return this.buildResponse(contractBlocks, constructor, cfg);
+    return this.buildResponse(contractBlocks, constructor, cfg)
   }
 
   private createCFG(contractBlocks: CFGContract, constructor: boolean): string {
@@ -60,8 +60,8 @@ export class ControlFlowGraphController extends Controller {
         argument: op.argument.toString(16),
         begin: op.begin,
         end: op.end
-      };
-    });
+      }
+    })
     if (constructor) {
       opResponse = contractBlocks.contractConstructor.bytecode.map(op => {
         return {
@@ -70,12 +70,12 @@ export class ControlFlowGraphController extends Controller {
           argument: op.argument.toString(16),
           begin: op.begin,
           end: op.end
-        };
-      });
+        }
+      })
     }
     return {
       cfg: cfg,
       operations: opResponse
-    };
+    }
   }
 }

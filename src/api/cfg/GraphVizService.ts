@@ -30,7 +30,9 @@ export class GraphVizService {
     let ops = '< <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">'
     for (const op of operations) {
       ops += `<TR>`
-      ops += `<TD ID="${op.offset.toString(16)}" HREF=" ">0x${op.offset.toString(16)}</TD><TD ID="${op.offset.toString(16)}" HREF=" ">${op.opcode.name}</TD>`
+      ops += `<TD ID="${op.offset.toString(16)}" HREF=" ">0x${op.offset.toString(16)}</TD><TD ID="${op.offset.toString(
+        16
+      )}" HREF=" ">${op.opcode.name}</TD>`
       if (op.opcode.name.startsWith('PUSH')) {
         ops += `<TD ID="${op.offset.toString(16)}" HREF=" ">0x${op.argument.toString(16)}</TD>`
       }

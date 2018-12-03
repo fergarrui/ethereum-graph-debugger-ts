@@ -1,4 +1,4 @@
-import { OperationResponse } from "./OperationResponse";
+import { OperationResponse } from './OperationResponse'
 
 export interface GFCResponse {
   cfg: string
