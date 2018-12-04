@@ -27,8 +27,13 @@ class Tab extends React.Component {
   handleIconClick(event, index) {
     event.stopPropagation();
 
+    const { contracts } = this.props;
+
     this.setState({
-        currentTabIndex: index === this.state.currentTabIndex ? index : this.state.currentTabIndex,
+      currentTabIndex:
+      index === contracts.length - 1  && index === this.state.currentTabIndex ? 0 
+      : index === this.state.currentTabIndex ? index  
+      : this.state.currentTabIndex,
     });
 
     this.props.onMenuItemIconClick(index);
@@ -36,7 +41,7 @@ class Tab extends React.Component {
 
   render() {
     const { contracts } = this.props;
-    const { currentTabIndex, tabs } = this.state;
+    const { currentTabIndex } = this.state;
 
     return (
       <div className={styles['tab']}>
