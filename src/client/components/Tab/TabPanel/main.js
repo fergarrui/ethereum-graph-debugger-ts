@@ -21,6 +21,8 @@ class TabPanel extends React.Component {
       tabs: [],
       innerTabVisible: false,
     }
+
+    this.handleMenuItemIconClick = this.handleMenuItemIconClick.bind(this);
   }
 
   handleLeftIconClick() {
@@ -51,6 +53,15 @@ class TabPanel extends React.Component {
     }); 
   }
 
+  handleMenuItemIconClick(index) {
+
+    const newTabs = this.state.tabs.filter((item, i) => i !== index);
+
+    this.setState({
+      tabs: newTabs,
+    });
+  }
+
   render() {
     
     const { code, name, active, index, children } = this.props;
@@ -69,8 +80,7 @@ class TabPanel extends React.Component {
     const sideBarClasses = cx({
       'tab-panel__left__side-bar': true,
       'tab-panel__left__side-bar--open': !!sideBarOpen,
-    })
-
+    });
     
     return (
       <div className={tabPanelClasses}>
@@ -95,7 +105,7 @@ class TabPanel extends React.Component {
           </div>
         </div>
         <div className={styles['tab-panel__right']}>
-          {innerTabVisible && <InnerTab data={tabs} contractName={name} contractCode={code}>{children}</InnerTab>}
+          {innerTabVisible && <InnerTab onMenuItemIconClick={this.handleMenuItemIconClick} data={tabs} contractName={name} contractCode={code}>{children}</InnerTab>}
         </div>
       </div>
     )
