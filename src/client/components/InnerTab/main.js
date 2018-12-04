@@ -28,9 +28,15 @@ class InnerTab extends React.Component {
   handleIconClick(event, index) {
     event.stopPropagation();
 
+    const { data } = this.props;
+
     this.setState({
-        currentInnerTabIndex: index === this.state.currentInnerTabIndex ? index : this.state.currentInnerTabIndex,
+        currentInnerTabIndex:
+        index === data.length - 1  && index === this.state.currentInnerTabIndex ? 0 
+        : index === this.state.currentInnerTabIndex ? index  
+        : this.state.currentInnerTabIndex,
     });
+    console.log(this.state.currentInnerTabIndex)
 
     this.props.onMenuItemIconClick(index);
   }
