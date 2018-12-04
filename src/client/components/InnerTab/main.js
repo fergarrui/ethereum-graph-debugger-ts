@@ -24,22 +24,22 @@ class InnerTab extends React.Component {
     });
   }
 
-  // deleteTab(index) {
 
-  //   const { tabs } = this.state;
+  handleIconClick(event, index) {
+    event.stopPropagation();
 
-  //   const newTabs = tabs.filter((item, i, arr) => arr.indexOf(item) !== index);
+    this.setState({
+        currentInnerTabIndex: index === this.state.currentInnerTabIndex ? index : this.state.currentInnerTabIndex,
+    });
 
-  //   this.setState({
-  //     tabs: newTabs,
-  //   });
-  // }
+    this.props.onMenuItemIconClick(index);
+  }
 
 
   render() {
 
     const { data, contractName, contractCode } = this.props;
-    const { currentInnerTabIndex, tabs } = this.state;
+    const { currentInnerTabIndex } = this.state;
 
     return (
       <div className={styles['tab']}>
@@ -51,7 +51,7 @@ class InnerTab extends React.Component {
                 title={item.title}
                 active={currentInnerTabIndex === i}
                 onClick={() => this.setActiveInnerTab(i)}
-                //onIconClick={() => this.deleteTab(i)}
+                onIconClick={(e) => this.handleIconClick(e, i)}
               />
             )
           })}

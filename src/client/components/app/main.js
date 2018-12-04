@@ -17,6 +17,17 @@ class App extends React.Component {
       fetchRequestStatus: undefined,
       contracts: [],
     }
+
+    this.handleMenuItemIconClick = this.handleMenuItemIconClick.bind(this);
+  }
+
+  handleMenuItemIconClick(index) {
+    const { contracts } = this.state;
+    const newTabs = contracts.filter((item, i) => i !== index);
+
+    this.setState({
+      contracts: newTabs,
+    });
   }
 
   handleInputChange(event) {
@@ -86,7 +97,7 @@ class App extends React.Component {
             <div>pending</div>
           }
           {fetchRequestStatus === 'success' && 
-            <Tab contracts={contracts}>
+            <Tab onMenuItemIconClick={this.handleMenuItemIconClick} contracts={contracts}>
               {children}
             </Tab>        
           }
