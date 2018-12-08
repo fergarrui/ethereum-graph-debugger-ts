@@ -37,6 +37,10 @@ import { Sstore } from './Sstore'
 import { Sload } from './Sload'
 import { MLoad } from './MLoad'
 import { Sdiv } from './Sdiv';
+import { Mod } from './Mod';
+import { Smod } from './Smod';
+import { Addmod } from './Addmod';
+import { Mulmod } from './Mulmod';
 
 @injectable()
 export class OpcodeExecutor {
@@ -121,6 +125,10 @@ export class OpcodeExecutor {
     this.ops['MUL'] = new Mul()
     this.ops['DIV'] = new Div()
     this.ops['SDIV'] = new Sdiv()
+    this.ops['MOD'] = new Mod()
+    this.ops['SMOD'] = new Smod()
+    this.ops['ADDMOD'] = new Addmod()
+    this.ops['MULMOD'] = new Mulmod()
     this.ops['AND'] = new And()
     this.ops['OR'] = new Or()
     this.ops['XOR'] = new Xor()
