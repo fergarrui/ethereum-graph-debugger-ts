@@ -36,6 +36,7 @@ import { Extcodecopy } from './Extcodecopy'
 import { Sstore } from './Sstore'
 import { Sload } from './Sload'
 import { MLoad } from './MLoad'
+import { Sdiv } from './Sdiv';
 
 @injectable()
 export class OpcodeExecutor {
@@ -119,6 +120,7 @@ export class OpcodeExecutor {
     this.ops['SUB'] = new Sub()
     this.ops['MUL'] = new Mul()
     this.ops['DIV'] = new Div()
+    this.ops['SDIV'] = new Sdiv()
     this.ops['AND'] = new And()
     this.ops['OR'] = new Or()
     this.ops['XOR'] = new Xor()
