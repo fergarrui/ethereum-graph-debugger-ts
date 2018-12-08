@@ -97,7 +97,7 @@ class App extends React.Component {
             <div>pending</div>
           }
           {fetchRequestStatus === 'success' && 
-            <Tab onMenuItemIconClick={this.handleMenuItemIconClick} contracts={contracts}>
+            <Tab data={contracts} onMenuItemIconClick={this.handleMenuItemIconClick}>
               {children}
             </Tab>        
           }

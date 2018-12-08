@@ -31,12 +31,11 @@ class InnerTab extends React.Component {
     const { data } = this.props;
 
     this.setState({
-        currentInnerTabIndex:
-        index === data.length - 1  && index === this.state.currentInnerTabIndex ? 0 
+        currentInnerTabIndex: index === data.length - 1  && index === this.state.currentInnerTabIndex ? 0 
         : index === this.state.currentInnerTabIndex ? index  
-        : this.state.currentInnerTabIndex,
+        : this.state.currentInnerTabIndex
     });
-    console.log(this.state.currentInnerTabIndex)
+
 
     this.props.onMenuItemIconClick(index);
   }
@@ -53,7 +52,7 @@ class InnerTab extends React.Component {
           {data.map((item, i) => {
             return (
               <TabMenuItem 
-                key={i}  
+                key={`id--${item.name}`}  
                 title={item.title}
                 active={currentInnerTabIndex === i}
                 onClick={() => this.setActiveInnerTab(i)}
@@ -66,7 +65,7 @@ class InnerTab extends React.Component {
           {data.map((item, i) => {
             return (
               <InnerTabPanel
-                key={i}  
+                key={`id--${item.name}`}  
                 type={item.type}
                 active={currentInnerTabIndex === i}
                 contractName={contractName}
