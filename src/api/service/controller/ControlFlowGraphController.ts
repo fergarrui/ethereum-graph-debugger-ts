@@ -4,6 +4,8 @@ import { TYPES } from '../../../inversify/types'
 import { CFGService } from '../service/CFGService'
 import { GraphVizService } from '../../cfg/GraphVizService'
 import { CFGContract } from '../bean/CFGContract'
+import { GFCResponse } from '../response/CFGResponse'
+import { OperationResponse } from '../response/OperationResponse'
 
 @Route('cfg')
 @provideSingleton(ControlFlowGraphController)
@@ -20,25 +22,60 @@ export class ControlFlowGraphController extends Controller {
     @Query('source') source: string,
     @Query('name') name: string,
     @Query('constructor') constructor?: boolean
-  ): Promise<string> {
+  ): Promise<GFCResponse> {
     const contractBlocks: CFGContract = this.cfgService.buildCFGFromSource(name, source)
-    return this.createCFG(contractBlocks, constructor)
+    if (!contractBlocks.contractConstructor && constructor) {
+      throw new Error('Constructor is true but no constructor found in bytecode')
+    }
+    const cfg = this.createCFG(contractBlocks, constructor)
+    return this.buildResponse(contractBlocks, constructor, cfg)
   }
 
   @Get('bytecode')
   async getCFGFromBytecode(
     @Query('bytecode') bytecode: string,
     @Query('constructor') constructor?: boolean
-  ): Promise<string> {
+  ): Promise<GFCResponse> {
     const contractBlocks: CFGContract = this.cfgService.buildCFGFromBytecode(bytecode)
-    return this.createCFG(contractBlocks, constructor)
+    if (!contractBlocks.contractConstructor && constructor) {
+      throw new Error('Constructor is true but no constructor found in bytecode')
+    }
+    const cfg = this.createCFG(contractBlocks, constructor)
+    return this.buildResponse(contractBlocks, constructor, cfg)
   }
 
-  private createCFG(contractBlocks: CFGContract, constructor: boolean) {
+  private createCFG(contractBlocks: CFGContract, constructor: boolean): string {
     let blocks = contractBlocks.contractRuntime.blocks
     if (constructor) {
       blocks = contractBlocks.contractConstructor.blocks
     }
-    return this.graphVizService.createDotFromBlocks(blocks)
+    return this.graphVizService.createDotFromBlocks(blocks);
+  }
+
+  private buildResponse(contractBlocks: CFGContract, constructor: boolean, cfg: string) {
+    let opResponse: OperationResponse[] = contractBlocks.contractRuntime.bytecode.map(op => {
+      return {
+        offset: op.offset,
+        opcode: op.opcode,
+        argument: op.argument.toString(16),
+        begin: op.begin,
+        end: op.end
+      }
+    })
+    if (constructor) {
+      opResponse = contractBlocks.contractConstructor.bytecode.map(op => {
+        return {
+          offset: op.offset,
+          opcode: op.opcode,
+          argument: op.argument.toString(16),
+          begin: op.begin,
+          end: op.end
+        }
+      })
+    }
+    return {
+      cfg: cfg,
+      operations: opResponse
+    }
   }
 }
