@@ -70,7 +70,7 @@ class InnerTab extends React.Component {
                 active={currentInnerTabIndex === i}
                 contractName={contractName}
                 contractCode={contractCode}
-              />
+             />
             )
           })}
         </div>

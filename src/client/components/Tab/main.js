@@ -5,10 +5,6 @@ import TabPanel from './TabPanel/main.js';
 
 import styles from '../../styles/Tab/Tab.scss';
 
-import classnames from 'classnames/bind';
-
-const cx = classnames.bind(styles);
-
 class Tab extends React.Component {
   constructor(props) {
     super(props);
