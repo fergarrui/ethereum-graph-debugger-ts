@@ -53,12 +53,6 @@ const models: TsoaRoute.Models = {
             "result": { "dataType": "array", "array": { "dataType": "any" }, "required": true },
         },
     },
-    "GFCResponse": {
-        "properties": {
-            "cfg": { "dataType": "string", "required": true },
-            "operations": { "dataType": "array", "array": { "ref": "OperationResponse" }, "required": true },
-        },
-    },
 };
 
 export function RegisterRoutes(app: any) {

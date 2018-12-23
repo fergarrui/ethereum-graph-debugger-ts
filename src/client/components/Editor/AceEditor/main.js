@@ -33,14 +33,16 @@ class CodeEditor extends Component {
     }
   }
 
+
   shouldComponentUpdate() {
     return false;
   }
 
   render() {
-    const { style, editorId, index } = this.props;
+    const { style, index, someEditorProps } = this.props;
+
     return (
-      <div id={`ace-editor-${index}`} style={style}></div>
+      <div id={`ace-editor-${index}`} style={style} edProps={someEditorProps}></div>
     );
   }
 }

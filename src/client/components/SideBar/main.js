@@ -3,6 +3,8 @@ import React from 'react';
 //import Button from '../../Button/main.js';
 import styles from '../../styles/SideBar.scss';
 
+import { connect } from 'react-redux';
+
 class SideBar extends React.Component {
   constructor(props) {
     super(props);
@@ -14,6 +16,7 @@ class SideBar extends React.Component {
   }
 
   render() {
+
     return(
       <div className={styles['side-bar']}>
         <div className={styles['side-bar__item']} onClick={() => this.handleItemClick('Debug Transaction')}>
