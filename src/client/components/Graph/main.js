@@ -27,7 +27,7 @@ class Graph extends React.Component {
   }
 
   handleClick(event) {
-    const { operations, onGraphClick } = this.props;
+    const { operations } = this.props;
     if (event.target.tagName === 'text') {
       const elem = d3.select(event.target.parentElement.parentElement);
       const id = elem.attr('id').replace('a_', '') ;
@@ -36,7 +36,6 @@ class Graph extends React.Component {
       if (selectedOperation && selectedOperation.begin && selectedOperation.end) {
         console.log(selectedOperation.begin);
         console.log(selectedOperation.end);
-        onGraphClick();
       }
     }
   }

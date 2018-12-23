@@ -24,12 +24,6 @@ class TabPanel extends React.Component {
     this.handleMenuItemIconClick = this.handleMenuItemIconClick.bind(this);
   }
 
-  handleGraphClick() {
-    this.setState({
-      graphClicked: true,
-    });
-  }
-
   handleLeftIconClick() {
     this.setState({
       editorOpen: false,
@@ -105,7 +99,7 @@ class TabPanel extends React.Component {
             <SideBar onClick={(compType) => this.handleSideBarItemClick(compType)}/>
           </div>
           <div className={editorClasses}>
-            <Editor code={code} index={index} someProp={graphClicked} />
+            <Editor code={code} index={index} />
           </div>
         </div>
         <div className={styles['tab-panel__right']}>
@@ -114,7 +108,6 @@ class TabPanel extends React.Component {
             contractName={name} 
             contractCode={code}
             onMenuItemIconClick={this.handleMenuItemIconClick} 
-            onGraphClick={() => this.handleGraphClick()}
             >
             {children}
           </InnerTab>

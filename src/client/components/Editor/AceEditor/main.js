@@ -39,10 +39,10 @@ class CodeEditor extends Component {
   }
 
   render() {
-    const { style, index, someEditorProps } = this.props;
+    const { style, index } = this.props;
 
     return (
-      <div id={`ace-editor-${index}`} style={style} edProps={someEditorProps}></div>
+      <div id={`ace-editor-${index}`} style={style}></div>
     );
   }
 }
