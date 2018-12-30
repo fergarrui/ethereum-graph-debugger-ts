@@ -12,7 +12,7 @@ export class Addmod implements Executor {
     const mod = evm.stack.pop()
     if (!operand1.isSymbolic && !operand2.isSymbolic && !mod.isSymbolic) {
       if (mod.value.eq(UintUtils.ZERO)) {
-        evm.stack.push(Word.createLiteral('00'))  
+        evm.stack.push(Word.createLiteral('00'))
       } else {
         const result = operand1.value.add(operand2.value).mod(mod.value)
         evm.stack.push(Word.createLiteral(result.toString(16)))

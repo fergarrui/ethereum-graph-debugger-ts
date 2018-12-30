@@ -8,12 +8,6 @@ import { TransactionController } from './api/service/controller/TransactionContr
 import { ControlFlowGraphController } from './api/service/controller/ControlFlowGraphController';
 
 const models: TsoaRoute.Models = {
-    "ContractFile": {
-        "properties": {
-            "name": { "dataType": "string", "required": true },
-            "code": { "dataType": "string", "required": true },
-        },
-    },
     "Opcode": {
         "properties": {
             "name": { "dataType": "string", "required": true },
@@ -28,6 +22,19 @@ const models: TsoaRoute.Models = {
             "argument": { "dataType": "string", "required": true },
             "begin": { "dataType": "double" },
             "end": { "dataType": "double" },
+        },
+    },
+    "TraceResponse": {
+        "properties": {
+            "cfg": { "dataType": "string", "required": true },
+            "operations": { "dataType": "array", "array": { "ref": "OperationResponse" }, "required": true },
+            "trace": { "dataType": "any", "required": true },
+        },
+    },
+    "ContractFile": {
+        "properties": {
+            "name": { "dataType": "string", "required": true },
+            "code": { "dataType": "string", "required": true },
         },
     },
     "DisassembledContractResponse": {
@@ -46,11 +53,11 @@ const models: TsoaRoute.Models = {
             "from": { "dataType": "string", "required": true },
         },
     },
-    "TransactionTrace": {
+    "DebugTrace": {
         "properties": {
-            "id": { "dataType": "double" },
-            "jsonrpc": { "dataType": "double" },
-            "result": { "dataType": "array", "array": { "dataType": "any" }, "required": true },
+            "id": { "dataType": "double", "required": true },
+            "jsonrpc": { "dataType": "double", "required": true },
+            "result": { "dataType": "any", "required": true },
         },
     },
     "GFCResponse": {
@@ -62,6 +69,30 @@ const models: TsoaRoute.Models = {
 };
 
 export function RegisterRoutes(app: any) {
+    app.get('/debug/:tx',
+        function(request: any, response: any, next: any) {
+            const args = {
+                tx: { "in": "path", "name": "tx", "required": true, "dataType": "string" },
+                source: { "in": "query", "name": "source", "required": true, "dataType": "string" },
+                name: { "in": "query", "name": "name", "required": true, "dataType": "string" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = iocContainer.get<DebuggerController>(DebuggerController);
+            if (typeof controller['setStatus'] === 'function') {
+                (<any>controller).setStatus(undefined);
+            }
+
+
+            const promise = controller.debug.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
     app.get('/files/:dir',
         function(request: any, response: any, next: any) {
             const args = {

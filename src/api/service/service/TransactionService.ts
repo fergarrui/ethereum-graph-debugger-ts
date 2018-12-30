@@ -1,7 +1,7 @@
 import { TransactionReceipt } from '../bean/TransactionReceipt'
-import { TransactionTrace } from '../response/TransactionTrace'
+import { DebugTrace } from '../../symbolic/evm/DebugTrace'
 
 export interface TransactionService {
   findTransactionReceipt(transactionHash: string): Promise<TransactionReceipt>
-  findTransactionTrace(transactionHash: string): Promise<TransactionTrace>
+  findTransactionTrace(transactionHash: string): Promise<DebugTrace>
 }

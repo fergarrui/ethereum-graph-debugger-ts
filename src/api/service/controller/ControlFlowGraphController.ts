@@ -49,7 +49,7 @@ export class ControlFlowGraphController extends Controller {
     if (constructor) {
       blocks = contractBlocks.contractConstructor.blocks
     }
-    return this.graphVizService.createDotFromBlocks(blocks);
+    return this.graphVizService.createDotFromBlocks(blocks, undefined)
   }
 
   private buildResponse(contractBlocks: CFGContract, constructor: boolean, cfg: string) {

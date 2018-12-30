@@ -21,12 +21,15 @@ describe('Sdiv', () => {
     const bytecode = '60027ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc05'
     const executor: EVMExecutor = createExecutor(disassembler, bytecode, cfgCreator, opcodeExecutor)
     executor.run(0)
-    expect(executor.evm.stack.get(0)).toEqual(Word.createLiteral('fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe'))
+    expect(executor.evm.stack.get(0)).toEqual(
+      Word.createLiteral('fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe')
+    )
     expect(executor.evm.stack.length()).toEqual(1)
   })
 
   it('Test Sdiv 2', () => {
-    const bytecode = '7ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe7ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc05'
+    const bytecode =
+      '7ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe7ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc05'
     const executor: EVMExecutor = createExecutor(disassembler, bytecode, cfgCreator, opcodeExecutor)
     executor.run(0)
     expect(executor.evm.stack.get(0)).toEqual(Word.createLiteral('02'))

@@ -6,12 +6,11 @@ import { Symbols } from '../Symbols'
 import { UintUtils } from '../UintUtils'
 
 export class Sdiv implements Executor {
-
   execute(op: Operation, evm: EVM) {
     const operand1 = evm.stack.pop()
     const operand2 = evm.stack.pop()
     if (!operand1.isSymbolic && !operand2.isSymbolic) {
-      if(operand2.value.eq(UintUtils.ZERO)) {
+      if (operand2.value.eq(UintUtils.ZERO)) {
         evm.stack.push(Word.createLiteral('00'))
       } else {
         const a = operand1.value.fromTwos(256)

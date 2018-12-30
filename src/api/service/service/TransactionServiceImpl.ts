@@ -3,7 +3,7 @@ import { injectable, inject } from 'inversify'
 import { TYPES } from '../../../inversify/types'
 import { IWeb3 } from '../../blockchain/IWeb3'
 import { TransactionReceipt } from '../bean/TransactionReceipt'
-import { TransactionTrace } from '../response/TransactionTrace'
+import { DebugTrace } from '../../symbolic/evm/DebugTrace'
 
 @injectable()
 export class TransactionServiceImpl implements TransactionService {
@@ -18,8 +18,8 @@ export class TransactionServiceImpl implements TransactionService {
     return receipt
   }
 
-  async findTransactionTrace(transactionHash: string): Promise<TransactionTrace> {
-    return new Promise<TransactionTrace>((resolve, reject) => {
+  async findTransactionTrace(transactionHash: string): Promise<DebugTrace> {
+    return new Promise<DebugTrace>((resolve, reject) => {
       this.web3.currentProvider.send(
         {
           method: 'debug_traceTransaction',

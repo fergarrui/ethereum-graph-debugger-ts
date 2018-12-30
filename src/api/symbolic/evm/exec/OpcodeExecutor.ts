@@ -36,11 +36,12 @@ import { Extcodecopy } from './Extcodecopy'
 import { Sstore } from './Sstore'
 import { Sload } from './Sload'
 import { MLoad } from './MLoad'
-import { Sdiv } from './Sdiv';
-import { Mod } from './Mod';
-import { Smod } from './Smod';
-import { Addmod } from './Addmod';
-import { Mulmod } from './Mulmod';
+import { Sdiv } from './Sdiv'
+import { Mod } from './Mod'
+import { Smod } from './Smod'
+import { Addmod } from './Addmod'
+import { Mulmod } from './Mulmod'
+import { Gt } from './Gt'
 
 @injectable()
 export class OpcodeExecutor {
@@ -142,6 +143,7 @@ export class OpcodeExecutor {
 
     this.ops['ISZERO'] = new IsZero()
     this.ops['LT'] = new Lt()
+    this.ops['GT'] = new Gt()
     this.ops['EQ'] = new Eq()
 
     // Symbolic opcodes

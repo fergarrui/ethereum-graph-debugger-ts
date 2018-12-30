@@ -3,7 +3,7 @@ import { EVM } from '../EVM'
 import { Operation } from '../../../bytecode/Operation'
 import { Word } from '../Word'
 import { Symbols } from '../Symbols'
-import { UintUtils } from '../UintUtils';
+import { UintUtils } from '../UintUtils'
 
 export class Mulmod implements Executor {
   execute(op: Operation, evm: EVM) {
@@ -14,7 +14,7 @@ export class Mulmod implements Executor {
       const op1Value = operand1.value
       const op2Value = operand2.value
       const modValue = mod.value
-      if(modValue.eq(UintUtils.ZERO)) {
+      if (modValue.eq(UintUtils.ZERO)) {
         evm.stack.push(Word.createLiteral('00'))
       } else {
         let result = op1Value.mul(op2Value).mod(modValue)

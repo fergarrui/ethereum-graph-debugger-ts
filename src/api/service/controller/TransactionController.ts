@@ -3,7 +3,7 @@ import { provideSingleton, inject } from '../../../inversify/ioc'
 import { TYPES } from '../../../inversify/types'
 import { TransactionService } from '../service/TransactionService'
 import { TransactionReceipt } from '../bean/TransactionReceipt'
-import { TransactionTrace } from '../response/TransactionTrace'
+import { DebugTrace } from '../../symbolic/evm/DebugTrace'
 
 @Route('tx')
 @provideSingleton(TransactionController)
@@ -18,7 +18,7 @@ export class TransactionController extends Controller {
   }
 
   @Get('{tx}/trace')
-  async getTransactionTrace(@Path() tx: string): Promise<TransactionTrace> {
+  async getTransactionTrace(@Path() tx: string): Promise<DebugTrace> {
     return this.transactionService.findTransactionTrace(tx)
   }
 }

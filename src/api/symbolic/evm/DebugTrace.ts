@@ -1,12 +1,12 @@
-export interface TransactionTrace {
-  id?: number
-  jsonrpc?: number
+export interface DebugTrace {
+  id: number
+  jsonrpc: number
   result: {
     gas: number
-    returnValue?: any
+    returnValue: string
     structLogs: {
-      depth: 0
-      error: any
+      depth: number
+      error: string
       gas: number
       gasCost: number
       memory: string[]
@@ -15,5 +15,5 @@ export interface TransactionTrace {
       stack: string[]
       storage: any
     }[]
-  }[]
+  }
 }

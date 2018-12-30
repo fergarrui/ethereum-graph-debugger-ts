@@ -3,7 +3,7 @@ import { EVM } from '../EVM'
 import { Operation } from '../../../bytecode/Operation'
 import { Word } from '../Word'
 import { Symbols } from '../Symbols'
-import { UintUtils } from '../UintUtils';
+import { UintUtils } from '../UintUtils'
 
 export class Smod implements Executor {
   execute(op: Operation, evm: EVM) {
@@ -16,7 +16,7 @@ export class Smod implements Executor {
         const a = operand1.value.fromTwos(256)
         const b = operand2.value.fromTwos(256)
         let result = a.abs().mod(b.abs())
-        if(a.isNeg()) {
+        if (a.isNeg()) {
           result = result.ineg()
         }
         evm.stack.push(Word.createLiteral(result.toTwos(256).toString(16)))
