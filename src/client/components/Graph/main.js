@@ -5,14 +5,14 @@ import styles from '../../styles/Graph.scss';
 import * as d3 from 'd3';
 import * as d3Graphviz from 'd3-graphviz';
 
-// import { connect } from 'react-redux';
-// import { getFunction } from '../Store/Actions.js';
+import { connect } from 'react-redux';
+import { getFunction } from '../Store/Actions.js';
 
-// const mapDispatchToProps = (dispatch) => {
-//   getText: text => dispatch(getFunction(text))
-// }
+const mapDispatchToProps = (dispatch) => {
+  getText: text => dispatch(getFunction(text))
+}
 
-class Graph extends React.Component {
+class ExportedGraph extends React.Component {
   constructor() {
     super();
   }
@@ -21,8 +21,10 @@ class Graph extends React.Component {
     const { cfg, graphId } = this.props;
 
     const graphclass = graphId.replace('.sol', '');
-
-    d3.select(`.graph--${graphclass}`).graphviz().renderDot(cfg);
+    const graphviz = d3.select(`.graph--${graphclass}`).graphviz()
+    graphviz.renderDot(cfg);
+    graphviz.totalMemory(537395200)
+    graphviz._zoomBehavior.scaleExtent([1/10, 10000]);
     d3.selectAll("a").attr("href", null).attr("title", null);
   }
 
@@ -36,6 +38,7 @@ class Graph extends React.Component {
       if (selectedOperation && selectedOperation.begin && selectedOperation.end) {
         console.log(selectedOperation.begin);
         console.log(selectedOperation.end);
+        
       }
     }
   }
@@ -53,6 +56,6 @@ class Graph extends React.Component {
   }
 }
 
-// const Graph = connect(null, mapDispatchToProps)(ExportedGraph);
+const Graph = connect(null, mapDispatchToProps)(ExportedGraph);
 
 export default Graph;

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import brace from 'brace';
-// var Range = require('ace/range').Range
 
 if (typeof window !== 'undefined') {
   const ace = require('brace');
@@ -18,6 +16,7 @@ class CodeEditor extends Component {
         mode,
         setUseWorker,
         index,
+        someProps
       } = this.props;
 
       require(`brace/mode/${mode}`);
@@ -30,7 +29,7 @@ class CodeEditor extends Component {
       editor.on('change', e => onChange(editor.getValue(), e));
       editor.setReadOnly(setReadOnly);
       editor.setValue(setValue);
-      this.selectLines(0,0)
+      this.selectLines(0,0);
     }
   }
 
@@ -40,7 +39,6 @@ class CodeEditor extends Component {
     } = this.props;
     const editor = ace.edit(`ace-editor-${index}`);
     const lines = editor.session.doc.getAllLines();
-    console.log(lines)
     let s = begin;
     let e = end;
     let startRow = 0;
@@ -113,6 +111,5 @@ CodeEditor.defaultProps = {
   mode: 'javascript',
   style: { height: '300px', width: '400px'}
 };
-
 
 export default CodeEditor;
