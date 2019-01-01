@@ -23,6 +23,7 @@ class ExportedGraph extends React.Component {
     const graphclass = graphId.replace('.sol', '');
     const graphviz = d3.select(`.graph--${graphclass}`).graphviz()
     graphviz.renderDot(cfg);
+    // TODO make it configurable?
     graphviz.totalMemory(537395200)
     graphviz._zoomBehavior.scaleExtent([1/10, 10000]);
     d3.selectAll("a").attr("href", null).attr("title", null);
@@ -38,7 +39,6 @@ class ExportedGraph extends React.Component {
       if (selectedOperation && selectedOperation.begin && selectedOperation.end) {
         console.log(selectedOperation.begin);
         console.log(selectedOperation.end);
-        
       }
     }
   }

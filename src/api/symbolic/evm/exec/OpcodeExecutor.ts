@@ -42,6 +42,7 @@ import { Smod } from './Smod'
 import { Addmod } from './Addmod'
 import { Mulmod } from './Mulmod'
 import { Gt } from './Gt'
+import { Exp } from './Exp';
 
 @injectable()
 export class OpcodeExecutor {
@@ -126,6 +127,7 @@ export class OpcodeExecutor {
     this.ops['MUL'] = new Mul()
     this.ops['DIV'] = new Div()
     this.ops['SDIV'] = new Sdiv()
+    this.ops['EXP'] = new Exp()
     this.ops['MOD'] = new Mod()
     this.ops['SMOD'] = new Smod()
     this.ops['ADDMOD'] = new Addmod()
