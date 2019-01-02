@@ -1,7 +1,8 @@
-import { GET_FUNCTION } from './Constants.js';
+import { SELECT_EDITOR_LINES } from './Constants.js';
 
-export default function getFunction() {
+export default function selectEditorLines(lines) {
   return {
-    type: GET_FUNCTION,
+    type: SELECT_EDITOR_LINES,
+    lines,
   }
 }

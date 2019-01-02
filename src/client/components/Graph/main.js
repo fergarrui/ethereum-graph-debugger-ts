@@ -6,13 +6,15 @@ import * as d3 from 'd3';
 import * as d3Graphviz from 'd3-graphviz';
 
 import { connect } from 'react-redux';
-import { getFunction } from '../Store/Actions.js';
+import selectEditorLines from '../Store/Actions.js';
 
 const mapDispatchToProps = (dispatch) => {
-  getText: text => dispatch(getFunction(text))
+  return {
+    selectLines: lines => dispatch(selectEditorLines(lines))
+  }
 }
 
-class ExportedGraph extends React.Component {
+class ConnectedGraph extends React.Component {
   constructor() {
     super();
   }
@@ -29,16 +31,14 @@ class ExportedGraph extends React.Component {
   }
 
   handleClick(event) {
-    const { operations } = this.props;
+    const { operations, selectLines } = this.props;
     if (event.target.tagName === 'text') {
       const elem = d3.select(event.target.parentElement.parentElement);
       const id = elem.attr('id').replace('a_', '') ;
       const idNum = parseInt(id, 16);
       const selectedOperation = operations.find(op => op.offset === idNum);
       if (selectedOperation && selectedOperation.begin && selectedOperation.end) {
-        console.log(selectedOperation.begin);
-        console.log(selectedOperation.end);
-        
+        selectLines([selectedOperation.begin, selectedOperation.end]);
       }
     }
   }
@@ -56,6 +56,6 @@ class ExportedGraph extends React.Component {
   }
 }
 
-const Graph = connect(null, mapDispatchToProps)(ExportedGraph);
+const Graph = connect(null, mapDispatchToProps)(ConnectedGraph);
 
 export default Graph;

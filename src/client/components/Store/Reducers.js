@@ -1,11 +1,11 @@
-import { GET_FUNCTION } from './Constants.js';
+import { SELECT_EDITOR_LINES } from './Constants.js';
 
 
-const getTextFunction = (state = 'miao', action) => {
+const reducer = (state = [0, 0], action) => {
   switch (action.type) {
-    case GET_FUNCTION: return 'ciao';
+    case SELECT_EDITOR_LINES: return action.lines;
     default: return state;
   }
 }
 
-export default getTextFunction;
+export default reducer;
