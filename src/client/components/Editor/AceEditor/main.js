@@ -1,11 +1,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import { connect } from 'react-redux';
+
 if (typeof window !== 'undefined') {
   const ace = require('brace');
 }
 
-class CodeEditor extends Component {
+
+const mapStateToProps = state => {
+  return {
+      selectedLines: state
+ }
+}
+
+class ConnectedCodeEditor extends React.Component {
+
   componentDidMount() {
     if (typeof window !== 'undefined') {
       const {
@@ -16,7 +26,7 @@ class CodeEditor extends Component {
         mode,
         setUseWorker,
         index,
-        someProps
+        selectedLines
       } = this.props;
 
       require(`brace/mode/${mode}`);
@@ -29,29 +39,38 @@ class CodeEditor extends Component {
       editor.on('change', e => onChange(editor.getValue(), e));
       editor.setReadOnly(setReadOnly);
       editor.setValue(setValue);
-      this.selectLines(0,0);
+      this.selectLines(selectedLines);
     }
   }
 
-  selectLines(begin, end) {
+  componentDidUpdate() {
+    const { selectedLines } = this.props;
+
+    this.selectLines(selectedLines);
+  }
+
+  selectLines(selected) {
     const {
       index
     } = this.props;
+    if(selected.length !== 2) {
+      return;
+    }
     const editor = ace.edit(`ace-editor-${index}`);
     const lines = editor.session.doc.getAllLines();
-    let s = begin;
-    let e = end;
+    let s = selected[0];
+    let e = selected[1];
     let startRow = 0;
     let startCol = 0;
     let endRow = 0;
     let endCol = 0;
     let startFound = false;
     let endFound = false;
-    if (begin >= end) {
-        const temp = begin;
-        begin = end;
-        end = temp;
-    }
+    // if (begin >= end) {
+    //     const temp = begin;
+    //     begin = end;
+    //     end = temp;
+    // }
     for(let i = 0; i < lines.length; i++) {
         const line = lines[i];
         if (s > line.length && !startFound) {
@@ -80,20 +99,16 @@ class CodeEditor extends Component {
     editor.session.selection.setSelectionRange(range, false);
   }
 
-  shouldComponentUpdate() {
-    return false;
-  }
-
   render() {
     const { style, index } = this.props;
 
     return (
-      <div id={`ace-editor-${index}`} style={style}></div>
+        <div id={`ace-editor-${index}`} style={style}></div>
     );
   }
 }
 
-CodeEditor.propTypes = {
+ConnectedCodeEditor.propTypes = {
   editorId: PropTypes.string,
   onChange: PropTypes.func,
   setReadOnly: PropTypes.bool,
@@ -103,7 +118,7 @@ CodeEditor.propTypes = {
   style: PropTypes.object,
 };
 
-CodeEditor.defaultProps = {
+ConnectedCodeEditor.defaultProps = {
   onChange: () => {},
   setValue: '',
   setReadOnly: false,
@@ -111,5 +126,8 @@ CodeEditor.defaultProps = {
   mode: 'javascript',
   style: { height: '300px', width: '400px'}
 };
+
+
+const CodeEditor = connect(mapStateToProps)(ConnectedCodeEditor);
 
 export default CodeEditor;

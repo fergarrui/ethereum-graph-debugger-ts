@@ -1,1 +1,1 @@
-export const GET_FUNCTION = 'GET_FUNCTION';
+export const SELECT_EDITOR_LINES = 'SELECT_EDITOR_LINES';
