@@ -1,13 +1,22 @@
 import React from 'react';
 
+import { connect } from 'react-redux';
+
 import TopNavBar from '../TopNavBar/main.js';
 import Tab from '../Tab/main.js';
 import TabPanel from '../Tab/TabPanel/main.js';
 import TabMenuItem from '../Tab/TabMenuItem/main.js';
+import Modal from '../Modal/main.js';
 
 import styles from '../../styles/App.scss';
 
-class App extends React.Component {
+const mapStateToProps = state => {
+  return {
+    modalOpen: state.showModal,
+  }
+}
+
+class ConnectedApp extends React.Component {
   constructor(props) {
     super(props);
 
@@ -82,8 +91,8 @@ class App extends React.Component {
   render() {
 
     const { fetchRequestStatus, contracts } = this.state;
-    const { children } = this.props;
-  
+    const { children, modalOpen } = this.props;
+
     return (
       <div className={styles['app']}>
         <div classname={styles['app__navigation']}>
@@ -105,10 +114,17 @@ class App extends React.Component {
           <div>error</div>
           }
         </div>
+        <div className={styles['app__modal']}>
+          {
+            modalOpen && <Modal />
+          }
+        </div>
       </div>
     );
   }
 }
+
+const App = connect(mapStateToProps)(ConnectedApp);
 
 App.displayName = 'App';
 

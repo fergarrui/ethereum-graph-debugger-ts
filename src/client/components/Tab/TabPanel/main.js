@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { connect } from 'react-redux';
+
 import Editor from '../../Editor/main.js';
 import Icon from '../../Icon/main.js';
 import SideBar from '../../SideBar/main.js';
@@ -22,6 +24,7 @@ class TabPanel extends React.Component {
     }
 
     this.handleMenuItemIconClick = this.handleMenuItemIconClick.bind(this);
+    this.handleOutsideClick = this.handleOutsideClick.bind(this);
   }
 
   handleLeftIconClick() {
@@ -37,9 +40,29 @@ class TabPanel extends React.Component {
   }
 
   handleMenuIconClick() {
+
+    if (!this.state.sideBarOpen) {
+      document.addEventListener('click', this.handleOutsideClick);
+    } else {
+      document.removeEventListener('click', this.handleOutsideClick);
+    }
+
     this.setState(prevState => ({
       sideBarOpen: !prevState.sideBarOpen,
     }));
+  }
+
+  handleOutsideClick(e) {
+
+    if (this.node.contains(e.target)) {
+      return;
+    }
+
+    document.removeEventListener('click', this.handleOutsideClick);
+  
+    this.setState({
+      sideBarOpen: false,
+    });
   }
 
   handleSideBarItemClick(compType) {
@@ -48,7 +71,10 @@ class TabPanel extends React.Component {
     
     this.setState({
       tabs: newTabs,
+      sideBarOpen: false,
     }); 
+
+    document.removeEventListener('click', this.handleOutsideClick);
   }
 
   handleMenuItemIconClick(index) {
@@ -63,7 +89,7 @@ class TabPanel extends React.Component {
   render() {
     
     const { code, name, active, index, children } = this.props;
-    const { editorOpen, sideBarOpen, tabs, graphClicked } = this.state;
+    const { editorOpen, tabs, sideBarOpen } = this.state;
     
     const editorClasses = cx({
       'tab-panel__left__editor': true,
@@ -92,11 +118,18 @@ class TabPanel extends React.Component {
               }
             </div>
             <div className={styles['tab-panel__left__controls__item']}>
-              <button onClick={() => this.handleMenuIconClick()}><Icon iconName='Menu' /></button>
+              <button onClick={() => this.handleMenuIconClick()}>
+                <Icon iconName='Menu' />
+              </button>
             </div>
           </div>
-          <div className={sideBarClasses}>
-            <SideBar onClick={(compType) => this.handleSideBarItemClick(compType)}/>
+          <div 
+            className={sideBarClasses}
+            ref={node => { this.node = node; }}
+          > 
+            <SideBar 
+              onClick={(compType) => this.handleSideBarItemClick(compType)}
+            />
           </div>
           <div className={editorClasses}>
             <Editor code={code} index={index} />
