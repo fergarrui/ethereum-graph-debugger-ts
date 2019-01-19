@@ -44,6 +44,9 @@ import { Mulmod } from './Mulmod'
 import { Gt } from './Gt'
 import { Exp } from './Exp';
 import { Gas } from './Gas';
+import { Call } from './Call';
+import { Returndatasize } from './Returndatasize';
+import { Returndatacopy } from './Returndatacopy';
 
 @injectable()
 export class OpcodeExecutor {
@@ -148,6 +151,10 @@ export class OpcodeExecutor {
     this.ops['LT'] = new Lt()
     this.ops['GT'] = new Gt()
     this.ops['EQ'] = new Eq()
+    
+    // Calls
+    
+    this.ops['CALL'] = new Call()
 
     // Symbolic opcodes
     this.ops['ADDRESS'] = new Address()
@@ -164,6 +171,8 @@ export class OpcodeExecutor {
     this.ops['GAS'] = new Gas()
     this.ops['EXTCODESIZE'] = new Extcodesize()
     this.ops['EXTCODECOPY'] = new Extcodecopy()
+    this.ops['RETURNDATASIZE'] = new Returndatasize()
+    this.ops['RETURNDATACOPY'] = new Returndatacopy()
 
     // Those are NOP's for now
     this.ops['REVERT'] = new Nop()

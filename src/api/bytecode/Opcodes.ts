@@ -43,8 +43,8 @@ export class Opcodes {
     this.opcodes[0x3a] = { name: 'GASPRICE', opcode: 0x3a, parameters: 0 } as Opcode
     this.opcodes[0x3b] = { name: 'EXTCODESIZE', opcode: 0x3b, parameters: 0 } as Opcode
     this.opcodes[0x3c] = { name: 'EXTCODECOPY', opcode: 0x3c, parameters: 0 } as Opcode
-    this.opcodes[0x3d] = { name: 'RETURNDATASIZE', opcode: 0x3d, parameters: 0 } as Opcode // TODO
-    this.opcodes[0x3e] = { name: 'RETURNDATACOPY', opcode: 0x3e, parameters: 0 } as Opcode // TODO
+    this.opcodes[0x3d] = { name: 'RETURNDATASIZE', opcode: 0x3d, parameters: 0 } as Opcode
+    this.opcodes[0x3e] = { name: 'RETURNDATACOPY', opcode: 0x3e, parameters: 0 } as Opcode
     this.opcodes[0x40] = { name: 'BLOCKHASH', opcode: 0x40, parameters: 0 } as Opcode // TODO
     this.opcodes[0x41] = { name: 'COINBASE', opcode: 0x41, parameters: 0 } as Opcode // TODO
     this.opcodes[0x42] = { name: 'TIMESTAMP', opcode: 0x42, parameters: 0 } as Opcode // TODO
@@ -133,7 +133,7 @@ export class Opcodes {
     this.opcodes[0xa3] = { name: 'LOG3', opcode: 0xa3, parameters: 0 } as Opcode // TODO
     this.opcodes[0xa4] = { name: 'LOG4', opcode: 0xa4, parameters: 0 } as Opcode // TODO
     this.opcodes[0xf0] = { name: 'CREATE', opcode: 0xf0, parameters: 0 } as Opcode // TODO
-    this.opcodes[0xf1] = { name: 'CALL', opcode: 0xf1, parameters: 0 } as Opcode // TODO
+    this.opcodes[0xf1] = { name: 'CALL', opcode: 0xf1, parameters: 0 } as Opcode
     this.opcodes[0xf2] = { name: 'CALLCODE', opcode: 0xf2, parameters: 0 } as Opcode // TODO
     this.opcodes[0xf3] = { name: 'RETURN', opcode: 0xf3, parameters: 0 } as Opcode
     this.opcodes[0xf4] = { name: 'DELEGATECALL', opcode: 0xf4, parameters: 0 } as Opcode // TODO
