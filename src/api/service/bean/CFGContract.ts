@@ -9,5 +9,6 @@ export interface CFGContract {
   contractRuntime: {
     bytecode: Operation[]
     blocks: CFGBlocks
+    rawBytecode: string
   }
 }

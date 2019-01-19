@@ -18,8 +18,11 @@ export class TransactionServiceImpl implements TransactionService {
     return receipt
   }
 
-  async findTransactionTrace(transactionHash: string): Promise<DebugTrace> {
-    return new Promise<DebugTrace>((resolve, reject) => {
+  async findTransactionTrace(transactionHash: string, bytecode: string): Promise<DebugTrace> {
+    const receipt: TransactionReceipt = await this.findTransactionReceipt(transactionHash)
+    const toAddress = receipt.to
+    const deployedBytecode = this.web3.getCode(toAddress)
+    const trace: DebugTrace = await new Promise<DebugTrace>((resolve, reject) => {
       this.web3.currentProvider.send(
         {
           method: 'debug_traceTransaction',
@@ -36,5 +39,32 @@ export class TransactionServiceImpl implements TransactionService {
         }
       )
     })
+    return await this.findContractTraceDepth(bytecode, deployedBytecode, trace)
+  }
+
+  private async findContractTraceDepth(bytecode: string, deployedBytecode: string, trace: DebugTrace): Promise<DebugTrace> {
+    if (bytecode === deployedBytecode) {
+      return this.buildTrace(trace, trace.result.structLogs.filter(log => log.depth === 0))
+    }
+    const allCalls = trace.result.structLogs.filter(log => this.isCall(log.op))
+    for (const call of allCalls) {
+      const addressCalled = call.stack[call.stack.length-2]
+    }
+  }
+
+  private buildTrace(trace: DebugTrace, logs: any) {
+    return {
+      id: trace.id,
+      jsonrpc: trace.jsonrpc,
+      result: {
+        gas: trace.result.gas,
+        returnValue: trace.result.returnValue,
+        structLogs: logs
+      }
+    }
+  }
+
+  private isCall(op: string) {
+    return op === 'CALL' || op === 'DELEGATECALL' || op === 'STATICCALL' || op === 'CALLCODE'
   }
 }

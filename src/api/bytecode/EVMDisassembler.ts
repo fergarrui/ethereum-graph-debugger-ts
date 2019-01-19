@@ -6,6 +6,8 @@ import { BN } from 'bn.js'
 import { Opcode } from './Opcode'
 import { DisassembledContract } from './DisassembledContract'
 let solc = require('solc')
+let fs = require('fs')
+let nodePath = require('path')
 
 @injectable()
 export class EVMDisassembler implements Disassembler {
@@ -13,17 +15,20 @@ export class EVMDisassembler implements Disassembler {
 
   constructor() {}
 
-  disassembleSourceCode(contractName: string, source: string): DisassembledContract {
-    const compileJson = this.generateCompileObject(contractName, source)
+  disassembleSourceCode(contractName: string, source: string, path: string): DisassembledContract {
+    const compileJson = this.generateCompileObject(contractName, source, path)
     const compiledContract = JSON.parse(solc.compileStandardWrapper(JSON.stringify(compileJson)))
-    const bytecode = compiledContract.contracts[contractName][contractName].evm.bytecode.object
-    const asmRuntime = compiledContract.contracts[contractName][contractName].evm.legacyAssembly['.data'][0][
+    const contractWithExt = `${contractName}.sol`
+    const bytecode = compiledContract.contracts[contractWithExt][contractName].evm.bytecode.object
+    const runtimeBytecode = compiledContract.contracts[contractWithExt][contractName].evm.deployedBytecode.object
+    const asmRuntime = compiledContract.contracts[contractWithExt][contractName].evm.legacyAssembly['.data'][0][
       '.code'
     ].filter(elem => elem.name !== 'tag')
-    const asmConstructor = compiledContract.contracts[contractName][contractName].evm.legacyAssembly['.code'].filter(
+    const asmConstructor = compiledContract.contracts[contractWithExt][contractName].evm.legacyAssembly['.code'].filter(
       elem => elem.name !== 'tag'
     )
     const disassembledCode: DisassembledContract = this.disassembleContract(bytecode)
+    disassembledCode.runtimeBytecode = runtimeBytecode
     return this.populateStartEnd(disassembledCode, asmRuntime, asmConstructor)
   }
 
@@ -130,18 +135,41 @@ export class EVMDisassembler implements Disassembler {
     } as Operation
   }
 
-  private generateCompileObject(contractName: string, source: string) {
-    const sources = {}
-    sources[contractName] = {
-      content: source
+  private findImports(sources: any, content: string, path: string) {
+    const regexp = /import "(.*)"/g
+    const match = content.match(regexp)
+    if (!match) {
+      return
     }
+    const matches = match.map(imp => imp.split("\"")[1])
+    let importFilePath = path
+    if (!importFilePath.endsWith(nodePath.sep)) {
+      importFilePath = importFilePath + nodePath.sep
+    }
+    for (const imp of matches) {
+      importFilePath = importFilePath + imp
+      const fileName = nodePath.basename(importFilePath)
+      const importContent = fs.readFileSync(importFilePath).toString()
+      sources[fileName] = {
+        content: importContent
+      }
+      this.findImports(sources, importContent, path)
+    }
+  }
+
+  private generateCompileObject(contractName: string, content: string, path: string) {
+    const sources = {}
+    sources[`${contractName}.sol`] = {
+      content: content
+    }
+    this.findImports(sources, content, path);
     const compileJson = {
       language: 'Solidity',
       sources,
       settings: {
         outputSelection: {
           '*': {
-            '*': ['evm.bytecode', 'evm.legacyAssembly']
+            '*': ['evm.bytecode', 'evm.legacyAssembly', 'evm.deployedBytecode']
           }
         }
       }

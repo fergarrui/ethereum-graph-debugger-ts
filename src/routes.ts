@@ -75,6 +75,7 @@ export function RegisterRoutes(app: any) {
                 tx: { "in": "path", "name": "tx", "required": true, "dataType": "string" },
                 source: { "in": "query", "name": "source", "required": true, "dataType": "string" },
                 name: { "in": "query", "name": "name", "required": true, "dataType": "string" },
+                path: { "in": "query", "name": "path", "required": true, "dataType": "string" },
             };
 
             let validatedArgs: any[] = [];
@@ -121,6 +122,7 @@ export function RegisterRoutes(app: any) {
             const args = {
                 source: { "in": "query", "name": "source", "required": true, "dataType": "string" },
                 name: { "in": "query", "name": "name", "required": true, "dataType": "string" },
+                path: { "in": "query", "name": "path", "required": true, "dataType": "string" },
             };
 
             let validatedArgs: any[] = [];
@@ -188,6 +190,7 @@ export function RegisterRoutes(app: any) {
             const args = {
                 source: { "in": "query", "name": "source", "required": true, "dataType": "string" },
                 name: { "in": "query", "name": "name", "required": true, "dataType": "string" },
+                path: { "in": "query", "name": "path", "required": true, "dataType": "string" },
                 constructor: { "in": "query", "name": "constructor", "dataType": "boolean" },
             };
 

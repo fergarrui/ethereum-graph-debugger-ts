@@ -8,8 +8,6 @@ import { Operation } from '../../bytecode/Operation'
 import { EVMExecutor } from '../../symbolic/evm/EVMExecutor'
 import { OpcodeExecutor } from '../../symbolic/evm/exec/OpcodeExecutor'
 import { CFGBlocks } from '../../cfg/CFGBlocks'
-import { TransactionService } from './TransactionService'
-import { DebugTrace } from '../../symbolic/evm/DebugTrace'
 
 @injectable()
 export class CFGService {
@@ -19,8 +17,8 @@ export class CFGService {
     @inject(TYPES.OpcodeExecutor) private opExecutor: OpcodeExecutor
   ) {}
 
-  buildCFGFromSource(contractName: string, source: string): CFGContract {
-    const contract: DisassembledContract = this.disassembler.disassembleSourceCode(contractName, source)
+  buildCFGFromSource(contractName: string, source: string, path: string): CFGContract {
+    const contract: DisassembledContract = this.disassembler.disassembleSourceCode(contractName, source, path)
     return this.buildCfgContract(contract)
   }
 
@@ -34,7 +32,8 @@ export class CFGService {
     const cfgContract: CFGContract = {
       contractRuntime: {
         blocks: runtimeBlocks,
-        bytecode: contract.runtime
+        bytecode: contract.runtime,
+        rawBytecode: contract.runtimeBytecode
       }
     }
     if (contract.hasConstructor) {

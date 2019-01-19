@@ -24,11 +24,13 @@ export class DebuggerController extends Controller {
   async debug(
     @Path() tx: string,
     @Query('source') source: string,
-    @Query('name') name: string
+    @Query('name') name: string,
+    @Query('path') path: string,
   ): Promise<TraceResponse> {
     // TODO: Do detect constructor
-    const contractBlocks: CFGContract = await this.cfgService.buildCFGFromSource(name, source)
-    const trace: DebugTrace = await this.transactionService.findTransactionTrace(tx)
+    const contractBlocks: CFGContract = await this.cfgService.buildCFGFromSource(name, source, path)
+    const runtimeRawBytecode = contractBlocks.contractRuntime.rawBytecode
+    const trace: DebugTrace = await this.transactionService.findTransactionTrace(tx, runtimeRawBytecode)
     const cfg = this.createCFG(contractBlocks, false, trace)
     return this.buildResponse(contractBlocks, false, cfg, trace)
   }

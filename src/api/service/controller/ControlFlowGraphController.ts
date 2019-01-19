@@ -21,9 +21,10 @@ export class ControlFlowGraphController extends Controller {
   async getCFGFromSource(
     @Query('source') source: string,
     @Query('name') name: string,
+    @Query('path') path: string,
     @Query('constructor') constructor?: boolean
   ): Promise<GFCResponse> {
-    const contractBlocks: CFGContract = this.cfgService.buildCFGFromSource(name, source)
+    const contractBlocks: CFGContract = this.cfgService.buildCFGFromSource(name, source, path)
     if (!contractBlocks.contractConstructor && constructor) {
       throw new Error('Constructor is true but no constructor found in bytecode')
     }

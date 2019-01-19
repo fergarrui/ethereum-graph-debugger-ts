@@ -19,6 +19,6 @@ export class TransactionController extends Controller {
 
   @Get('{tx}/trace')
   async getTransactionTrace(@Path() tx: string): Promise<DebugTrace> {
-    return this.transactionService.findTransactionTrace(tx)
+    return this.transactionService.findTransactionTrace(tx, "asd")
   }
 }

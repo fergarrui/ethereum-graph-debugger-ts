@@ -43,6 +43,7 @@ import { Addmod } from './Addmod'
 import { Mulmod } from './Mulmod'
 import { Gt } from './Gt'
 import { Exp } from './Exp';
+import { Gas } from './Gas';
 
 @injectable()
 export class OpcodeExecutor {
@@ -160,6 +161,7 @@ export class OpcodeExecutor {
     this.ops['CODESIZE'] = new Codesize()
     this.ops['CODECOPY'] = new Codecopy()
     this.ops['GASPRICE'] = new Gasprice()
+    this.ops['GAS'] = new Gas()
     this.ops['EXTCODESIZE'] = new Extcodesize()
     this.ops['EXTCODECOPY'] = new Extcodecopy()
 
