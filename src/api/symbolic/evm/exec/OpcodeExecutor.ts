@@ -42,12 +42,18 @@ import { Smod } from './Smod'
 import { Addmod } from './Addmod'
 import { Mulmod } from './Mulmod'
 import { Gt } from './Gt'
+import { Number } from './Number'
 import { Exp } from './Exp'
 import { Gas } from './Gas'
 import { Call } from './Call'
 import { Returndatasize } from './Returndatasize'
 import { Returndatacopy } from './Returndatacopy'
 import { Log } from './Log'
+import { Blockhash } from './Blockhash';
+import { Coinbase } from './Coinbase';
+import { Timestamp } from './Timestamp';
+import { Difficulty } from './Difficulty';
+import { Gaslimit } from './Gaslimit';
 
 @injectable()
 export class OpcodeExecutor {
@@ -176,6 +182,12 @@ export class OpcodeExecutor {
     this.ops['CODECOPY'] = new Codecopy()
     this.ops['GASPRICE'] = new Gasprice()
     this.ops['GAS'] = new Gas()
+    this.ops['BLOCKHASH'] = new Blockhash()
+    this.ops['COINBASE'] = new Coinbase()
+    this.ops['TIMESTAMP'] = new Timestamp()
+    this.ops['NUMBER'] = new Number()
+    this.ops['DIFFICULTY'] = new Difficulty()
+    this.ops['GASLIMIT'] = new Gaslimit()
     this.ops['EXTCODESIZE'] = new Extcodesize()
     this.ops['EXTCODECOPY'] = new Extcodecopy()
     this.ops['RETURNDATASIZE'] = new Returndatasize()
