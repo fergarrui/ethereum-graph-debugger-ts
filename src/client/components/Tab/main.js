@@ -62,7 +62,8 @@ class Tab extends React.Component {
                 name={item.name}
                 code={item.code}
                 index={i}
-                active={currentTabIndex === i}>
+                active={currentTabIndex === i}
+                path={item.path}>
               </TabPanel>
             )
           })}    

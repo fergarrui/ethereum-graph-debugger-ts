@@ -35,6 +35,7 @@ const models: TsoaRoute.Models = {
         "properties": {
             "name": { "dataType": "string", "required": true },
             "code": { "dataType": "string", "required": true },
+            "path": { "dataType": "string", "required": true },
         },
     },
     "DisassembledContractResponse": {

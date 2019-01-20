@@ -88,7 +88,7 @@ class TabPanel extends React.Component {
 
   render() {
     
-    const { code, name, active, index, children } = this.props;
+    const { code, name, path, active, index, children } = this.props;
     const { editorOpen, tabs, sideBarOpen } = this.state;
     
     const editorClasses = cx({
@@ -137,10 +137,11 @@ class TabPanel extends React.Component {
         </div>
         <div className={styles['tab-panel__right']}>
            <InnerTab 
-            data={tabs} 
-            contractName={name} 
-            contractCode={code}
-            onMenuItemIconClick={this.handleMenuItemIconClick} 
+              data={tabs} 
+              contractName={name} 
+              contractCode={code}
+              contractPath={path}
+              onMenuItemIconClick={this.handleMenuItemIconClick} 
             >
             {children}
           </InnerTab>

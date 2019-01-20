@@ -43,7 +43,7 @@ class InnerTab extends React.Component {
 
   render() {
 
-    const { data, contractName, contractCode } = this.props;
+    const { data, contractName, contractCode, contractPath } = this.props;
     const { currentInnerTabIndex } = this.state;
 
     return (
@@ -70,6 +70,7 @@ class InnerTab extends React.Component {
                 active={currentInnerTabIndex === i}
                 contractName={contractName}
                 contractCode={contractCode}
+                contractPath={contractPath}
              />
             )
           })}

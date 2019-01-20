@@ -19,9 +19,9 @@ const ConnectedModal = ({ closeAppModal }) => {
     <div className={styles['modal']}>
       <div className={styles['modal__main']}>
         <div className={styles['modal__main__button']}>
-          <div onClick={closeAppModal}>
+          <button onClick={closeAppModal}>
             <Icon iconName='Cross' />
-          </div>
+          </button>
         </div>
         <div className={styles['modal__main__input']}>
           <input type='text' placeholder='Insert...' />

@@ -10,7 +10,7 @@ import classnames from 'classnames/bind';
 
 const cx = classnames.bind(styles);
 
-const InnerTabPanel = ({ type, active, contractName, contractCode }) => {
+const InnerTabPanel = ({ type, active, contractName, contractCode, contractPath }) => {
 
   const tabPanelClasses = cx({
     'inner-tab-panel': true,
@@ -21,7 +21,7 @@ const InnerTabPanel = ({ type, active, contractName, contractCode }) => {
     <div className={tabPanelClasses}>
       {type === 'Debug Transaction' && <DebugTransactionComp />}
       {type === 'Disassemble' && <DisassembleComp />}
-      {type === 'Control Flow Graph' && <ControlFlowGraphComp contractName={contractName} contractCode={contractCode} />}
+      {type === 'Control Flow Graph' && <ControlFlowGraphComp contractPath={contractPath} contractName={contractName} contractCode={contractCode} />}
     </div>
   );
 }
