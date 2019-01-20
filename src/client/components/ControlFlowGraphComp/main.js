@@ -15,16 +15,16 @@ class ControlFlowGraphComp extends React.Component {
   }
 
   componentDidMount() {
-    const { contractName, contractCode } = this.props;
-    this.fetchData(contractName, contractCode);   
+    const { contractName, contractCode, contractPath } = this.props;
+    this.fetchData(contractName, contractCode, contractPath);   
   }
 
-  fetchData(name, source) {
+  fetchData(name, source, path) {
     this.handleRequestPending();
 
     const { contractName } = this.props;
     
-    fetch(`http://localhost:9090/cfg/source?source=${encodeURIComponent(source)}&name=${contractName.replace('.sol', '')}&constructor=false`)
+    fetch(`http://localhost:9090/cfg/source?source=${encodeURIComponent(source)}&name=${contractName.replace('.sol', '')}&constructor=false&path=${encodeURIComponent(path)}`)
       .then(res => res.json())
       .then(data => this.handleRequestSuccess(data))
       .catch(err => console.log(err));
@@ -53,7 +53,7 @@ class ControlFlowGraphComp extends React.Component {
 
   render() {
     const { cfg, fetchRequestStatus, operations } = this.state;
-    const { contractName, onGraphClick } = this.props;
+    const { contractName, onGraphClick, contractPath } = this.props;
 
     return (
       <div className={styles['control-flow-graph-comp']}>
@@ -61,7 +61,7 @@ class ControlFlowGraphComp extends React.Component {
           <div>loading</div>
         }
         {fetchRequestStatus === 'success' &&
-          <Graph onGraphClick={onGraphClick} graphId={contractName} cfg={cfg} operations={operations}/>
+          <Graph onGraphClick={onGraphClick} graphId={contractName} contractPath={contractPath} cfg={cfg} operations={operations}/>
         }
         {fetchRequestStatus === 'fail' &&
           <div>failed</div>
