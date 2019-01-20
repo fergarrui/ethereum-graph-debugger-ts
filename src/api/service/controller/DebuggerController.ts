@@ -25,7 +25,7 @@ export class DebuggerController extends Controller {
     @Path() tx: string,
     @Query('source') source: string,
     @Query('name') name: string,
-    @Query('path') path: string,
+    @Query('path') path: string
   ): Promise<TraceResponse> {
     // TODO: Do detect constructor
     const contractBlocks: CFGContract = await this.cfgService.buildCFGFromSource(name, source, path)

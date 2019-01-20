@@ -42,11 +42,12 @@ import { Smod } from './Smod'
 import { Addmod } from './Addmod'
 import { Mulmod } from './Mulmod'
 import { Gt } from './Gt'
-import { Exp } from './Exp';
-import { Gas } from './Gas';
-import { Call } from './Call';
-import { Returndatasize } from './Returndatasize';
-import { Returndatacopy } from './Returndatacopy';
+import { Exp } from './Exp'
+import { Gas } from './Gas'
+import { Call } from './Call'
+import { Returndatasize } from './Returndatasize'
+import { Returndatacopy } from './Returndatacopy'
+import { Log } from './Log'
 
 @injectable()
 export class OpcodeExecutor {
@@ -123,6 +124,12 @@ export class OpcodeExecutor {
     this.ops['JUMPI'] = new Jumpi()
     this.ops['JUMP'] = new Jump()
 
+    this.ops['LOG0'] = new Log()
+    this.ops['LOG1'] = new Log()
+    this.ops['LOG2'] = new Log()
+    this.ops['LOG3'] = new Log()
+    this.ops['LOG4'] = new Log()
+
     this.ops['RETURN'] = new Return()
 
     this.ops['POP'] = new Pop()
@@ -151,9 +158,9 @@ export class OpcodeExecutor {
     this.ops['LT'] = new Lt()
     this.ops['GT'] = new Gt()
     this.ops['EQ'] = new Eq()
-    
+
     // Calls
-    
+
     this.ops['CALL'] = new Call()
 
     // Symbolic opcodes

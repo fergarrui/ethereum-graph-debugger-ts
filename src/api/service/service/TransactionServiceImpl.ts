@@ -4,7 +4,7 @@ import { TYPES } from '../../../inversify/types'
 import { IWeb3 } from '../../blockchain/IWeb3'
 import { TransactionReceipt } from '../bean/TransactionReceipt'
 import { DebugTrace } from '../../symbolic/evm/DebugTrace'
-import { EVMDisassembler } from '../../bytecode/EVMDisassembler';
+import { EVMDisassembler } from '../../bytecode/EVMDisassembler'
 
 @injectable()
 export class TransactionServiceImpl implements TransactionService {
@@ -21,7 +21,7 @@ export class TransactionServiceImpl implements TransactionService {
 
   async findTransactionTrace(transactionHash: string, bytecode: string): Promise<DebugTrace> {
     const transaction: TransactionReceipt = await this.web3.eth.getTransaction(transactionHash)
-    if(!transaction) {
+    if (!transaction) {
       throw new Error(`Transaction ${transactionHash} not found in node`)
     }
     const toAddress = transaction.to
@@ -46,7 +46,11 @@ export class TransactionServiceImpl implements TransactionService {
     return await this.findContractTraceDepth(bytecode, deployedBytecode, trace)
   }
 
-  private async findContractTraceDepth(bytecode: string, deployedBytecode: string, trace: DebugTrace): Promise<DebugTrace> {
+  private async findContractTraceDepth(
+    bytecode: string,
+    deployedBytecode: string,
+    trace: DebugTrace
+  ): Promise<DebugTrace> {
     const cleanBytecode = EVMDisassembler.removeMetadata(bytecode)
     const cleanDeployedBytecode = EVMDisassembler.removeMetadata(deployedBytecode)
     if (cleanBytecode === cleanDeployedBytecode) {
@@ -54,7 +58,7 @@ export class TransactionServiceImpl implements TransactionService {
     }
     const allCalls = trace.result.structLogs.filter(log => this.isCall(log.op))
     for (const call of allCalls) {
-      const addressCalledFromStack = call.stack[call.stack.length-2]
+      const addressCalledFromStack = call.stack[call.stack.length - 2]
       if (addressCalledFromStack) {
         const addressCalled = addressCalledFromStack.slice(-40)
         const deployedCalledBytecode = await this.web3.eth.getCode(addressCalled)
@@ -64,7 +68,9 @@ export class TransactionServiceImpl implements TransactionService {
         }
       }
     }
-    throw new Error("No matching bytecode found in the chain for this transaction. Please check the contracts were deployed with different optimizations than the debugger")
+    throw new Error(
+      'No matching bytecode found in the chain for this transaction. Please check the contracts were deployed with different optimizations than the debugger'
+    )
   }
 
   private buildTrace(trace: DebugTrace, logs: any) {

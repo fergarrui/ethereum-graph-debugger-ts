@@ -13,7 +13,7 @@ export class Exp implements Executor {
     if (!base.isSymbolic && !exp.isSymbolic) {
       const baseValue = base.value
       const expValue = exp.value
-      
+
       let result = UintUtils.ONE
       if (!expValue.eq(UintUtils.ZERO)) {
         const mod = BN.red(UintUtils.TWO_POW_256)

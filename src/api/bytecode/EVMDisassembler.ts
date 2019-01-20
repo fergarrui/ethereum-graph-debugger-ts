@@ -149,7 +149,7 @@ export class EVMDisassembler implements Disassembler {
     if (!match) {
       return
     }
-    const matches = match.map(imp => imp.split("\"")[1])
+    const matches = match.map(imp => imp.split('"')[1])
     let importFilePath = path
     if (!importFilePath.endsWith(nodePath.sep)) {
       importFilePath = importFilePath + nodePath.sep
@@ -170,7 +170,7 @@ export class EVMDisassembler implements Disassembler {
     sources[`${contractName}.sol`] = {
       content: content
     }
-    this.findImports(sources, content, path);
+    this.findImports(sources, content, path)
     const compileJson = {
       language: 'Solidity',
       sources,
