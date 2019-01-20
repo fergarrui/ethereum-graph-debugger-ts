@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-import { showModal, selectLines, showSideBar } from './reducers.js';
+import { showModal, selectLines, showSideBar } from './Reducers.js';
 
 export default combineReducers({
   showModal,

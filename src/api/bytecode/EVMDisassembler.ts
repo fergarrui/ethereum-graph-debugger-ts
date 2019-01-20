@@ -11,7 +11,7 @@ let nodePath = require('path')
 
 @injectable()
 export class EVMDisassembler implements Disassembler {
-  readonly metadataPrefix = 'a165627a7a72305820'
+  static readonly metadataPrefix = 'a165627a7a72305820'
 
   constructor() {}
 
@@ -67,8 +67,8 @@ export class EVMDisassembler implements Disassembler {
       code = bytecode.slice(2)
     }
 
-    if (code.includes(this.metadataPrefix)) {
-      code = code.split(this.metadataPrefix)[0]
+    if (code.includes(EVMDisassembler.metadataPrefix)) {
+      code = code.split(EVMDisassembler.metadataPrefix)[0]
     }
 
     if (code.length % 2 !== 0) {
@@ -95,6 +95,14 @@ export class EVMDisassembler implements Disassembler {
       }
     }
     return disassembledOperations
+  }
+
+  static removeMetadata(bytecode: string): string {
+    const splittedBytecode: string[] = bytecode.split(EVMDisassembler.metadataPrefix)
+    if (splittedBytecode.length < 2) {
+      return bytecode
+    }
+    return splittedBytecode[0]
   }
 
   private populateStartEnd(disassembledCode: DisassembledContract, asmRuntime, asmConstructor): DisassembledContract {

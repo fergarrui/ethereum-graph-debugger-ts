@@ -4,6 +4,7 @@ import { TYPES } from '../../../inversify/types'
 import { IWeb3 } from '../../blockchain/IWeb3'
 import { TransactionReceipt } from '../bean/TransactionReceipt'
 import { DebugTrace } from '../../symbolic/evm/DebugTrace'
+import { EVMDisassembler } from '../../bytecode/EVMDisassembler';
 
 @injectable()
 export class TransactionServiceImpl implements TransactionService {
@@ -19,9 +20,12 @@ export class TransactionServiceImpl implements TransactionService {
   }
 
   async findTransactionTrace(transactionHash: string, bytecode: string): Promise<DebugTrace> {
-    const receipt: TransactionReceipt = await this.findTransactionReceipt(transactionHash)
-    const toAddress = receipt.to
-    const deployedBytecode = this.web3.getCode(toAddress)
+    const transaction: TransactionReceipt = await this.web3.eth.getTransaction(transactionHash)
+    if(!transaction) {
+      throw new Error(`Transaction ${transactionHash} not found in node`)
+    }
+    const toAddress = transaction.to
+    const deployedBytecode = await this.web3.eth.getCode(toAddress)
     const trace: DebugTrace = await new Promise<DebugTrace>((resolve, reject) => {
       this.web3.currentProvider.send(
         {
@@ -43,13 +47,24 @@ export class TransactionServiceImpl implements TransactionService {
   }
 
   private async findContractTraceDepth(bytecode: string, deployedBytecode: string, trace: DebugTrace): Promise<DebugTrace> {
-    if (bytecode === deployedBytecode) {
+    const cleanBytecode = EVMDisassembler.removeMetadata(bytecode)
+    const cleanDeployedBytecode = EVMDisassembler.removeMetadata(deployedBytecode)
+    if (cleanBytecode === cleanDeployedBytecode) {
       return this.buildTrace(trace, trace.result.structLogs.filter(log => log.depth === 0))
     }
     const allCalls = trace.result.structLogs.filter(log => this.isCall(log.op))
     for (const call of allCalls) {
-      const addressCalled = call.stack[call.stack.length-2]
+      const addressCalledFromStack = call.stack[call.stack.length-2]
+      if (addressCalledFromStack) {
+        const addressCalled = addressCalledFromStack.slice(-40)
+        const deployedCalledBytecode = await this.web3.eth.getCode(addressCalled)
+        const cleanDeployedCalledBytecode = EVMDisassembler.removeMetadata(deployedCalledBytecode)
+        if (cleanDeployedCalledBytecode === cleanBytecode) {
+          return this.buildTrace(trace, trace.result.structLogs.filter(log => log.depth === call.depth + 1))
+        }
+      }
     }
+    throw new Error("No matching bytecode found in the chain for this transaction. Please check the contracts were deployed with different optimizations than the debugger")
   }
 
   private buildTrace(trace: DebugTrace, logs: any) {

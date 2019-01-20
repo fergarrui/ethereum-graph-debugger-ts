@@ -29,7 +29,7 @@ export class DebuggerController extends Controller {
   ): Promise<TraceResponse> {
     // TODO: Do detect constructor
     const contractBlocks: CFGContract = await this.cfgService.buildCFGFromSource(name, source, path)
-    const runtimeRawBytecode = contractBlocks.contractRuntime.rawBytecode
+    const runtimeRawBytecode = `0x${contractBlocks.contractRuntime.rawBytecode}`
     const trace: DebugTrace = await this.transactionService.findTransactionTrace(tx, runtimeRawBytecode)
     const cfg = this.createCFG(contractBlocks, false, trace)
     return this.buildResponse(contractBlocks, false, cfg, trace)
