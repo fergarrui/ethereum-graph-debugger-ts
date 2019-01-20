@@ -45,7 +45,7 @@ class ConnectedGraph extends React.Component {
   }
 
   render() {
-    const { cfg, graphId } = this.props;
+    const { cfg, graphId, contractPath } = this.props;
 
     const graphclass = graphId.replace('.sol', '');
 
