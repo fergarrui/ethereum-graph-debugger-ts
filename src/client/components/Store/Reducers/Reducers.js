@@ -1,4 +1,4 @@
-import { SELECT_EDITOR_LINES, OPEN_MODAL, CLOSE_MODAL, OPEN_SIDEBAR, CLOSE_SIDEBAR } from '../Constants.js';
+import { SELECT_EDITOR_LINES, OPEN_MODAL, CLOSE_MODAL } from '../Constants.js';
 
 
 export function selectLines(state = [0, 0], action) {
