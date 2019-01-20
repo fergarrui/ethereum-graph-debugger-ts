@@ -54,6 +54,10 @@ import { Coinbase } from './Coinbase';
 import { Timestamp } from './Timestamp';
 import { Difficulty } from './Difficulty';
 import { Gaslimit } from './Gaslimit';
+import { Create } from './Create';
+import { Callcode } from './Callcode';
+import { Delegatecall } from './Delegatecall';
+import { Staticcall } from './Staticcall';
 
 @injectable()
 export class OpcodeExecutor {
@@ -168,6 +172,9 @@ export class OpcodeExecutor {
     // Calls
 
     this.ops['CALL'] = new Call()
+    this.ops['CALLCODE'] = new Callcode()
+    this.ops['DELEGATECALL'] = new Delegatecall()
+    this.ops['STATICCALL'] = new Staticcall()
 
     // Symbolic opcodes
     this.ops['ADDRESS'] = new Address()
@@ -192,6 +199,7 @@ export class OpcodeExecutor {
     this.ops['EXTCODECOPY'] = new Extcodecopy()
     this.ops['RETURNDATASIZE'] = new Returndatasize()
     this.ops['RETURNDATACOPY'] = new Returndatacopy()
+    this.ops['CREATE'] = new Create()
 
     // Those are NOP's for now
     this.ops['REVERT'] = new Nop()

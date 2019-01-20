@@ -132,12 +132,12 @@ export class Opcodes {
     this.opcodes[0xa2] = { name: 'LOG2', opcode: 0xa2, parameters: 0 } as Opcode
     this.opcodes[0xa3] = { name: 'LOG3', opcode: 0xa3, parameters: 0 } as Opcode
     this.opcodes[0xa4] = { name: 'LOG4', opcode: 0xa4, parameters: 0 } as Opcode
-    this.opcodes[0xf0] = { name: 'CREATE', opcode: 0xf0, parameters: 0 } as Opcode // TODO
+    this.opcodes[0xf0] = { name: 'CREATE', opcode: 0xf0, parameters: 0 } as Opcode
     this.opcodes[0xf1] = { name: 'CALL', opcode: 0xf1, parameters: 0 } as Opcode
-    this.opcodes[0xf2] = { name: 'CALLCODE', opcode: 0xf2, parameters: 0 } as Opcode // TODO
+    this.opcodes[0xf2] = { name: 'CALLCODE', opcode: 0xf2, parameters: 0 } as Opcode
     this.opcodes[0xf3] = { name: 'RETURN', opcode: 0xf3, parameters: 0 } as Opcode
-    this.opcodes[0xf4] = { name: 'DELEGATECALL', opcode: 0xf4, parameters: 0 } as Opcode // TODO
-    this.opcodes[0xfa] = { name: 'STATICCALL', opcode: 0xfa, parameters: 0 } as Opcode // TODO
+    this.opcodes[0xf4] = { name: 'DELEGATECALL', opcode: 0xf4, parameters: 0 } as Opcode
+    this.opcodes[0xfa] = { name: 'STATICCALL', opcode: 0xfa, parameters: 0 } as Opcode
     this.opcodes[0xfd] = { name: 'REVERT', opcode: 0xfd, parameters: 0 } as Opcode
     this.opcodes[0xfe] = { name: 'INVALID', opcode: 0xfe, parameters: 0 } as Opcode
     this.opcodes[0xff] = { name: 'SELFDESTRUCT', opcode: 0xff, parameters: 0 } as Opcode

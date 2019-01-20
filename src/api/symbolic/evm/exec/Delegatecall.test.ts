@@ -7,7 +7,7 @@ import { EVMDisassembler } from '../../../bytecode/EVMDisassembler'
 import { Word } from '../Word'
 import { Symbols } from '../Symbols'
 
-describe('Call', () => {
+describe('Delegatecall', () => {
   let cfgCreator: EthereumCFGCreator
   let disassembler: Disassembler
   let opcodeExecutor: OpcodeExecutor = new OpcodeExecutor()
@@ -17,11 +17,11 @@ describe('Call', () => {
     disassembler = new EVMDisassembler()
   })
 
-  it('Test Call', () => {
-    const bytecode = '6010602060306040605060606070f1'
+  it('Test Delegatecall', () => {
+    const bytecode = '601060206030604060506060f4'
     const executor: EVMExecutor = createExecutor(disassembler, bytecode, cfgCreator, opcodeExecutor)
     executor.run(0)
-    expect(executor.evm.stack.get(0)).toEqual(Word.createSymbolic(Symbols.CALL))
+    expect(executor.evm.stack.get(0)).toEqual(Word.createSymbolic(Symbols.DELEGATECALL))
     expect(executor.evm.stack.length()).toEqual(1)
   })
 })
