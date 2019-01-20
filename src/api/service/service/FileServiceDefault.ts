@@ -11,10 +11,12 @@ export class FileServiceDefault implements FileService {
     const files = await recursive(dir, [`!*.${extension}`])
 
     return await files.map(file => {
+      const dirName = path.dirname(file)
       const fileContent = fs.readFileSync(file, 'utf8')
       return {
         name: path.basename(file),
-        code: fileContent
+        code: fileContent,
+        path: dirName
       } as ContractFile
     })
   }
