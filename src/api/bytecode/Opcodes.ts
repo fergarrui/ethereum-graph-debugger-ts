@@ -21,7 +21,7 @@ export class Opcodes {
     this.opcodes[0x10] = { name: 'LT', opcode: 0x10, parameters: 0 } as Opcode
     this.opcodes[0x11] = { name: 'GT', opcode: 0x11, parameters: 0 } as Opcode
     this.opcodes[0x12] = { name: 'SLT', opcode: 0x12, parameters: 0 } as Opcode // TODO
-    this.opcodes[0x13] = { name: 'SGT', opcode: 0x13, parameters: 0 } as Opcode // TODO
+    this.opcodes[0x13] = { name: 'SGT', opcode: 0x13, parameters: 0 } as Opcode
     this.opcodes[0x14] = { name: 'EQ', opcode: 0x14, parameters: 0 } as Opcode
     this.opcodes[0x15] = { name: 'ISZERO', opcode: 0x15, parameters: 0 } as Opcode
     this.opcodes[0x16] = { name: 'AND', opcode: 0x16, parameters: 0 } as Opcode

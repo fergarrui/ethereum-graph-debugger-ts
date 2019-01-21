@@ -60,6 +60,8 @@ import { Delegatecall } from './Delegatecall';
 import { Staticcall } from './Staticcall';
 import { Pc } from './Pc';
 import { Signextend } from './Signextend';
+import { Sgt } from './Sgt';
+import { Slt } from './Slt';
 
 @injectable()
 export class OpcodeExecutor {
@@ -170,6 +172,8 @@ export class OpcodeExecutor {
     this.ops['ISZERO'] = new IsZero()
     this.ops['LT'] = new Lt()
     this.ops['GT'] = new Gt()
+    this.ops['SGT'] = new Sgt()
+    this.ops['SLT'] = new Slt()
     this.ops['EQ'] = new Eq()
 
     this.ops['PC'] = new Pc()
