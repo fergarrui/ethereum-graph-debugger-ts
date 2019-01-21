@@ -5,7 +5,7 @@ export class Opcodes {
 
   static populate() {
     this.opcodes[-1] = { name: 'UNKNOWN', opcode: 0x00, parameters: 0 } as Opcode
-
+    // TODO SHL, SHR, SAR
     this.opcodes[0x00] = { name: 'STOP', opcode: 0x00, parameters: 0 } as Opcode
     this.opcodes[0x01] = { name: 'ADD', opcode: 0x01, parameters: 0 } as Opcode
     this.opcodes[0x02] = { name: 'MUL', opcode: 0x02, parameters: 0 } as Opcode
@@ -17,7 +17,7 @@ export class Opcodes {
     this.opcodes[0x08] = { name: 'ADDMOD', opcode: 0x08, parameters: 0 } as Opcode
     this.opcodes[0x09] = { name: 'MULMOD', opcode: 0x09, parameters: 0 } as Opcode
     this.opcodes[0x0a] = { name: 'EXP', opcode: 0x0a, parameters: 0 } as Opcode
-    this.opcodes[0x0b] = { name: 'SIGNEXTEND', opcode: 0x0b, parameters: 0 } as Opcode // TODO
+    this.opcodes[0x0b] = { name: 'SIGNEXTEND', opcode: 0x0b, parameters: 0 } as Opcode
     this.opcodes[0x10] = { name: 'LT', opcode: 0x10, parameters: 0 } as Opcode
     this.opcodes[0x11] = { name: 'GT', opcode: 0x11, parameters: 0 } as Opcode
     this.opcodes[0x12] = { name: 'SLT', opcode: 0x12, parameters: 0 } as Opcode // TODO
@@ -59,7 +59,7 @@ export class Opcodes {
     this.opcodes[0x55] = { name: 'SSTORE', opcode: 0x55, parameters: 0 } as Opcode
     this.opcodes[0x56] = { name: 'JUMP', opcode: 0x56, parameters: 0 } as Opcode
     this.opcodes[0x57] = { name: 'JUMPI', opcode: 0x57, parameters: 0 } as Opcode
-    this.opcodes[0x58] = { name: 'PC', opcode: 0x58, parameters: 0 } as Opcode // TODO
+    this.opcodes[0x58] = { name: 'PC', opcode: 0x58, parameters: 0 } as Opcode
     this.opcodes[0x59] = { name: 'MSIZE', opcode: 0x59, parameters: 0 } as Opcode // TODO
     this.opcodes[0x5a] = { name: 'GAS', opcode: 0x5a, parameters: 0 } as Opcode
     this.opcodes[0x5b] = { name: 'JUMPDEST', opcode: 0x5b, parameters: 0 } as Opcode

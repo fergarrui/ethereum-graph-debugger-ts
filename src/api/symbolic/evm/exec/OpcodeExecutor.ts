@@ -58,6 +58,8 @@ import { Create } from './Create';
 import { Callcode } from './Callcode';
 import { Delegatecall } from './Delegatecall';
 import { Staticcall } from './Staticcall';
+import { Pc } from './Pc';
+import { Signextend } from './Signextend';
 
 @injectable()
 export class OpcodeExecutor {
@@ -149,6 +151,7 @@ export class OpcodeExecutor {
     this.ops['DIV'] = new Div()
     this.ops['SDIV'] = new Sdiv()
     this.ops['EXP'] = new Exp()
+    this.ops['SIGNEXTEND'] = new Signextend()
     this.ops['MOD'] = new Mod()
     this.ops['SMOD'] = new Smod()
     this.ops['ADDMOD'] = new Addmod()
@@ -168,6 +171,8 @@ export class OpcodeExecutor {
     this.ops['LT'] = new Lt()
     this.ops['GT'] = new Gt()
     this.ops['EQ'] = new Eq()
+
+    this.ops['PC'] = new Pc()
 
     // Calls
 
