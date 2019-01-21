@@ -53,7 +53,7 @@ class ControlFlowGraphComp extends React.Component {
 
   render() {
     const { cfg, fetchRequestStatus, operations } = this.state;
-    const { contractName, onGraphClick, contractPath } = this.props;
+    const { contractName, contractPath } = this.props;
 
     return (
       <div className={styles['control-flow-graph-comp']}>
@@ -61,7 +61,7 @@ class ControlFlowGraphComp extends React.Component {
           <div>loading</div>
         }
         {fetchRequestStatus === 'success' &&
-          <Graph onGraphClick={onGraphClick} graphId={contractName} contractPath={contractPath} cfg={cfg} operations={operations}/>
+          <Graph graphId={contractName} contractPath={contractPath} cfg={cfg} operations={operations}/>
         }
         {fetchRequestStatus === 'fail' &&
           <div>failed</div>
