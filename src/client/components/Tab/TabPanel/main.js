@@ -5,6 +5,7 @@ import Icon from '../../Icon/main.js';
 import SideBar from '../../SideBar/main.js';
 import InnerTab from '../../InnerTab/main.js';
 import Modal from '../../Modal/main.js';
+import LoadingComp from '../../LoadingComp/main.js';
 
 import styles from '../../../styles/Tab/TabPanel.scss';
 
@@ -46,6 +47,7 @@ class TabPanel extends React.Component {
   handleRequestPending() {
     this.setState({
       fetchRequestStatus: 'pending',
+      modalOpen: false,
     });
   }
 
@@ -58,7 +60,6 @@ class TabPanel extends React.Component {
       cfg: response.cfg,
       operations: response.operations,
       trace: response.trace,
-      modalOpen: false,
       tabs: newTabs,
     });
   }
@@ -168,7 +169,7 @@ class TabPanel extends React.Component {
   render() {
     
     const { code, name, path, active, index, children } = this.props;
-    const { editorOpen, tabs, sideBarOpen, operations, cfg, trace, modalOpen } = this.state;
+    const { editorOpen, tabs, sideBarOpen, operations, cfg, trace, modalOpen, fetchRequestStatus } = this.state;
     
     const editorClasses = cx({
       'tab-panel__left__editor': true,
@@ -240,7 +241,12 @@ class TabPanel extends React.Component {
             />
           )
         }
-      </div>
+        </div>
+        <div className={styles['tab-panel__loading']}>
+          {
+            fetchRequestStatus === 'pending' && <LoadingComp />
+          }
+        </div>
       </div>
     )
   }

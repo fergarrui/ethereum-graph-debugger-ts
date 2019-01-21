@@ -2,6 +2,7 @@ import React from 'react';
 
 import TopNavBar from '../TopNavBar/main.js';
 import Tab from '../Tab/main.js';
+import LoadingComp from '../LoadingComp/main.js';
 
 import styles from '../../styles/App.scss';
 
@@ -93,7 +94,7 @@ class App extends React.Component {
         </div>
         <div className={styles['app__tabs']}>
           {fetchRequestStatus === 'pending' &&
-            <div>pending</div>
+            <LoadingComp />
           }
           {fetchRequestStatus === 'success' && 
             <Tab data={contracts} onMenuItemIconClick={this.handleMenuItemIconClick}>
@@ -101,7 +102,7 @@ class App extends React.Component {
             </Tab>        
           }
           {fetchRequestStatus === 'fail' &&
-          <div>error</div>
+            <div>error</div>
           }
         </div>
       </div>
