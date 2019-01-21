@@ -20,7 +20,7 @@ export class Opcodes {
     this.opcodes[0x0b] = { name: 'SIGNEXTEND', opcode: 0x0b, parameters: 0 } as Opcode
     this.opcodes[0x10] = { name: 'LT', opcode: 0x10, parameters: 0 } as Opcode
     this.opcodes[0x11] = { name: 'GT', opcode: 0x11, parameters: 0 } as Opcode
-    this.opcodes[0x12] = { name: 'SLT', opcode: 0x12, parameters: 0 } as Opcode // TODO
+    this.opcodes[0x12] = { name: 'SLT', opcode: 0x12, parameters: 0 } as Opcode
     this.opcodes[0x13] = { name: 'SGT', opcode: 0x13, parameters: 0 } as Opcode
     this.opcodes[0x14] = { name: 'EQ', opcode: 0x14, parameters: 0 } as Opcode
     this.opcodes[0x15] = { name: 'ISZERO', opcode: 0x15, parameters: 0 } as Opcode
@@ -28,7 +28,7 @@ export class Opcodes {
     this.opcodes[0x17] = { name: 'OR', opcode: 0x17, parameters: 0 } as Opcode
     this.opcodes[0x18] = { name: 'XOR', opcode: 0x18, parameters: 0 } as Opcode
     this.opcodes[0x19] = { name: 'NOT', opcode: 0x19, parameters: 0 } as Opcode
-    this.opcodes[0x1a] = { name: 'BYTE', opcode: 0x1a, parameters: 0 } as Opcode // TODO
+    this.opcodes[0x1a] = { name: 'BYTE', opcode: 0x1a, parameters: 0 } as Opcode
     this.opcodes[0x20] = { name: 'SHA3', opcode: 0x20, parameters: 0 } as Opcode // TODO
     this.opcodes[0x30] = { name: 'ADDRESS', opcode: 0x30, parameters: 0 } as Opcode
     this.opcodes[0x31] = { name: 'BALANCE', opcode: 0x31, parameters: 0 } as Opcode

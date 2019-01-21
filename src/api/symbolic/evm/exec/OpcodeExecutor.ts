@@ -62,6 +62,7 @@ import { Pc } from './Pc';
 import { Signextend } from './Signextend';
 import { Sgt } from './Sgt';
 import { Slt } from './Slt';
+import { Byte } from './Byte';
 
 @injectable()
 export class OpcodeExecutor {
@@ -162,6 +163,7 @@ export class OpcodeExecutor {
     this.ops['OR'] = new Or()
     this.ops['XOR'] = new Xor()
     this.ops['NOT'] = new Not()
+    this.ops['BYTE'] = new Byte()
 
     this.ops['SSTORE'] = new Sstore()
     this.ops['SLOAD'] = new Sload()
