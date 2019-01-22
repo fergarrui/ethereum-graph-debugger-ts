@@ -29,7 +29,7 @@ export class Opcodes {
     this.opcodes[0x18] = { name: 'XOR', opcode: 0x18, parameters: 0 } as Opcode
     this.opcodes[0x19] = { name: 'NOT', opcode: 0x19, parameters: 0 } as Opcode
     this.opcodes[0x1a] = { name: 'BYTE', opcode: 0x1a, parameters: 0 } as Opcode
-    this.opcodes[0x20] = { name: 'SHA3', opcode: 0x20, parameters: 0 } as Opcode // TODO
+    this.opcodes[0x20] = { name: 'SHA3', opcode: 0x20, parameters: 0 } as Opcode
     this.opcodes[0x30] = { name: 'ADDRESS', opcode: 0x30, parameters: 0 } as Opcode
     this.opcodes[0x31] = { name: 'BALANCE', opcode: 0x31, parameters: 0 } as Opcode
     this.opcodes[0x32] = { name: 'ORIGIN', opcode: 0x32, parameters: 0 } as Opcode

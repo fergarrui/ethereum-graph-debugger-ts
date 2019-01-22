@@ -5,7 +5,6 @@ import { Disassembler } from '../../../bytecode/Disassembler'
 import { OpcodeExecutor } from './OpcodeExecutor'
 import { EVMDisassembler } from '../../../bytecode/EVMDisassembler'
 import { Word } from '../Word'
-import { Symbols } from '../Symbols'
 
 describe('Msize', () => {
   let cfgCreator: EthereumCFGCreator
