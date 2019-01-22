@@ -73,7 +73,13 @@ class ControlFlowGraphComp extends React.Component {
       </div>
       <div className={styles['control-flow-graph-comp__data']}>
         {fetchRequestStatus === 'success' &&
-          <Graph graphId={contractName} contractPath={contractPath} cfg={cfg} operations={operations}/>
+          <Graph 
+            graphType="cfg" 
+            graphId={contractName} 
+            contractPath={contractPath} 
+            cfg={cfg} 
+            operations={operations}
+          />
         }
       </div>
       <div className={styles['control-flow-graph-comp__error']}>
