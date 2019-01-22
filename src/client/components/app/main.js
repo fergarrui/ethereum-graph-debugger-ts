@@ -1,22 +1,13 @@
 import React from 'react';
 
-import { connect } from 'react-redux';
-
 import TopNavBar from '../TopNavBar/main.js';
 import Tab from '../Tab/main.js';
-import TabPanel from '../Tab/TabPanel/main.js';
-import TabMenuItem from '../Tab/TabMenuItem/main.js';
-import Modal from '../Modal/main.js';
+import LoadingComp from '../LoadingComp/main.js';
 
 import styles from '../../styles/App.scss';
 
-const mapStateToProps = state => {
-  return {
-    modalOpen: state.showModal,
-  }
-}
 
-class ConnectedApp extends React.Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
 
@@ -91,7 +82,7 @@ class ConnectedApp extends React.Component {
   render() {
 
     const { fetchRequestStatus, contracts } = this.state;
-    const { children, modalOpen } = this.props;
+    const { children } = this.props;
 
     return (
       <div className={styles['app']}>
@@ -103,7 +94,7 @@ class ConnectedApp extends React.Component {
         </div>
         <div className={styles['app__tabs']}>
           {fetchRequestStatus === 'pending' &&
-            <div>pending</div>
+            <LoadingComp />
           }
           {fetchRequestStatus === 'success' && 
             <Tab data={contracts} onMenuItemIconClick={this.handleMenuItemIconClick}>
@@ -111,20 +102,13 @@ class ConnectedApp extends React.Component {
             </Tab>        
           }
           {fetchRequestStatus === 'fail' &&
-          <div>error</div>
-          }
-        </div>
-        <div className={styles['app__modal']}>
-          {
-            modalOpen && <Modal />
+            <div>error</div>
           }
         </div>
       </div>
     );
   }
 }
-
-const App = connect(mapStateToProps)(ConnectedApp);
 
 App.displayName = 'App';
 

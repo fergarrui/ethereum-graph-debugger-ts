@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { connect } from 'react-redux';
-
 import Editor from '../../Editor/main.js';
 import Icon from '../../Icon/main.js';
 import SideBar from '../../SideBar/main.js';
 import InnerTab from '../../InnerTab/main.js';
+import Modal from '../../Modal/main.js';
+import LoadingComp from '../../LoadingComp/main.js';
 
 import styles from '../../../styles/Tab/TabPanel.scss';
 
@@ -20,12 +20,77 @@ class TabPanel extends React.Component {
     this.state = {
       editorOpen: true,
       sideBarOpen: false,
+      modalOpen: false,
+      inputValue: '',
+      prameter: '',
       tabs: [],
+      cfg: '',
+      operations: [],
+      trace: {},
+      fetchRequestStatus: undefined,
     }
 
     this.handleMenuItemIconClick = this.handleMenuItemIconClick.bind(this);
     this.handleOutsideClick = this.handleOutsideClick.bind(this);
   }
+
+  fetchTrace(name, source, path, parameter) {
+    this.handleRequestPending();
+    
+    fetch(`http://localhost:9090/debug/${parameter}/?source=${encodeURIComponent(source)}&name=${name.replace('.sol', '')}&path=${encodeURIComponent(path)}`)
+      .then(res => res.json())
+      .then(data => this.handleRequestSuccess(data))
+      .catch(err => console.log(err));
+  }
+
+
+  handleRequestPending() {
+    this.setState({
+      fetchRequestStatus: 'pending',
+      modalOpen: false,
+    });
+  }
+
+  handleRequestSuccess(response) {
+
+    const newTabs = [...this.state.tabs, {'title': 'Debug Transaction', 'type': 'Debug Transaction'}];
+
+    this.setState({
+      fetchRequestStatus: 'success',
+      cfg: response.cfg,
+      operations: response.operations,
+      trace: response.trace,
+      tabs: newTabs,
+    });
+  }
+
+  handleRequestFail() {
+    this.setState({
+      fetchRequestStatus: 'fail',
+    });
+  }
+
+  handleInputChange(event) {
+
+    const { value } = event.target;
+
+    this.setState({
+      inputValue: value,
+      parameter: value,
+    });
+  }
+
+  handleInputSubmit() {
+    const { inputValue, parameter } = this.state;
+    const { name, path, code } = this.props;
+
+    this.setState({
+      parameter: inputValue,
+    });
+
+    this.fetchTrace(name, code, path, parameter);
+  }
+
 
   handleLeftIconClick() {
     this.setState({
@@ -86,10 +151,25 @@ class TabPanel extends React.Component {
     });
   }
 
+  handleModalIconClick() {
+    this.setState({
+      modalOpen: false,
+    });
+  }
+
+  handleDebugTransactionClick() {
+    this.setState({
+      modalOpen: true,
+      sideBarOpen: false,
+    });
+
+    document.removeEventListener('click', this.handleOutsideClick);
+  }
+
   render() {
     
     const { code, name, path, active, index, children } = this.props;
-    const { editorOpen, tabs, sideBarOpen } = this.state;
+    const { editorOpen, tabs, sideBarOpen, operations, cfg, trace, modalOpen, fetchRequestStatus } = this.state;
     
     const editorClasses = cx({
       'tab-panel__left__editor': true,
@@ -129,6 +209,7 @@ class TabPanel extends React.Component {
           > 
             <SideBar 
               onClick={(compType) => this.handleSideBarItemClick(compType)}
+              onDebugTransactionClick={() => this.handleDebugTransactionClick()}
             />
           </div>
           <div className={editorClasses}>
@@ -138,13 +219,33 @@ class TabPanel extends React.Component {
         <div className={styles['tab-panel__right']}>
            <InnerTab 
               data={tabs} 
-              contractName={name} 
+              contractName={name}
               contractCode={code}
               contractPath={path}
+              cfg={cfg}
+              operations={operations}
+              trace={trace}
               onMenuItemIconClick={this.handleMenuItemIconClick} 
             >
             {children}
           </InnerTab>
+        </div>
+        <div className={styles['tab-panel__modal']}>
+        {
+          modalOpen &&  
+          (
+            <Modal 
+              onInputChange={(e) => this.handleInputChange(e)} 
+              onInputSubmit={() => this.handleInputSubmit()}
+              onIconClick={() => this.handleModalIconClick()}
+            />
+          )
+        }
+        </div>
+        <div className={styles['tab-panel__loading']}>
+          {
+            fetchRequestStatus === 'pending' && <LoadingComp />
+          }
         </div>
       </div>
     )

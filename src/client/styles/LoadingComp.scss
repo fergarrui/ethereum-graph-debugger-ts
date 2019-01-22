@@ -1,0 +1,43 @@
+@keyframes rotate {
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-comp {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width:100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 6;
+
+  &__main {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    &__text {
+      color: #E2C044;
+    }
+  
+    &__spinner {
+      display: table;
+      margin: 30px auto;
+  
+      svg {
+        width: 40px;
+        height: 40px;
+        fill: #E2C044;
+        stroke: #E2C044;
+        animation: rotate 5s infinite;
+      }
+    }
+  }
+}
