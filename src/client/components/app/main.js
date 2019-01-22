@@ -2,7 +2,7 @@ import React from 'react';
 
 import TopNavBar from '../TopNavBar/main.js';
 import Tab from '../Tab/main.js';
-import LoadingComp from '../LoadingComp/main.js';
+import MessageComp from '../MessageComp/main.js';
 
 import styles from '../../styles/App.scss';
 
@@ -15,6 +15,7 @@ class App extends React.Component {
       inputValue: '',
       parameter: '',
       fetchRequestStatus: undefined,
+      messageVisible: false,
       contracts: [],
     }
 
@@ -56,7 +57,7 @@ class App extends React.Component {
     fetch(`http://localhost:9090/files/${encodeURIComponent(parameter)}?extension=sol`)
       .then(res => res.json())
       .then(data => this.handleRequestSuccess(data))
-      .catch(err => this.handleRequestFail)
+      .catch(err => this.handleRequestFail(err))
       ;
   }
 
@@ -76,12 +77,19 @@ class App extends React.Component {
   handleRequestFail() {
     this.setState({
       fetchRequestStatus: 'fail',
+      messageVisible: true,
+    });
+  }
+
+  handleMessageButtonClick() {
+    this.setState({
+      messageVisible: false,
     });
   }
 
   render() {
 
-    const { fetchRequestStatus, contracts } = this.state;
+    const { fetchRequestStatus, contracts, messageVisible } = this.state;
     const { children } = this.props;
 
     return (
@@ -93,17 +101,26 @@ class App extends React.Component {
           />
         </div>
         <div className={styles['app__tabs']}>
+        <div className={styles['app__tabs__loading']}>
           {fetchRequestStatus === 'pending' &&
-            <LoadingComp />
+            <MessageComp message='Loading...' />
           }
+        </div>
+        <div className={styles['app__tabs__success']}>
           {fetchRequestStatus === 'success' && 
-            <Tab data={contracts} onMenuItemIconClick={this.handleMenuItemIconClick}>
-              {children}
-            </Tab>        
+          <Tab data={contracts} onMenuItemIconClick={this.handleMenuItemIconClick}>
+            {children}
+          </Tab>        
           }
-          {fetchRequestStatus === 'fail' &&
-            <div>error</div>
+        </div>
+        <div className={styles['app__tab__error']}>
+          {fetchRequestStatus === 'fail' && messageVisible &&
+            <MessageComp 
+              message="Sorry, couldn't load contracts"
+              onMessageButtonClick={() => this.handleMessageButtonClick()}
+             />
           }
+        </div>
         </div>
       </div>
     );

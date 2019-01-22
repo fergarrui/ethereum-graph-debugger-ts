@@ -5,7 +5,7 @@ import Icon from '../../Icon/main.js';
 import SideBar from '../../SideBar/main.js';
 import InnerTab from '../../InnerTab/main.js';
 import Modal from '../../Modal/main.js';
-import LoadingComp from '../../LoadingComp/main.js';
+import MessageComp from '../../MessageComp/main.js';
 
 import styles from '../../../styles/Tab/TabPanel.scss';
 
@@ -20,6 +20,7 @@ class TabPanel extends React.Component {
     this.state = {
       editorOpen: true,
       sideBarOpen: false,
+      messageVisible: false,
       modalOpen: false,
       inputValue: '',
       prameter: '',
@@ -40,7 +41,7 @@ class TabPanel extends React.Component {
     fetch(`http://localhost:9090/debug/${parameter}/?source=${encodeURIComponent(source)}&name=${name.replace('.sol', '')}&path=${encodeURIComponent(path)}`)
       .then(res => res.json())
       .then(data => this.handleRequestSuccess(data))
-      .catch(err => console.log(err));
+      .catch(err => this.handleRequestFail(err));
   }
 
 
@@ -67,6 +68,7 @@ class TabPanel extends React.Component {
   handleRequestFail() {
     this.setState({
       fetchRequestStatus: 'fail',
+      messageVisible: true,
     });
   }
 
@@ -166,10 +168,16 @@ class TabPanel extends React.Component {
     document.removeEventListener('click', this.handleOutsideClick);
   }
 
+  handleMessageButtonClick() {
+    this.setState({
+      messageVisible: false,
+    });
+  }
+
   render() {
     
     const { code, name, path, active, index, children } = this.props;
-    const { editorOpen, tabs, sideBarOpen, operations, cfg, trace, modalOpen, fetchRequestStatus } = this.state;
+    const { editorOpen, tabs, sideBarOpen, operations, cfg, trace, modalOpen, messageVisible, fetchRequestStatus } = this.state;
     
     const editorClasses = cx({
       'tab-panel__left__editor': true,
@@ -233,18 +241,25 @@ class TabPanel extends React.Component {
         <div className={styles['tab-panel__modal']}>
         {
           modalOpen &&  
-          (
             <Modal 
               onInputChange={(e) => this.handleInputChange(e)} 
               onInputSubmit={() => this.handleInputSubmit()}
               onIconClick={() => this.handleModalIconClick()}
             />
-          )
         }
         </div>
         <div className={styles['tab-panel__loading']}>
           {
-            fetchRequestStatus === 'pending' && <LoadingComp />
+            fetchRequestStatus === 'pending' && <MessageComp message='Loading...' />
+          }
+        </div>
+        <div className={styles['tab-panel__error']}>
+          {
+            fetchRequestStatus === 'fail' && messageVisible &&
+             <MessageComp
+              message='Sorry, there has been an error' 
+              onMessageButtonClick={() => this.handleMessageButtonClick()}
+             />
           }
         </div>
       </div>

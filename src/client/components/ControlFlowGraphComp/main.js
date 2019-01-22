@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Graph from '../Graph/main.js';
+import MessageComp from '../MessageComp/main.js'
 
 import styles from '../../styles/ControlFlowGraphComp.scss';
 
@@ -10,6 +11,7 @@ class ControlFlowGraphComp extends React.Component {
 
     this.state = {
       fetchRequestStatus: undefined,
+      messageVisible: false,
       cfg: '',
     }
   }
@@ -27,7 +29,7 @@ class ControlFlowGraphComp extends React.Component {
     fetch(`http://localhost:9090/cfg/source?source=${encodeURIComponent(source)}&name=${contractName.replace('.sol', '')}&constructor=false&path=${encodeURIComponent(path)}`)
       .then(res => res.json())
       .then(data => this.handleRequestSuccess(data))
-      .catch(err => console.log(err));
+      .catch(err => this.handleRequestFail);
   }
 
   handleRequestPending() {
@@ -48,24 +50,39 @@ class ControlFlowGraphComp extends React.Component {
   handleRequestFail() {
     this.setState({
       fetchRequestStatus: 'fail',
+      messageVisible: true,
+    });
+  }
+
+  handleMessageButtonClick() {
+    this.setState({
+      messageVisible: false,
     });
   }
 
   render() {
-    const { cfg, fetchRequestStatus, operations } = this.state;
+    const { cfg, fetchRequestStatus, operations, messageVisible } = this.state;
     const { contractName, contractPath } = this.props;
 
     return (
       <div className={styles['control-flow-graph-comp']}>
+      <div className={styles['control-flow-graph-comp__loading']}>
         {fetchRequestStatus === 'pending' && 
-          <div>loading</div>
+          <MessageComp message='Loading...' />
         }
+      </div>
+      <div className={styles['control-flow-graph-comp__data']}>
         {fetchRequestStatus === 'success' &&
           <Graph graphId={contractName} contractPath={contractPath} cfg={cfg} operations={operations}/>
         }
-        {fetchRequestStatus === 'fail' &&
-          <div>failed</div>
-        }      
+      </div>
+      <div className={styles['control-flow-graph-comp__error']}>
+        {fetchRequestStatus === 'fail' && messageVisible &&
+          <MessageComp 
+            message='Sorry, there has been an error'
+            onMessageButtonClick={() => this.handleMessageButtonClick()} />
+        }  
+      </div>    
       </div>
     );
   }
