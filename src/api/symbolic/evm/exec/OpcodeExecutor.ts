@@ -63,6 +63,8 @@ import { Signextend } from './Signextend';
 import { Sgt } from './Sgt';
 import { Slt } from './Slt';
 import { Byte } from './Byte';
+import { Sha3 } from './Sha3';
+import { Msize } from './Msize';
 
 @injectable()
 export class OpcodeExecutor {
@@ -165,11 +167,14 @@ export class OpcodeExecutor {
     this.ops['NOT'] = new Not()
     this.ops['BYTE'] = new Byte()
 
+    this.ops['SHA3'] = new Sha3()
+
     this.ops['SSTORE'] = new Sstore()
     this.ops['SLOAD'] = new Sload()
     this.ops['MSTORE'] = new MStore()
     this.ops['MSTORE8'] = new MStore8()
     this.ops['MLOAD'] = new MLoad()
+    this.ops['MSIZE'] = new Msize()
 
     this.ops['ISZERO'] = new IsZero()
     this.ops['LT'] = new Lt()

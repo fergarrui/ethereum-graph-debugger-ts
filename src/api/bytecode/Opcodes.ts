@@ -60,7 +60,7 @@ export class Opcodes {
     this.opcodes[0x56] = { name: 'JUMP', opcode: 0x56, parameters: 0 } as Opcode
     this.opcodes[0x57] = { name: 'JUMPI', opcode: 0x57, parameters: 0 } as Opcode
     this.opcodes[0x58] = { name: 'PC', opcode: 0x58, parameters: 0 } as Opcode
-    this.opcodes[0x59] = { name: 'MSIZE', opcode: 0x59, parameters: 0 } as Opcode // TODO
+    this.opcodes[0x59] = { name: 'MSIZE', opcode: 0x59, parameters: 0 } as Opcode
     this.opcodes[0x5a] = { name: 'GAS', opcode: 0x5a, parameters: 0 } as Opcode
     this.opcodes[0x5b] = { name: 'JUMPDEST', opcode: 0x5b, parameters: 0 } as Opcode
     this.opcodes[0x60] = { name: 'PUSH1', opcode: 0x60, parameters: 1 } as Opcode
