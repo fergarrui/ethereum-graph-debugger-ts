@@ -24,12 +24,16 @@ export class ControlFlowGraphController extends Controller {
     @Query('path') path: string,
     @Query('constructor') constructor?: boolean
   ): Promise<GFCResponse> {
-    const contractBlocks: CFGContract = this.cfgService.buildCFGFromSource(name, source, path)
-    if (!contractBlocks.contractConstructor && constructor) {
-      throw new Error('Constructor is true but no constructor found in bytecode')
+    try {
+      const contractBlocks: CFGContract = this.cfgService.buildCFGFromSource(name, source, path)
+      if (!contractBlocks.contractConstructor && constructor) {
+        throw new Error('Constructor is true but no constructor found in bytecode')
+      }
+      const cfg = this.createCFG(contractBlocks, constructor)
+      return this.buildResponse(contractBlocks, constructor, cfg)
+    } catch (err) {
+      throw new Error(err.message)
     }
-    const cfg = this.createCFG(contractBlocks, constructor)
-    return this.buildResponse(contractBlocks, constructor, cfg)
   }
 
   @Get('bytecode')

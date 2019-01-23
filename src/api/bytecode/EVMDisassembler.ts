@@ -19,7 +19,11 @@ export class EVMDisassembler implements Disassembler {
     const compileJson = this.generateCompileObject(contractName, source, path)
     const compiledContract = JSON.parse(solc.compileStandardWrapper(JSON.stringify(compileJson)))
     const contractWithExt = `${contractName}.sol`
-    const bytecode = compiledContract.contracts[contractWithExt][contractName].evm.bytecode.object
+    const contract = compiledContract.contracts[contractWithExt][contractName];
+    if (!contract) {
+      throw new Error("Bad source code")
+    }
+    const bytecode = contract.evm.bytecode.object
     const runtimeBytecode = compiledContract.contracts[contractWithExt][contractName].evm.deployedBytecode.object
     const asmRuntime = compiledContract.contracts[contractWithExt][contractName].evm.legacyAssembly['.data'][0][
       '.code'

@@ -12,20 +12,21 @@ const server = new Server()
 const port = 9090
 RegisterRoutes(server.express)
 
-const clientErrorHandler = (err, req, res, next) => {
-  if ((err.hasOwnProperty('thrown') && err.thrown) || (err.name && err.name === 'ValidateError')) {
-    return res.status(err.status).send(err.response || { message: err.message, fields: err.fields })
-  } else {
-    return next(err)
-  }
-}
-
-server.express.use(clientErrorHandler)
+server.express.use((err: any, _req, res, next) => {
+  const status = err.status || 500;
+  const body: any = {
+    message: err.message || 'Sorry, there has been an error',
+    name: err.name,
+    status,
+    error: true
+  };
+  res.status(status).json(body);
+  next();
+});
 
 const runServer = () => {
   server
     .setLogConfig('info' as any, false)
-    // .withErrorHandlers()
     .startOn(port)
 }
 
