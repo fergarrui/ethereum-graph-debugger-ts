@@ -47,6 +47,12 @@ module.exports = {
               ],
             },
           },
+          {
+            loader: "sass-resources-loader",
+            options: {
+              resources: require(path.join(process.cwd(), "./src/client/styles/utils.js")),
+          }
+        }
         ],
       },
     ]

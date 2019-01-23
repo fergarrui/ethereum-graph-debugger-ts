@@ -4,8 +4,8 @@
   flex: 1 0 auto;
   padding: 15px 20px 20px 20px;
   text-align: center;
-  background: #393E41;
-  color: #E2C044;
+  background: $color-grey;
+  color: $color-yellow;
   z-index: 0;
   box-shadow: inset 2px 1px 5px (#000 + 30);
   transform: translate(0, 20px);
@@ -32,8 +32,8 @@
     svg {
       width: 10px;
       height: 10px;
-      fill: #E2C044;
-      stroke: #E2C044;
+      fill: $color-yellow;
+      stroke: $color-yellow;
       pointer-events: none;
       transition: fill 0.2s ease-in-out, stroke 0.2s ease-in-out;
     }
@@ -45,9 +45,9 @@
 
   &--active {
     transform: translate(0, 10px);
-    box-shadow: 2px 5px 6px 2px (#393E41 - 30);
-    color: #393E41;
-    background: #E2C044;
+    box-shadow: 2px 5px 6px 2px ($color-grey - 30);
+    color: $color-grey;
+    background: $color-yellow;
 
     &:hover {
       transform: translate(0, 10px);
@@ -59,8 +59,8 @@
     &__icon {
 
       svg {
-        fill: #393E41;
-        stroke: #393E41;
+        fill: $color-grey;
+        stroke: $color-grey;
       }
     }
   }
