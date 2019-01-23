@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { showLoadingMessage, hideLoadingMessage, showErrorMessage } from '../../Store/Actions.js';
+import { showLoadingMessage, hideLoadingMessage, showErrorMessage, getErrorMessage } from '../../Store/Actions.js';
 
 import Editor from '../../Editor/main.js';
 import SideBar from '../../SideBar/main.js';
@@ -27,6 +27,7 @@ const mapDispatchToProps = dispatch => {
     loadingMessageOn: () => dispatch(showLoadingMessage()),
     loadingMessageOff: () => dispatch(hideLoadingMessage()),
     errorMessageOn: () => dispatch(showErrorMessage()),
+    getErrorMessage: message => dispatch(getErrorMessage(message)),
   }
 }
 
@@ -55,7 +56,11 @@ class ConnectedTabPanel extends React.Component {
     
     fetch(`http://localhost:9090/debug/${parameter}/?source=${encodeURIComponent(source)}&name=${name.replace('.sol', '')}&path=${encodeURIComponent(path)}`)
       .then(res => res.json())
-      .then(data => this.handleRequestSuccess(data))
+      .then(data => {
+        data.error 
+        ? this.handleRequestFail(data.message) 
+        : this.handleRequestSuccess(data);      
+      })
       .catch(err => this.handleRequestFail(err));
   }
 
@@ -83,9 +88,10 @@ class ConnectedTabPanel extends React.Component {
     this.props.loadingMessageOff();
   }
 
-  handleRequestFail() {
+  handleRequestFail(message) {
     this.props.loadingMessageOff();
     this.props.errorMessageOn();
+    this.props.getErrorMessage(message);
   }
 
   handleInputChange(event) {

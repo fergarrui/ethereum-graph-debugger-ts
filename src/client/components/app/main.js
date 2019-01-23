@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { showLoadingMessage, showErrorMessage, hideLoadingMessage } from '../Store/Actions.js';
+import { showLoadingMessage, showErrorMessage, hideLoadingMessage, getErrorMessage } from '../Store/Actions.js';
 
 import TopNavBar from '../TopNavBar/main.js';
 import Tab from '../Tab/main.js';
@@ -13,6 +13,7 @@ const mapStateToProps = state => {
   return {
     showLoadingMessage: state.toggleLoadingMessage,
     showErrorMessage: state.toggleErrorMessage,
+    errorMessage: state.toggleErrorMessage,
   }
 }
 
@@ -20,7 +21,8 @@ const mapDispatchToProps = dispatch => {
   return {
     loadingMessageOn: () => dispatch(showLoadingMessage()),
     loadingMessageOff: () => dispatch(hideLoadingMessage()),
-    errorMessageOn: () => dispatch(showErrorMessage())
+    errorMessageOn: () => dispatch(showErrorMessage()),
+    getErrorMessage: message => dispatch(getErrorMessage(message)),
   }
 }
 
@@ -72,7 +74,11 @@ class ConnectedApp extends React.Component {
 
     fetch(`http://localhost:9090/files/${encodeURIComponent(parameter)}?extension=sol`)
       .then(res => res.json())
-      .then(data => this.handleRequestSuccess(data))
+      .then(data => {
+        data.error 
+        ? this.handleRequestFail(data.message) 
+        : this.handleRequestSuccess(data);      
+      })
       .catch(err => this.handleRequestFail(err))
       ;
   }
@@ -93,6 +99,7 @@ class ConnectedApp extends React.Component {
   handleRequestFail() {
     this.props.loadingMessageOff();
     this.props.errorMessageOn();
+    this.props.getErrorMessage(message);
   }
 
   handleMessageButtonClick() {
@@ -104,7 +111,7 @@ class ConnectedApp extends React.Component {
   render() {
 
     const { fetchRequestStatus, contracts } = this.state;
-    const { children, showLoadingMessage, showErrorMessage } = this.props;
+    const { children, showLoadingMessage, showErrorMessage, errorMessage } = this.props;
 
     return (
       <div className={styles['app']}>
@@ -125,7 +132,7 @@ class ConnectedApp extends React.Component {
           }
           { showErrorMessage &&
             <MessageComp 
-              message="Sorry, couldn't load contracts"
+              message={errorMessage}
               onMessageButtonClick={() => this.handleMessageButtonClick()}
              />
           }

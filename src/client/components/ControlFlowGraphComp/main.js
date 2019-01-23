@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { showLoadingMessage, hideLoadingMessage, showErrorMessage } from '../Store/Actions.js';
+import { showLoadingMessage, hideLoadingMessage, showErrorMessage, getErrorMessage } from '../Store/Actions.js';
 
 import Graph from '../Graph/main.js';
 
@@ -12,6 +12,7 @@ const mapDispatchToProps = dispatch => {
     loadingMessageOn: () => dispatch(showLoadingMessage()),
     loadingMessageOff: () => dispatch(hideLoadingMessage()),
     errorMessageOn: () => dispatch(showErrorMessage()),
+    getErrorMessage: message => dispatch(getErrorMessage(message)),
   }
 }
 
@@ -33,13 +34,15 @@ class ConnectedControlFlowGraphComp extends React.Component {
 
   fetchData(name, source, path) {
     this.handleRequestPending();
-
-    const { contractName } = this.props;
     
-    fetch(`http://localhost:9090/cfg/source?source=${encodeURIComponent(source)}&name=${contractName.replace('.sol', '')}&constructor=false&path=${encodeURIComponent(path)}`)
+    fetch(`http://localhost:9090/cfg/source?source=${encodeURIComponent(source)}&name=${name.replace('.sol', '')}&constructor=false&path=${encodeURIComponent(path)}`)
       .then(res => res.json())
-      .then(data => this.handleRequestSuccess(data))
-      .catch(err => this.handleRequestFail);
+      .then(data => {
+        data.error 
+        ? this.handleRequestFail(data.message) 
+        : this.handleRequestSuccess(data);      
+      })
+      .catch(err => this.handleRequestFail(err));
   }
 
   handleRequestPending() {
@@ -51,21 +54,16 @@ class ConnectedControlFlowGraphComp extends React.Component {
     this.setState({
       fetchRequestStatus: 'success',
       cfg: response.cfg,
-      operations: response.operations
+      operations: response.operations,
     });
 
     this.props.loadingMessageOff();
   }
 
-  handleRequestFail() {
+  handleRequestFail(message) {
     this.props.loadingMessageOff();
     this.props.errorMessageOn();
-  }
-
-  handleMessageButtonClick() {
-    this.setState({
-      messageVisible: false,
-    });
+    this.props.getErrorMessage(message);
   }
 
   render() {

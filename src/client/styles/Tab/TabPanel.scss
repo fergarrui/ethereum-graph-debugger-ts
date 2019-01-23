@@ -1,7 +1,7 @@
 .tab-panel {
   display: none;
   width: 100%;
-  padding: 34px 0 20px 15px;
+  padding: 34px 0 20px 0;
   background: $color-black;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
@@ -14,7 +14,7 @@
     &__control {
       position: absolute;
       top: -22px;
-      left: 0;
+      left: 10px;
       z-index: 4;
 
       button {
@@ -26,6 +26,7 @@
 
     &__side-bar {
       position: absolute;
+      top: 9px;
       left: -262px;
       transition: left 0.2s;
       pointer-events: none;
@@ -53,7 +54,7 @@
     &__side-bar {
 
       &--open {
-        left: -13px;
+        left: 0;
         z-index: 6;
         pointer-events: auto;
       }
