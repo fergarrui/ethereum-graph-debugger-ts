@@ -1,13 +1,3 @@
-@keyframes rotate {
-  0% {
-    transform: rotate(0);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
 .message-comp {
   position: fixed;
   top: 0;
@@ -24,7 +14,7 @@
     transform: translate(-50%, -50%);
 
     &__text {
-      color: #E2C044;
+      color: $color-yellow;
     }
   
     &__button {
@@ -34,16 +24,16 @@
       svg {
         width: 40px;
         height: 40px;
-        fill: #E2C044;
-        stroke: #E2C044;
+        fill: $color-yellow;
+        stroke: $color-yellow;
         animation: rotate 5s infinite;
       }
 
       button {
         padding: 10px;
         font-size: 14px;
-        border: 1px solid #E2C044;
-        color: #E2C044;
+        border: 1px solid $color-yellow;
+        color: $color-yellow;
         border-radius: 5px;
         background: transparent;
         outline: transparent;

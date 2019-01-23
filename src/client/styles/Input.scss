@@ -15,14 +15,14 @@
     input[type='text'] {
       width: 100%;
       background: transparent;
-      color: #D3D0CB;
+      color: $color-light-grey;
     }
 
     input[type='submit'] {
-      border: 1px solid #D3D0CB;
+      border: 1px solid $color-light-grey;
       border-radius: 5px;
       background: transparent;
-      color: #D3D0CB;
+      color: $color-light-grey;
       cursor: pointer;
 
       &:hover {
@@ -32,7 +32,7 @@
 
     &:first-of-type {
       flex: 1 1 auto;
-      border-bottom: 1px solid #D3D0CB;
+      border-bottom: 1px solid $color-light-grey;
     }
 
     &:last-of-type {
