@@ -14,11 +14,19 @@ export class TransactionController extends Controller {
 
   @Get('{tx}/receipt')
   async getReceipt(@Path() tx: string): Promise<TransactionReceipt> {
-    return this.transactionService.findTransactionReceipt(tx)
+    try {
+      return this.transactionService.findTransactionReceipt(tx)
+    } catch (err) {
+      throw new Error(err.message)
+    }
   }
 
   @Get('{tx}/trace')
   async getTransactionTrace(@Path() tx: string): Promise<DebugTrace> {
-    return this.transactionService.findTransactionTrace(tx, 'asd')
+    try {
+      return this.transactionService.findTransactionTrace(tx, 'asd')
+    } catch (err) {
+      throw new Error(err.message)
+    }
   }
 }

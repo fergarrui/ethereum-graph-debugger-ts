@@ -18,8 +18,12 @@ export class DisassembleController extends Controller {
     @Query('name') name: string,
     @Query('path') path: string
   ): Promise<DisassembledContractResponse> {
-    const disassembled: DisassembledContract = this.disassembler.disassembleSourceCode(name, source, path)
-    return this.contractToResponse(disassembled)
+    try {
+      const disassembled: DisassembledContract = this.disassembler.disassembleSourceCode(name, source, path)
+      return this.contractToResponse(disassembled)
+    } catch (err) {
+      throw new Error(err.message)
+    }
   }
 
   private contractToResponse(disassembled: DisassembledContract): DisassembledContractResponse {
