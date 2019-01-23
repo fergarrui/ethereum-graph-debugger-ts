@@ -1,0 +1,16 @@
+.evm-state {
+  color: #fff;
+  padding-top: 10px;
+
+  &__item {
+    padding: 10px 0;
+
+    &__content {
+      margin-top: 5px;
+            
+      span {
+        word-break: break-all;
+      }
+    }
+  }
+}

@@ -1,7 +1,8 @@
 import { combineReducers } from 'redux';
 
-import { selectLines } from './Reducers.js';
+import { selectLines, selectEVMState } from './Reducers.js';
 
 export default combineReducers({
   selectLines,
+  selectEVMState,
 });

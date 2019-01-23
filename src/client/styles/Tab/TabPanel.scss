@@ -1,7 +1,7 @@
 .tab-panel {
   display: none;
   width: 100%;
-  padding: 34px 20px;
+  padding: 34px 0 20px 15px;
   background: #1D1D1B;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
@@ -11,38 +11,21 @@
     position: relative;
     padding-top: 30px;
 
-    &__controls {
-      display: flex;
+    &__control {
       position: absolute;
       top: 0;
       left: 0;
       z-index: 4;
 
-      &__item {
-
-        button {
-          background: transparent;
-          outline: transparent;
-          cursor: pointer;
-        }
-
-        &:not(:first-of-type) {
-          margin-left: 10px;
-        }
+      button {
+        background: transparent;
+        outline: transparent;
+        cursor: pointer;
       }
-    }
-
-    &__editor {
-      position: relative;
-      left: -108%;
-      transition: left 0.3s;
-      z-index: 4;
     }
 
     &__side-bar {
       position: absolute;
-      top: 0;
-      left: 19%;
       opacity: 0;
       transition: opacity 0.1s;
       pointer-events: none;
@@ -50,8 +33,10 @@
   }
 
   &__right {
+    flex: 1 1 auto;
     width: 100%;
-    padding: 0 30px;
+    height: 100%;
+    padding: 0 20px;
     overflow-x: auto;
   }
 }
@@ -64,13 +49,6 @@
   }
 
   &__left {
-      
-    &__editor {
-
-      &--open {
-        left: 0;
-      }
-    }
 
     &__side-bar {
 

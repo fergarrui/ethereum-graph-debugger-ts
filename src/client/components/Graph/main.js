@@ -6,11 +6,12 @@ import * as d3 from 'd3';
 import * as d3Graphviz from 'd3-graphviz';
 
 import { connect } from 'react-redux';
-import {selectEditorLines} from '../Store/Actions.js';
+import { selectEditorLines, showEVMState } from '../Store/Actions.js';
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    selectLines: lines => dispatch(selectEditorLines(lines))
+    selectLines: lines => dispatch(selectEditorLines(lines)),
+    selectEVMState: evmState => dispatch(showEVMState(evmState)),
   }
 }
 
@@ -32,11 +33,21 @@ class ConnectedGraph extends React.Component {
   }
 
   handleClick(event) {
-    const { operations, selectLines } = this.props;
+    const { operations, selectLines, trace, selectEVMState } = this.props;
+    
     if (event.target.tagName === 'text') {
       const elem = d3.select(event.target.parentElement.parentElement);
       const id = elem.attr('id').replace('a_', '') ;
       const idNum = parseInt(id, 16);
+
+      if(trace){
+        const evmState = trace[idNum];
+        if (evmState) {
+          console.log('yes')
+          selectEVMState(evmState);
+        }
+      }
+
       const selectedOperation = operations.find(op => op.offset === idNum);
       if (selectedOperation && selectedOperation.begin && selectedOperation.end) {
         selectLines([selectedOperation.begin, selectedOperation.end]);
@@ -51,7 +62,7 @@ class ConnectedGraph extends React.Component {
 
     return (
       <div className={styles['graph-container']}>
-        <div onClick={(e) => this.handleClick(e)} className={`graph--${graphclass}`}  cfg={cfg}></div>
+        <div onClick={(e) => this.handleClick(e)} className={`graph--${graphclass}`} cfg={cfg}></div>
       </div>
     );
   }

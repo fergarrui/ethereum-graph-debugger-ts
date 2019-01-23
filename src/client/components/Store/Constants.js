@@ -1,1 +1,2 @@
 export const SELECT_EDITOR_LINES = 'SELECT_EDITOR_LINES';
+export const SHOW_EVM_STATE = 'SHOW_EVM_STATE';
