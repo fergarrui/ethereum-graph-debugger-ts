@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
+import { showLoadingMessage, showErrorMessage, hideLoadingMessage } from '../Store/Actions.js';
 
 import TopNavBar from '../TopNavBar/main.js';
 import Tab from '../Tab/main.js';
@@ -6,8 +9,22 @@ import MessageComp from '../MessageComp/main.js';
 
 import styles from '../../styles/App.scss';
 
+const mapStateToProps = state => {
+  return {
+    showLoadingMessage: state.toggleLoadingMessage,
+    showErrorMessage: state.toggleErrorMessage,
+  }
+}
 
-class App extends React.Component {
+const mapDispatchToProps = dispatch => {
+  return {
+    loadingMessageOn: () => dispatch(showLoadingMessage()),
+    loadingMessageOff: () => dispatch(hideLoadingMessage()),
+    errorMessageOn: () => dispatch(showErrorMessage())
+  }
+}
+
+class ConnectedApp extends React.Component {
   constructor(props) {
     super(props);
 
@@ -15,7 +32,6 @@ class App extends React.Component {
       inputValue: '',
       parameter: '',
       fetchRequestStatus: undefined,
-      messageVisible: false,
       contracts: [],
     }
 
@@ -62,9 +78,7 @@ class App extends React.Component {
   }
 
   handleRequestPending() {
-    this.setState({
-      fetchRequestStatus: 'pending',
-    });
+    this.props.loadingMessageOn();
   }
 
   handleRequestSuccess(response) {
@@ -72,13 +86,13 @@ class App extends React.Component {
       fetchRequestStatus: 'success',
       contracts: response,
     });
+
+    this.props.loadingMessageOff();
   }
 
   handleRequestFail() {
-    this.setState({
-      fetchRequestStatus: 'fail',
-      messageVisible: true,
-    });
+    this.props.loadingMessageOff();
+    this.props.errorMessageOn();
   }
 
   handleMessageButtonClick() {
@@ -89,8 +103,8 @@ class App extends React.Component {
 
   render() {
 
-    const { fetchRequestStatus, contracts, messageVisible } = this.state;
-    const { children } = this.props;
+    const { fetchRequestStatus, contracts } = this.state;
+    const { children, showLoadingMessage, showErrorMessage } = this.props;
 
     return (
       <div className={styles['app']}>
@@ -101,31 +115,27 @@ class App extends React.Component {
           />
         </div>
         <div className={styles['app__tabs']}>
-        <div className={styles['app__tabs__loading']}>
-          {fetchRequestStatus === 'pending' &&
+          { showLoadingMessage &&
             <MessageComp message='Loading...' />
           }
-        </div>
-        <div className={styles['app__tabs__success']}>
           {fetchRequestStatus === 'success' && 
           <Tab data={contracts} onMenuItemIconClick={this.handleMenuItemIconClick}>
             {children}
           </Tab>        
           }
-        </div>
-        <div className={styles['app__tab__error']}>
-          {fetchRequestStatus === 'fail' && messageVisible &&
+          { showErrorMessage &&
             <MessageComp 
               message="Sorry, couldn't load contracts"
               onMessageButtonClick={() => this.handleMessageButtonClick()}
              />
           }
         </div>
-        </div>
       </div>
     );
   }
 }
+
+const App = connect(mapStateToProps, mapDispatchToProps)(ConnectedApp);
 
 App.displayName = 'App';
 
