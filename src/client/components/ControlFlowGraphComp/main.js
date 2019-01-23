@@ -1,11 +1,21 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
+import { showLoadingMessage, hideLoadingMessage, showErrorMessage } from '../Store/Actions.js';
 
 import Graph from '../Graph/main.js';
-import MessageComp from '../MessageComp/main.js'
 
 import styles from '../../styles/ControlFlowGraphComp.scss';
 
-class ControlFlowGraphComp extends React.Component {
+const mapDispatchToProps = dispatch => {
+  return {
+    loadingMessageOn: () => dispatch(showLoadingMessage()),
+    loadingMessageOff: () => dispatch(hideLoadingMessage()),
+    errorMessageOn: () => dispatch(showErrorMessage()),
+  }
+}
+
+class ConnectedControlFlowGraphComp extends React.Component {
   constructor(props) {
     super(props);
 
@@ -33,9 +43,7 @@ class ControlFlowGraphComp extends React.Component {
   }
 
   handleRequestPending() {
-    this.setState({
-      fetchRequestStatus: 'pending',
-    });
+    this.props.loadingMessageOn();
   }
 
   handleRequestSuccess(response) {
@@ -45,13 +53,13 @@ class ControlFlowGraphComp extends React.Component {
       cfg: response.cfg,
       operations: response.operations
     });
+
+    this.props.loadingMessageOff();
   }
 
   handleRequestFail() {
-    this.setState({
-      fetchRequestStatus: 'fail',
-      messageVisible: true,
-    });
+    this.props.loadingMessageOff();
+    this.props.errorMessageOn();
   }
 
   handleMessageButtonClick() {
@@ -61,17 +69,11 @@ class ControlFlowGraphComp extends React.Component {
   }
 
   render() {
-    const { cfg, fetchRequestStatus, operations, messageVisible } = this.state;
+    const { cfg, fetchRequestStatus, operations } = this.state;
     const { contractName, contractPath } = this.props;
 
     return (
       <div className={styles['control-flow-graph-comp']}>
-      <div className={styles['control-flow-graph-comp__loading']}>
-        {fetchRequestStatus === 'pending' && 
-          <MessageComp message='Loading...' />
-        }
-      </div>
-      <div className={styles['control-flow-graph-comp__data']}>
         {fetchRequestStatus === 'success' &&
           <Graph 
             graphType="cfg" 
@@ -82,17 +84,11 @@ class ControlFlowGraphComp extends React.Component {
           />
         }
       </div>
-      <div className={styles['control-flow-graph-comp__error']}>
-        {fetchRequestStatus === 'fail' && messageVisible &&
-          <MessageComp 
-            message='Sorry, there has been an error'
-            onMessageButtonClick={() => this.handleMessageButtonClick()} />
-        }  
-      </div>    
-      </div>
     );
   }
 }
+
+const ControlFlowGraphComp = connect(null, mapDispatchToProps)(ConnectedControlFlowGraphComp);
 
 ControlFlowGraphComp.displayName = 'ControlFlowGraphComp';
 

@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import { showLoadingMessage, hideLoadingMessage, showErrorMessage } from '../../Store/Actions.js';
+
 import Editor from '../../Editor/main.js';
-import Icon from '../../Icon/main.js';
 import SideBar from '../../SideBar/main.js';
 import InnerTab from '../../InnerTab/main.js';
 import Modal from '../../Modal/main.js';
-import MessageComp from '../../MessageComp/main.js';
 import EVMState from '../../EVMState/main.js';
 import Hamburger from '../../Hamburger/main.js';
 
@@ -22,13 +22,20 @@ const mapStateToProps = state => {
   }
 }
 
+const mapDispatchToProps = dispatch => {
+  return {
+    loadingMessageOn: () => dispatch(showLoadingMessage()),
+    loadingMessageOff: () => dispatch(hideLoadingMessage()),
+    errorMessageOn: () => dispatch(showErrorMessage()),
+  }
+}
+
 class ConnectedTabPanel extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       sideBarOpen: false,
-      messageVisible: false,
       modalOpen: false,
       inputValue: '',
       prameter: '',
@@ -55,9 +62,10 @@ class ConnectedTabPanel extends React.Component {
 
   handleRequestPending() {
     this.setState({
-      fetchRequestStatus: 'pending',
       modalOpen: false,
     });
+
+    this.props.loadingMessageOn();
   }
 
   handleRequestSuccess(response) {
@@ -71,13 +79,13 @@ class ConnectedTabPanel extends React.Component {
       trace: response.trace,
       tabs: newTabs,
     });
+
+    this.props.loadingMessageOff();
   }
 
   handleRequestFail() {
-    this.setState({
-      fetchRequestStatus: 'fail',
-      messageVisible: true,
-    });
+    this.props.loadingMessageOff();
+    this.props.errorMessageOn();
   }
 
   handleInputChange(event) {
@@ -172,7 +180,7 @@ class ConnectedTabPanel extends React.Component {
   render() {
     
     const { code, name, path, active, index, children, evm } = this.props;
-    const { tabs, sideBarOpen, operations, cfg, trace, modalOpen, messageVisible, fetchRequestStatus } = this.state;
+    const { tabs, sideBarOpen, operations, cfg, trace, modalOpen } = this.state;
 
     const tabPanelClasses = cx({
       'tab-panel': true,
@@ -232,26 +240,12 @@ class ConnectedTabPanel extends React.Component {
             />
         }
         </div>
-        <div className={styles['tab-panel__loading']}>
-          {
-            fetchRequestStatus === 'pending' && <MessageComp message='Loading...' />
-          }
-        </div>
-        <div className={styles['tab-panel__error']}>
-          {
-            fetchRequestStatus === 'fail' && messageVisible &&
-             <MessageComp
-              message='Sorry, there has been an error' 
-              onMessageButtonClick={() => this.handleMessageButtonClick()}
-             />
-          }
-        </div>
       </div>
     )
   }
 }
 
-const TabPanel = connect(mapStateToProps)(ConnectedTabPanel);
+const TabPanel = connect(mapStateToProps, mapDispatchToProps)(ConnectedTabPanel);
 
 TabPanel.displayName = 'TabPanel';
 

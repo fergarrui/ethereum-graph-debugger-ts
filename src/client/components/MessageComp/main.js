@@ -1,10 +1,19 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
+import { hideErrorMessage } from '../Store/Actions.js';
 
 import Icon from '../Icon/main.js';
 
 import styles from '../../styles/MessageComp.scss';
 
-const MessageComp = ({ message, onMessageButtonClick }) => (
+const mapDispatchToProps = dispatch => {
+  return {
+    errorMessageOff: () => dispatch(hideErrorMessage()),
+  }
+}
+
+const ConnectedMessageComp = ({ message, errorMessageOff }) => (
   <div className={styles['message-comp']}>
     <div className={styles['message-comp__main']}>
       <div className={styles['message-comp__main__text']}>
@@ -14,12 +23,14 @@ const MessageComp = ({ message, onMessageButtonClick }) => (
       {
         message === 'Loading...' 
         ?  <Icon iconName='Spinner' />
-        :  <button onClick={onMessageButtonClick}><span>Close</span></button>
+        :  <button onClick={errorMessageOff}><span>Close</span></button>
       }
       </div>
     </div>
   </div>
 )
+
+const MessageComp = connect(null, mapDispatchToProps)(ConnectedMessageComp);
 
 MessageComp.displayName = 'MessageComp';
 

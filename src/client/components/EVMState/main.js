@@ -11,13 +11,23 @@ const mapStateToProps = state => {
 
 const ConnectedEVMState = ({ evm }) => {
 
-  console.log(evm)
-  console.log(evm.storage);
-
   return (
     <div className={styles['evm-state']}>
       <div className={styles['evm-state__item']}>
-        <span>{`gas: ${evm.gas} gasCost: ${evm.gasCost}`}</span>
+        <div className={styles['evm-state__item__title']}>
+          <h4>Gas</h4>
+        </div>
+        <div className={styles['evm-state__item__content']}>
+          <span>{evm.gas}</span>
+        </div>
+      </div>
+      <div className={styles['evm-state__item']}>
+        <div className={styles['evm-state__item__title']}>
+          <h4>GasCost</h4>
+        </div>
+        <div className={styles['evm-state__item__content']}>
+          <span>{evm.gasCost}</span>
+        </div>
       </div>
       <div className={styles['evm-state__item']}>
         <div className={styles['evm-state__item__title']}>
