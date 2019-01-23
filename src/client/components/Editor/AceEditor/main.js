@@ -7,10 +7,9 @@ if (typeof window !== 'undefined') {
   const ace = require('brace');
 }
 
-
 const mapStateToProps = state => {
   return {
-      selectedLines: state
+      selectedLines: state.selectLines,
  }
 }
 
@@ -50,17 +49,16 @@ class ConnectedCodeEditor extends React.Component {
   }
 
   selectLines(selected) {
-    const selectedLines = selected.selectLines
     const {
       index
     } = this.props;
-    if(selectedLines.length !== 2) {
+    if(selected.length !== 2) {
       return;
     }
     const editor = ace.edit(`ace-editor-${index}`);
     const lines = editor.session.doc.getAllLines();
-    let s = selectedLines[0];
-    let e = selectedLines[1];
+    let s = selected[0];
+    let e = selected[1];
     let startRow = 0;
     let startCol = 0;
     let endRow = 0;

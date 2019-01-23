@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import Editor from '../../Editor/main.js';
 import Icon from '../../Icon/main.js';
@@ -6,6 +7,7 @@ import SideBar from '../../SideBar/main.js';
 import InnerTab from '../../InnerTab/main.js';
 import Modal from '../../Modal/main.js';
 import MessageComp from '../../MessageComp/main.js';
+import EVMState from '../../EVMState/main.js';
 
 import styles from '../../../styles/Tab/TabPanel.scss';
 
@@ -13,12 +15,17 @@ import classnames from 'classnames/bind';
 
 const cx = classnames.bind(styles);
 
-class TabPanel extends React.Component {
+const mapStateToProps = state => {
+  return {
+    evm: state.selectEVMState,
+  }
+}
+
+class ConnectedTabPanel extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      editorOpen: true,
       sideBarOpen: false,
       messageVisible: false,
       modalOpen: false,
@@ -93,19 +100,6 @@ class TabPanel extends React.Component {
     this.fetchTrace(name, code, path, parameter);
   }
 
-
-  handleLeftIconClick() {
-    this.setState({
-      editorOpen: false,
-    });
-  }
-
-  handleRightIconClick() {
-    this.setState({
-      editorOpen: true,
-    });
-  }
-
   handleMenuIconClick() {
 
     if (!this.state.sideBarOpen) {
@@ -176,13 +170,8 @@ class TabPanel extends React.Component {
 
   render() {
     
-    const { code, name, path, active, index, children } = this.props;
-    const { editorOpen, tabs, sideBarOpen, operations, cfg, trace, modalOpen, messageVisible, fetchRequestStatus } = this.state;
-    
-    const editorClasses = cx({
-      'tab-panel__left__editor': true,
-      'tab-panel__left__editor--open': !!editorOpen,
-    });
+    const { code, name, path, active, index, children, evm } = this.props;
+    const { tabs, sideBarOpen, operations, cfg, trace, modalOpen, messageVisible, fetchRequestStatus } = this.state;
 
     const tabPanelClasses = cx({
       'tab-panel': true,
@@ -197,19 +186,10 @@ class TabPanel extends React.Component {
     return (
       <div className={tabPanelClasses}>
         <div className={styles['tab-panel__left']}>
-          <div className={styles['tab-panel__left__controls']}>
-            <div className={styles['tab-panel__left__controls__item']}>
-              {
-                editorOpen 
-                  ? <button onClick={() => this.handleLeftIconClick()}><Icon iconName='CircleLeft' /></button>
-                  : <button onClick={() => this.handleRightIconClick()}><Icon iconName='CircleRight' /></button>
-              }
-            </div>
-            <div className={styles['tab-panel__left__controls__item']}>
-              <button onClick={() => this.handleMenuIconClick()}>
-                <Icon iconName='Menu' />
-              </button>
-            </div>
+          <div className={styles['tab-panel__left__control']}>
+            <button onClick={() => this.handleMenuIconClick()}>
+              <Icon iconName='Menu' />
+            </button>
           </div>
           <div 
             className={sideBarClasses}
@@ -220,8 +200,11 @@ class TabPanel extends React.Component {
               onDebugTransactionClick={() => this.handleDebugTransactionClick()}
             />
           </div>
-          <div className={editorClasses}>
-            <Editor code={code} index={index} />
+          <div className={styles['tab-panel__left__data']}>
+              <Editor code={code} index={index} />
+              {
+                evm && <EVMState />
+              }
           </div>
         </div>
         <div className={styles['tab-panel__right']}>
@@ -266,6 +249,8 @@ class TabPanel extends React.Component {
     )
   }
 }
+
+const TabPanel = connect(mapStateToProps)(ConnectedTabPanel);
 
 TabPanel.displayName = 'TabPanel';
 

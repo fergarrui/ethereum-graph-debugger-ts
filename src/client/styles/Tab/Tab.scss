@@ -6,11 +6,13 @@
     width: 100%;
     display: flex;
     text-transform: uppercase;
+    overflow-x: auto;
+    overflow-y: hidden;
   }
 
   &__panels {
     position: relative;
-    z-index: 4; 
+    z-index: 0; 
   }
 }
 

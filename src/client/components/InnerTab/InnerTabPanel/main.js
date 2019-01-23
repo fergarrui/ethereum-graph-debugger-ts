@@ -20,7 +20,6 @@ const InnerTabPanel = ({ type, active, contractName, contractCode, contractPath,
   return (
     <div className={tabPanelClasses}>
       {type === 'Debug Transaction' &&  
-      (
         <DebugTransactionComp 
           contractPath={contractPath} 
           contractName={contractName} 
@@ -28,17 +27,14 @@ const InnerTabPanel = ({ type, active, contractName, contractCode, contractPath,
           operations={operations} 
           trace={trace}
         />
-      )
       }
       {type === 'Disassemble' && <DisassembleComp />}
       {type === 'Control Flow Graph' && 
-      (
         <ControlFlowGraphComp 
           contractPath={contractPath} 
           contractName={contractName} 
           contractCode={contractCode} 
         />
-      ) 
       }
     </div>
   );
