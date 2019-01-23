@@ -1,4 +1,4 @@
-import { SELECT_EDITOR_LINES, SHOW_EVM_STATE, SHOW_LOADING_MESSAGE, HIDE_LOADING_MESSAGE, SHOW_ERROR_MESSAGE, HIDE_ERROR_MESSAGE, HIDE_EVM_STATE } from '../Constants.js';
+import { SELECT_EDITOR_LINES, SHOW_EVM_STATE, SHOW_LOADING_MESSAGE, HIDE_LOADING_MESSAGE, SHOW_ERROR_MESSAGE, HIDE_ERROR_MESSAGE, HIDE_EVM_STATE, GET_ERROR_MESSAGE } from '../Constants.js';
 
 
 export function selectLines(state = [0, 0], action) {
@@ -28,6 +28,7 @@ export function toggleErrorMessage(state = false, action) {
   switch(action.type) {
     case SHOW_ERROR_MESSAGE: return action.show;
     case HIDE_ERROR_MESSAGE: return action.show;
+    case GET_ERROR_MESSAGE: return action.message;
     default: return state;
   }
 }
