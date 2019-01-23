@@ -5,7 +5,7 @@
   padding: 15px 20px 20px 20px;
   text-align: center;
   background: $color-grey;
-  color: $color-yellow;
+  color: $color-green;
   z-index: 0;
   box-shadow: inset 2px 1px 5px (#000 + 30);
   transform: translate(0, 20px);
@@ -32,8 +32,8 @@
     svg {
       width: 10px;
       height: 10px;
-      fill: $color-yellow;
-      stroke: $color-yellow;
+      fill: $color-green;
+      stroke: $color-green;
       pointer-events: none;
       transition: fill 0.2s ease-in-out, stroke 0.2s ease-in-out;
     }
@@ -47,7 +47,7 @@
     transform: translate(0, 10px);
     box-shadow: 2px 5px 6px 2px ($color-grey - 30);
     color: $color-grey;
-    background: $color-yellow;
+    background: $color-green;
 
     &:hover {
       transform: translate(0, 10px);

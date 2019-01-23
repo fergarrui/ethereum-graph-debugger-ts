@@ -8,6 +8,7 @@ import InnerTab from '../../InnerTab/main.js';
 import Modal from '../../Modal/main.js';
 import MessageComp from '../../MessageComp/main.js';
 import EVMState from '../../EVMState/main.js';
+import Hamburger from '../../Hamburger/main.js';
 
 import styles from '../../../styles/Tab/TabPanel.scss';
 
@@ -188,7 +189,7 @@ class ConnectedTabPanel extends React.Component {
         <div className={styles['tab-panel__left']}>
           <div className={styles['tab-panel__left__control']}>
             <button onClick={() => this.handleMenuIconClick()}>
-              <Icon iconName='Menu' />
+              <Hamburger clicked={!!sideBarOpen} />
             </button>
           </div>
           <div 

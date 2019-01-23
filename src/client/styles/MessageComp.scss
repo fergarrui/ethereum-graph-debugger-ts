@@ -14,7 +14,8 @@
     transform: translate(-50%, -50%);
 
     &__text {
-      color: $color-yellow;
+      text-align: center;
+      color: $color-green;
     }
   
     &__button {
@@ -24,19 +25,20 @@
       svg {
         width: 40px;
         height: 40px;
-        fill: $color-yellow;
-        stroke: $color-yellow;
+        fill: $color-green;
+        stroke: $color-green;
         animation: rotate 5s infinite;
       }
 
       button {
         padding: 10px;
         font-size: 14px;
-        border: 1px solid $color-yellow;
-        color: $color-yellow;
+        border: 1px solid $color-green;
+        color: $color-green;
         border-radius: 5px;
         background: transparent;
         outline: transparent;
+        cursor: pointer;
       }
     }
   }
