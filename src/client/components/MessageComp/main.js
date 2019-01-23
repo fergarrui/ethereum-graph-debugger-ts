@@ -13,22 +13,49 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-const ConnectedMessageComp = ({ message, errorMessageOff }) => (
-  <div className={styles['message-comp']}>
-    <div className={styles['message-comp__main']}>
-      <div className={styles['message-comp__main__text']}>
-        <h1>{message}</h1>
+class ConnectedMessageComp extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.handleKeyUp = this.handleKeyUp.bind(this);
+  }
+
+  componentDidMount() {
+    document.addEventListener('keydown', this.handleKeyUp);
+  }
+
+  UNSAFE_componentWillMount() {
+    document.removeEventListener('keydown', this.handleKeyUp);
+  }
+
+  handleKeyUp(event) {
+    if(event.keyCode !== 27) {
+      return;
+    }
+    this.props.errorMessageOff();
+  }
+
+  render() {
+    const { message, errorMessageOff } = this.props;
+
+    return (
+      <div className={styles['message-comp']}>
+        <div className={styles['message-comp__main']}>
+          <div className={styles['message-comp__main__text']}>
+            <h1>{message}</h1>
+          </div>
+          <div className={styles['message-comp__main__button']}>
+          {
+            message === 'Loading...' 
+            ?  <Icon iconName='Spinner' />
+            :  <button onClick={errorMessageOff}><span>Close</span></button>
+          }
+          </div>
+        </div>
       </div>
-      <div className={styles['message-comp__main__button']}>
-      {
-        message === 'Loading...' 
-        ?  <Icon iconName='Spinner' />
-        :  <button onClick={errorMessageOff}><span>Close</span></button>
-      }
-      </div>
-    </div>
-  </div>
-)
+    )  
+  }
+}
 
 const MessageComp = connect(null, mapDispatchToProps)(ConnectedMessageComp);
 

@@ -96,7 +96,7 @@ class ConnectedApp extends React.Component {
     this.props.loadingMessageOff();
   }
 
-  handleRequestFail() {
+  handleRequestFail(message) {
     this.props.loadingMessageOff();
     this.props.errorMessageOn();
     this.props.getErrorMessage(message);
