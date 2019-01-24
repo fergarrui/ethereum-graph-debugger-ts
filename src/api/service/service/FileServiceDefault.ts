@@ -18,6 +18,6 @@ export class FileServiceDefault implements FileService {
         code: fileContent,
         path: dirName
       } as ContractFile
-    })
+    }).sort((a,b) => a.name > b.name? 1: -1)
   }
 }
