@@ -3,6 +3,7 @@ import { provideSingleton, inject } from '../../../inversify/ioc'
 import { ContractFile } from '../bean/ContractFile'
 import { TYPES } from '../../../inversify/types'
 import { FileService } from '../service/FileService'
+import { logger } from '../../../Logger';
 
 @Route('files')
 @provideSingleton(FileController)
@@ -20,6 +21,7 @@ export class FileController extends Controller {
       }
       return contracts
     } catch (err) {
+      logger.error(err)
       throw new Error(err.message)
     }
   }

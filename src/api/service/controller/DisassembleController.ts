@@ -4,6 +4,7 @@ import { TYPES } from '../../../inversify/types'
 import { Disassembler } from '../../bytecode/Disassembler'
 import { DisassembledContract } from '../../bytecode/DisassembledContract'
 import { DisassembledContractResponse } from '../response/DisassembledContractResponse'
+import { logger } from '../../../Logger';
 
 @Route('disassemble')
 @provideSingleton(DisassembleController)
@@ -22,6 +23,7 @@ export class DisassembleController extends Controller {
       const disassembled: DisassembledContract = this.disassembler.disassembleSourceCode(name, source, path)
       return this.contractToResponse(disassembled)
     } catch (err) {
+      logger.error(err)
       throw new Error(err.message)
     }
   }

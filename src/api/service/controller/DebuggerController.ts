@@ -8,6 +8,7 @@ import { TransactionService } from '../service/TransactionService'
 import { DebugTrace } from '../../symbolic/evm/DebugTrace'
 import { OperationResponse } from '../response/OperationResponse'
 import { TraceResponse } from '../response/TraceResponse'
+import { logger } from '../../../Logger';
 
 @Route('debug')
 @provideSingleton(DebuggerController)
@@ -35,6 +36,7 @@ export class DebuggerController extends Controller {
       const cfg = this.createCFG(contractBlocks, false, trace)
       return this.buildResponse(contractBlocks, false, cfg, trace)
     } catch (err) {
+      logger.error(err)
       throw new Error(err.message)
     }
   }

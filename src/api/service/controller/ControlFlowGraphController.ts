@@ -6,6 +6,7 @@ import { GraphVizService } from '../../cfg/GraphVizService'
 import { CFGContract } from '../bean/CFGContract'
 import { GFCResponse } from '../response/CFGResponse'
 import { OperationResponse } from '../response/OperationResponse'
+import { logger } from '../../../Logger';
 
 @Route('cfg')
 @provideSingleton(ControlFlowGraphController)
@@ -32,6 +33,7 @@ export class ControlFlowGraphController extends Controller {
       const cfg = this.createCFG(contractBlocks, constructor)
       return this.buildResponse(contractBlocks, constructor, cfg)
     } catch (err) {
+      logger.error(err)
       throw new Error(err.message)
     }
   }
@@ -49,6 +51,7 @@ export class ControlFlowGraphController extends Controller {
       const cfg = this.createCFG(contractBlocks, constructor)
       return this.buildResponse(contractBlocks, constructor, cfg)
     } catch (err) {
+      logger.error(err)
       throw new Error(err.message)
     }
     

@@ -4,6 +4,7 @@ import { TYPES } from '../../../inversify/types'
 import { TransactionService } from '../service/TransactionService'
 import { TransactionReceipt } from '../bean/TransactionReceipt'
 import { DebugTrace } from '../../symbolic/evm/DebugTrace'
+import { logger } from '../../../Logger';
 
 @Route('tx')
 @provideSingleton(TransactionController)
@@ -17,6 +18,7 @@ export class TransactionController extends Controller {
     try {
       return this.transactionService.findTransactionReceipt(tx)
     } catch (err) {
+      logger.error(err)
       throw new Error(err.message)
     }
   }
@@ -26,6 +28,7 @@ export class TransactionController extends Controller {
     try {
       return this.transactionService.findTransactionTrace(tx, 'asd')
     } catch (err) {
+      logger.error(err)
       throw new Error(err.message)
     }
   }

@@ -17,8 +17,10 @@ export class EVMDisassembler implements Disassembler {
 
   disassembleSourceCode(contractName: string, source: string, path: string): DisassembledContract {
     const compileJson = this.generateCompileObject(contractName, source, path)
+    console.log(JSON.stringify(compileJson))
     const compiledContract = JSON.parse(solc.compileStandardWrapper(JSON.stringify(compileJson)))
     const contractWithExt = `${contractName}.sol`
+    console.log(JSON.stringify(compiledContract))
     const contract = compiledContract.contracts[contractWithExt][contractName];
     if (!contract) {
       throw new Error("Bad source code")
@@ -154,18 +156,24 @@ export class EVMDisassembler implements Disassembler {
       return
     }
     const matches = match.map(imp => imp.split('"')[1])
-    let importFilePath = path
-    if (!importFilePath.endsWith(nodePath.sep)) {
-      importFilePath = importFilePath + nodePath.sep
-    }
+    
     for (const imp of matches) {
+      let importFilePath = path
+      if (!importFilePath.endsWith(nodePath.sep)) {
+        importFilePath = importFilePath + nodePath.sep
+      }
       importFilePath = importFilePath + imp
       const fileName = nodePath.basename(importFilePath)
       const importContent = fs.readFileSync(importFilePath).toString()
+      let sourceFileName = imp.replace('./', '').replace('../', '')
+      if (sourceFileName.startsWith('.')) {
+        sourceFileName = sourceFileName.substr(1, sourceFileName.length)
+      }
+
       sources[fileName] = {
         content: importContent
       }
-      this.findImports(sources, importContent, path)
+      this.findImports(sources, importContent, nodePath.normalize(nodePath.dirname(importFilePath)))
     }
   }
 

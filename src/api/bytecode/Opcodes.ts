@@ -140,7 +140,7 @@ export class Opcodes {
     this.opcodes[0xfa] = { name: 'STATICCALL', opcode: 0xfa, parameters: 0 } as Opcode
     this.opcodes[0xfd] = { name: 'REVERT', opcode: 0xfd, parameters: 0 } as Opcode
     this.opcodes[0xfe] = { name: 'INVALID', opcode: 0xfe, parameters: 0 } as Opcode
-    this.opcodes[0xff] = { name: 'SELFDESTRUCT', opcode: 0xff, parameters: 0 } as Opcode
+    this.opcodes[0xff] = { name: 'SELFDESTRUCT', opcode: 0xff, parameters: 0 } as Opcode // TODO
     // adding also index by name
     for (let i = 0x00; i <= 0xff; i++) {
       const opcode = this.opcodes[i]
