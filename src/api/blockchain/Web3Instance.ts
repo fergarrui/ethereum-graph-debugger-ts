@@ -8,7 +8,7 @@ export class Web3Instance implements IWeb3 {
 
   constructor() {
     // TODO make it configurable, support infura, kaleido, etc
-    this.web3Instance = new Web3('http://127.0.0.1:9545')
+    this.web3Instance = new Web3('http://127.0.0.1:8545')
   }
 
   getInstance(): any {

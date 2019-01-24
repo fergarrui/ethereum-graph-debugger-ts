@@ -48,7 +48,10 @@ class ConnectedMessageComp extends React.Component {
           {
             message === 'Loading...' 
             ?  <Icon iconName='Spinner' />
-            :  <button onClick={errorMessageOff}><span>Close</span></button>
+            :  <div className={styles['message-comp__main__button__item']}>
+                  <button onClick={errorMessageOff}><span>Close</span></button>
+                  <span className={styles['escape']}>{`/ ESC`}</span>
+              </div>
           }
           </div>
         </div>
