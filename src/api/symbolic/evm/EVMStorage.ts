@@ -5,6 +5,9 @@ export class EVMStorage {
   length
 
   store(slot: Word, value: Word) {
+    if (!slot || !value) {
+      return
+    }
     if (slot.isSymbolic) {
       this.storage[slot.symbol] = value
     } else {
@@ -13,6 +16,9 @@ export class EVMStorage {
   }
 
   load(slot: Word): Word {
+    if(!slot) {
+      return
+    }
     if (slot.isSymbolic) {
       return this.storage[slot.symbol]
     } else {

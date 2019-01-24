@@ -10,6 +10,9 @@ export class Mulmod implements Executor {
     const operand1 = evm.stack.pop()
     const operand2 = evm.stack.pop()
     const mod = evm.stack.pop()
+    if (!operand1 || !operand2 || !mod) {
+      return
+    }
     if (!operand1.isSymbolic && !operand2.isSymbolic && !mod.isSymbolic) {
       const op1Value = operand1.value
       const op2Value = operand2.value

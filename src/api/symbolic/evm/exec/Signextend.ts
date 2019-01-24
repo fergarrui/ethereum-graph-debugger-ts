@@ -10,6 +10,9 @@ export class Signextend implements Executor {
   execute(op: Operation, evm: EVM) {
     const k = evm.stack.pop()
     const val = evm.stack.pop()
+    if (!k || !val) {
+      return
+    }
     if (!k.isSymbolic && !val.isSymbolic) {
   
       const valArray = val.value.toArrayLike(Buffer, 'be', 32)

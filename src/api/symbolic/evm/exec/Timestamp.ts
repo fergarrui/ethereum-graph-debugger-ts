@@ -6,7 +6,6 @@ import { Symbols } from '../Symbols'
 
 export class Timestamp implements Executor {
   execute(op: Operation, evm: EVM) {
-    evm.stack.pop()
     evm.stack.push(Word.createSymbolic(Symbols.TIMESTAMP))
   }
 }

@@ -22,6 +22,6 @@ describe('Timestamp', () => {
     const executor: EVMExecutor = createExecutor(disassembler, bytecode, cfgCreator, opcodeExecutor)
     executor.run(0)
     expect(executor.evm.stack.get(0)).toEqual(Word.createSymbolic(Symbols.TIMESTAMP))
-    expect(executor.evm.stack.length()).toEqual(1)
+    expect(executor.evm.stack.length()).toEqual(2)
   })
 })

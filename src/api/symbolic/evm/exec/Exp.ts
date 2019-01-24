@@ -10,6 +10,9 @@ export class Exp implements Executor {
   execute(op: Operation, evm: EVM) {
     const base = evm.stack.pop()
     const exp = evm.stack.pop()
+    if (!base || !exp) {
+      return
+    }
     if (!base.isSymbolic && !exp.isSymbolic) {
       const baseValue = base.value
       const expValue = exp.value

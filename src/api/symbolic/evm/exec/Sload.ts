@@ -7,6 +7,9 @@ import { Symbols } from '../Symbols'
 export class Sload implements Executor {
   execute(op: Operation, evm: EVM) {
     const slot = evm.stack.pop()
+    if (!slot) {
+      return
+    }
     let value = evm.storage.load(slot)
     if (!value) {
       // This only has sense during CFG creation

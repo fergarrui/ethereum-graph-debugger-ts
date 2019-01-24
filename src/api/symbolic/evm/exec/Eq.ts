@@ -8,6 +8,9 @@ export class Eq implements Executor {
   execute(op: Operation, evm: EVM) {
     const operand1 = evm.stack.pop()
     const operand2 = evm.stack.pop()
+    if (!operand1 || !operand2) {
+      return
+    }
     if (!operand1.isSymbolic && !operand2.isSymbolic) {
       if (operand1.value.eq(operand2.value)) {
         evm.stack.push(Word.createLiteral('01'))

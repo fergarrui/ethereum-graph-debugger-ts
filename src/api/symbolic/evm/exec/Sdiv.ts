@@ -9,6 +9,9 @@ export class Sdiv implements Executor {
   execute(op: Operation, evm: EVM) {
     const operand1 = evm.stack.pop()
     const operand2 = evm.stack.pop()
+    if (!operand1 || !operand2) {
+      return
+    }
     if (!operand1.isSymbolic && !operand2.isSymbolic) {
       if (operand2.value.eq(UintUtils.ZERO)) {
         evm.stack.push(Word.createLiteral('00'))

@@ -7,6 +7,9 @@ import { Symbols } from '../Symbols'
 export class IsZero implements Executor {
   execute(op: Operation, evm: EVM) {
     const value = evm.stack.pop()
+    if (!value) {
+      return
+    }
     if (!value.isSymbolic) {
       if (value.value.isZero()) {
         evm.stack.push(Word.createLiteral('01'))

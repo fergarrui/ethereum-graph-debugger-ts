@@ -8,6 +8,9 @@ export class Or implements Executor {
   execute(op: Operation, evm: EVM) {
     const operand1 = evm.stack.pop()
     const operand2 = evm.stack.pop()
+    if (!operand1 || !operand2) {
+      return
+    }
     if (!operand1.isSymbolic && !operand2.isSymbolic) {
       const op1Value = operand1.value
       const op2Value = operand2.value
