@@ -6,7 +6,7 @@ import { GraphVizService } from '../../cfg/GraphVizService'
 import { CFGContract } from '../bean/CFGContract'
 import { GFCResponse } from '../response/CFGResponse'
 import { OperationResponse } from '../response/OperationResponse'
-import { logger } from '../../../Logger';
+import { logger } from '../../../Logger'
 
 @Route('cfg')
 @provideSingleton(ControlFlowGraphController)
@@ -43,7 +43,7 @@ export class ControlFlowGraphController extends Controller {
     @Query('bytecode') bytecode: string,
     @Query('constructor') constructor?: boolean
   ): Promise<GFCResponse> {
-    try{
+    try {
       const contractBlocks: CFGContract = this.cfgService.buildCFGFromBytecode(bytecode)
       if (!contractBlocks.contractConstructor && constructor) {
         throw new Error('Constructor is true but no constructor found in bytecode')
@@ -54,7 +54,6 @@ export class ControlFlowGraphController extends Controller {
       logger.error(err)
       throw new Error(err.message)
     }
-    
   }
 
   private createCFG(contractBlocks: CFGContract, constructor: boolean): string {

@@ -1,8 +1,8 @@
 import { Executor } from './Executor'
 import { EVM } from '../EVM'
 import { Operation } from '../../../bytecode/Operation'
-import { Symbols } from '../Symbols';
-import { Word } from '../Word';
+import { Symbols } from '../Symbols'
+import { Word } from '../Word'
 
 export class MLoad implements Executor {
   execute(op: Operation, evm: EVM) {

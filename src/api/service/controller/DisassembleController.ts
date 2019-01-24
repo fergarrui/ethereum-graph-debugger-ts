@@ -4,7 +4,7 @@ import { TYPES } from '../../../inversify/types'
 import { Disassembler } from '../../bytecode/Disassembler'
 import { DisassembledContract } from '../../bytecode/DisassembledContract'
 import { DisassembledContractResponse } from '../response/DisassembledContractResponse'
-import { logger } from '../../../Logger';
+import { logger } from '../../../Logger'
 
 @Route('disassemble')
 @provideSingleton(DisassembleController)

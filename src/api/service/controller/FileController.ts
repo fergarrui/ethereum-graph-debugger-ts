@@ -3,7 +3,7 @@ import { provideSingleton, inject } from '../../../inversify/ioc'
 import { ContractFile } from '../bean/ContractFile'
 import { TYPES } from '../../../inversify/types'
 import { FileService } from '../service/FileService'
-import { logger } from '../../../Logger';
+import { logger } from '../../../Logger'
 
 @Route('files')
 @provideSingleton(FileController)

@@ -8,7 +8,7 @@ import { TransactionService } from '../service/TransactionService'
 import { DebugTrace } from '../../symbolic/evm/DebugTrace'
 import { OperationResponse } from '../response/OperationResponse'
 import { TraceResponse } from '../response/TraceResponse'
-import { logger } from '../../../Logger';
+import { logger } from '../../../Logger'
 
 @Route('debug')
 @provideSingleton(DebuggerController)

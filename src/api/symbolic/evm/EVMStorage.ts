@@ -16,7 +16,7 @@ export class EVMStorage {
   }
 
   load(slot: Word): Word {
-    if(!slot) {
+    if (!slot) {
       return
     }
     if (slot.isSymbolic) {

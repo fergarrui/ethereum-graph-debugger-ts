@@ -20,7 +20,9 @@ describe('Signextend', () => {
     const bytecode = '60f260000b'
     const executor: EVMExecutor = createExecutor(disassembler, bytecode, cfgCreator, opcodeExecutor)
     executor.run(0)
-    expect(executor.evm.stack.get(0)).toEqual(Word.createLiteral('fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff2'))
+    expect(executor.evm.stack.get(0)).toEqual(
+      Word.createLiteral('fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff2')
+    )
     expect(executor.evm.stack.length()).toEqual(1)
   })
 
@@ -44,7 +46,9 @@ describe('Signextend', () => {
     const bytecode = '61ffff60010b'
     const executor: EVMExecutor = createExecutor(disassembler, bytecode, cfgCreator, opcodeExecutor)
     executor.run(0)
-    expect(executor.evm.stack.get(0)).toEqual(Word.createLiteral('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'))
+    expect(executor.evm.stack.get(0)).toEqual(
+      Word.createLiteral('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff')
+    )
     expect(executor.evm.stack.length()).toEqual(1)
   })
 
@@ -52,7 +56,9 @@ describe('Signextend', () => {
     const bytecode = '63ffffffff60030b'
     const executor: EVMExecutor = createExecutor(disassembler, bytecode, cfgCreator, opcodeExecutor)
     executor.run(0)
-    expect(executor.evm.stack.get(0)).toEqual(Word.createLiteral('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'))
+    expect(executor.evm.stack.get(0)).toEqual(
+      Word.createLiteral('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff')
+    )
     expect(executor.evm.stack.length()).toEqual(1)
   })
 
@@ -68,7 +74,9 @@ describe('Signextend', () => {
     const bytecode = '64ab8234567860030b'
     const executor: EVMExecutor = createExecutor(disassembler, bytecode, cfgCreator, opcodeExecutor)
     executor.run(0)
-    expect(executor.evm.stack.get(0)).toEqual(Word.createLiteral('ffffffffffffffffffffffffffffffffffffffffffffffffffffffff82345678'))
+    expect(executor.evm.stack.get(0)).toEqual(
+      Word.createLiteral('ffffffffffffffffffffffffffffffffffffffffffffffffffffffff82345678')
+    )
     expect(executor.evm.stack.length()).toEqual(1)
   })
 })

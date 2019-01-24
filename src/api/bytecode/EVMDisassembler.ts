@@ -19,19 +19,17 @@ export class EVMDisassembler implements Disassembler {
     const compileJson = this.generateCompileObject(contractName, source, path)
     const compiledContract = JSON.parse(solc.compileStandardWrapper(JSON.stringify(compileJson)))
     const contractWithExt = `${contractName}.sol`
-    const contract = compiledContract.contracts[contractWithExt][contractName];
+    const contract = compiledContract.contracts[contractWithExt][contractName]
     if (!contract) {
-      throw new Error("Bad source code")
+      throw new Error('Bad source code')
     }
     const bytecode = contract.evm.bytecode.object
     const runtimeBytecode = compiledContract.contracts[contractWithExt][contractName].evm.deployedBytecode.object
-    const contractAssembly = compiledContract.contracts[contractWithExt][contractName].evm.legacyAssembly;
+    const contractAssembly = compiledContract.contracts[contractWithExt][contractName].evm.legacyAssembly
     if (!contractAssembly) {
       throw new Error(`No code found in contract ${contractName}`)
     }
-    const asmRuntime = contractAssembly['.data'][0][
-      '.code'
-    ].filter(elem => elem.name !== 'tag')
+    const asmRuntime = contractAssembly['.data'][0]['.code'].filter(elem => elem.name !== 'tag')
     const asmConstructor = compiledContract.contracts[contractWithExt][contractName].evm.legacyAssembly['.code'].filter(
       elem => elem.name !== 'tag'
     )
@@ -160,20 +158,24 @@ export class EVMDisassembler implements Disassembler {
     const matches = match.map(imp => {
       const splittedImp = imp.split('"')
       if (splittedImp.length < 2) {
-        return imp.split('\'')[1]
+        return imp.split("'")[1]
       } else {
         return splittedImp[1]
       }
     })
-    
+
     for (const imp of matches) {
       let importFilePath = path
       if (!importFilePath.endsWith(nodePath.sep)) {
         importFilePath = importFilePath + nodePath.sep
       }
       importFilePath = nodePath.normalize(importFilePath + imp)
-      const importPathRelative = nodePath.relative(initialPath, importFilePath).replace('./', '').replace('../', '').replace(/^\./, '')
-      
+      const importPathRelative = nodePath
+        .relative(initialPath, importFilePath)
+        .replace('./', '')
+        .replace('../', '')
+        .replace(/^\./, '')
+
       const importContent = fs.readFileSync(importFilePath).toString()
       let sourceFileName = imp.replace('./', '').replace('../', '')
       if (sourceFileName.startsWith('.')) {
@@ -186,7 +188,13 @@ export class EVMDisassembler implements Disassembler {
       sources[importPathRelative] = {
         content: importContent
       }
-      this.findImports(sources, importContent, nodePath.normalize(nodePath.dirname(importFilePath)), filesChecked, initialPath)
+      this.findImports(
+        sources,
+        importContent,
+        nodePath.normalize(nodePath.dirname(importFilePath)),
+        filesChecked,
+        initialPath
+      )
     }
   }
 

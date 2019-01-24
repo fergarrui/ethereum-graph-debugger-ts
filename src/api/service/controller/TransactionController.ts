@@ -4,7 +4,7 @@ import { TYPES } from '../../../inversify/types'
 import { TransactionService } from '../service/TransactionService'
 import { TransactionReceipt } from '../bean/TransactionReceipt'
 import { DebugTrace } from '../../symbolic/evm/DebugTrace'
-import { logger } from '../../../Logger';
+import { logger } from '../../../Logger'
 
 @Route('tx')
 @provideSingleton(TransactionController)

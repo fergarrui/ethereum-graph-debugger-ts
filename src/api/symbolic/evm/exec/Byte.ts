@@ -17,8 +17,8 @@ export class Byte implements Executor {
       const pos = operand1.value
       const word = operand2.value
       let result = new BN(0)
-      if(!pos.gten(32)) {
-        result = new BN(word.shrn((31-pos.toNumber()) * 8).andln(0xff))
+      if (!pos.gten(32)) {
+        result = new BN(word.shrn((31 - pos.toNumber()) * 8).andln(0xff))
       }
       evm.stack.push(Word.createLiteral(result.toString(16)))
     } else {

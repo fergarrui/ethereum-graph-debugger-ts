@@ -49,22 +49,22 @@ import { Call } from './Call'
 import { Returndatasize } from './Returndatasize'
 import { Returndatacopy } from './Returndatacopy'
 import { Log } from './Log'
-import { Blockhash } from './Blockhash';
-import { Coinbase } from './Coinbase';
-import { Timestamp } from './Timestamp';
-import { Difficulty } from './Difficulty';
-import { Gaslimit } from './Gaslimit';
-import { Create } from './Create';
-import { Callcode } from './Callcode';
-import { Delegatecall } from './Delegatecall';
-import { Staticcall } from './Staticcall';
-import { Pc } from './Pc';
-import { Signextend } from './Signextend';
-import { Sgt } from './Sgt';
-import { Slt } from './Slt';
-import { Byte } from './Byte';
-import { Sha3 } from './Sha3';
-import { Msize } from './Msize';
+import { Blockhash } from './Blockhash'
+import { Coinbase } from './Coinbase'
+import { Timestamp } from './Timestamp'
+import { Difficulty } from './Difficulty'
+import { Gaslimit } from './Gaslimit'
+import { Create } from './Create'
+import { Callcode } from './Callcode'
+import { Delegatecall } from './Delegatecall'
+import { Staticcall } from './Staticcall'
+import { Pc } from './Pc'
+import { Signextend } from './Signextend'
+import { Sgt } from './Sgt'
+import { Slt } from './Slt'
+import { Byte } from './Byte'
+import { Sha3 } from './Sha3'
+import { Msize } from './Msize'
 
 @injectable()
 export class OpcodeExecutor {
