@@ -11,6 +11,7 @@ export class Exp implements Executor {
     const base = evm.stack.pop()
     const exp = evm.stack.pop()
     if (!base || !exp) {
+      evm.stack.push(Word.createSymbolic(Symbols.UNKNOWN))
       return
     }
     if (!base.isSymbolic && !exp.isSymbolic) {

@@ -11,6 +11,7 @@ export class Signextend implements Executor {
     const k = evm.stack.pop()
     const val = evm.stack.pop()
     if (!k || !val) {
+      evm.stack.push(Word.createSymbolic(Symbols.UNKNOWN))
       return
     }
     if (!k.isSymbolic && !val.isSymbolic) {

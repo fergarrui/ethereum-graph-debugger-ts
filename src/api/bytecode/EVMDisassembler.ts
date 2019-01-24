@@ -19,6 +19,28 @@ export class EVMDisassembler implements Disassembler {
     const compileJson = this.generateCompileObject(contractName, source, path)
     console.log(JSON.stringify(compileJson))
     const compiledContract = JSON.parse(solc.compileStandardWrapper(JSON.stringify(compileJson)))
+    // const compiledContract = JSON.parse(solc.compileStandardWrapper(JSON.stringify({
+    //   "language": "Solidity",
+    //   "sources": {
+    //     "C1.sol": {
+    //       "content": "pragma solidity ^0.4.24;\n\nimport \"folda/C2.sol\";\n\ncontract C1 {\n\n\tC2 c2;\n\n\tconstructor(address _c) public {\n\t\tc2 = C2(_c);\n\t}\n\n\tfunction fc1() public {\n\t\tc2.fc2();\n\t}\n\n}\n"
+    //     },
+    //     "C2.sol": {
+    //       "content": "pragma solidity ^0.4.24;\n\ncontract C2 {\n\n\tevent A(uint _a);\n\n\tfunction fc2() public {\n\t\temit A(5);\n\t}\n\n}\n"
+    //     }
+    //   },
+    //   "settings": {
+    //     "outputSelection": {
+    //       "*": {
+    //         "*": [
+    //           "evm.bytecode",
+    //           "evm.legacyAssembly",
+    //           "evm.deployedBytecode"
+    //         ]
+    //       }
+    //     }
+    //   }
+    // })))
     const contractWithExt = `${contractName}.sol`
     console.log(JSON.stringify(compiledContract))
     const contract = compiledContract.contracts[contractWithExt][contractName];

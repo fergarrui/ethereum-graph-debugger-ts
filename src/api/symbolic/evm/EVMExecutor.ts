@@ -33,7 +33,9 @@ export class EVMExecutor {
           block.childB = nextBlock.offset
         }
       }
-      this.run(nextBlock.offset)
+      if (nextBlock.offset !== 0) {
+        this.run(nextBlock.offset)
+      }
     }
   }
 

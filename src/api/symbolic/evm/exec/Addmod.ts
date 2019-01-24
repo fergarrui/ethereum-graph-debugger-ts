@@ -11,6 +11,7 @@ export class Addmod implements Executor {
     const operand2 = evm.stack.pop()
     const mod = evm.stack.pop()
     if (!operand1 || !operand2 || !mod) {
+      evm.stack.push(Word.createSymbolic(Symbols.UNKNOWN))
       return
     }
     if (!operand1.isSymbolic && !operand2.isSymbolic && !mod.isSymbolic) {

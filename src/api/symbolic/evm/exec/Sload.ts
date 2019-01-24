@@ -8,6 +8,7 @@ export class Sload implements Executor {
   execute(op: Operation, evm: EVM) {
     const slot = evm.stack.pop()
     if (!slot) {
+      evm.stack.push(Word.createSymbolic(Symbols.UNKNOWN))
       return
     }
     let value = evm.storage.load(slot)

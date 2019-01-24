@@ -8,6 +8,7 @@ export class IsZero implements Executor {
   execute(op: Operation, evm: EVM) {
     const value = evm.stack.pop()
     if (!value) {
+      evm.stack.push(Word.createSymbolic(Symbols.UNKNOWN))
       return
     }
     if (!value.isSymbolic) {

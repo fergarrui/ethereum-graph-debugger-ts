@@ -10,6 +10,7 @@ export class Mul implements Executor {
     const operand1 = evm.stack.pop()
     const operand2 = evm.stack.pop()
     if (!operand1 || !operand2) {
+      evm.stack.push(Word.createSymbolic(Symbols.UNKNOWN))
       return
     }
     if (!operand1.isSymbolic && !operand2.isSymbolic) {

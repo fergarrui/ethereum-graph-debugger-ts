@@ -8,6 +8,7 @@ export class Not implements Executor {
   execute(op: Operation, evm: EVM) {
     const operand1 = evm.stack.pop()
     if (!operand1) {
+      evm.stack.push(Word.createSymbolic(Symbols.UNKNOWN))
       return
     }
     if (!operand1.isSymbolic) {
