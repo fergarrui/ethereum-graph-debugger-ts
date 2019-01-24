@@ -65,6 +65,7 @@ import { Slt } from './Slt'
 import { Byte } from './Byte'
 import { Sha3 } from './Sha3'
 import { Msize } from './Msize'
+import { Selfdestruct } from './Selfdestruct';
 
 @injectable()
 export class OpcodeExecutor {
@@ -216,6 +217,7 @@ export class OpcodeExecutor {
     this.ops['RETURNDATASIZE'] = new Returndatasize()
     this.ops['RETURNDATACOPY'] = new Returndatacopy()
     this.ops['CREATE'] = new Create()
+    this.ops['SELFDESTRUCT'] = new Selfdestruct()
 
     // Those are NOP's for now
     this.ops['REVERT'] = new Nop()

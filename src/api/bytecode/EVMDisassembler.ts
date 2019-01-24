@@ -5,6 +5,7 @@ import { injectable } from 'inversify'
 import { BN } from 'bn.js'
 import { Opcode } from './Opcode'
 import { DisassembledContract } from './DisassembledContract'
+import { logger } from '../../Logger';
 let solc = require('solc')
 let fs = require('fs')
 let nodePath = require('path')
@@ -27,6 +28,7 @@ export class EVMDisassembler implements Disassembler {
     const runtimeBytecode = compiledContract.contracts[contractWithExt][contractName].evm.deployedBytecode.object
     const contractAssembly = compiledContract.contracts[contractWithExt][contractName].evm.legacyAssembly
     if (!contractAssembly) {
+      logger.error(JSON.stringify(compiledContract))
       throw new Error(`No code found in contract ${contractName}`)
     }
     const asmRuntime = contractAssembly['.data'][0]['.code'].filter(elem => elem.name !== 'tag')
