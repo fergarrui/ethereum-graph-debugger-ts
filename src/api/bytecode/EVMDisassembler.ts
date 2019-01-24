@@ -17,32 +17,8 @@ export class EVMDisassembler implements Disassembler {
 
   disassembleSourceCode(contractName: string, source: string, path: string): DisassembledContract {
     const compileJson = this.generateCompileObject(contractName, source, path)
-    console.log(JSON.stringify(compileJson))
     const compiledContract = JSON.parse(solc.compileStandardWrapper(JSON.stringify(compileJson)))
-    // const compiledContract = JSON.parse(solc.compileStandardWrapper(JSON.stringify({
-    //   "language": "Solidity",
-    //   "sources": {
-    //     "C1.sol": {
-    //       "content": "pragma solidity ^0.4.24;\n\nimport \"folda/C2.sol\";\n\ncontract C1 {\n\n\tC2 c2;\n\n\tconstructor(address _c) public {\n\t\tc2 = C2(_c);\n\t}\n\n\tfunction fc1() public {\n\t\tc2.fc2();\n\t}\n\n}\n"
-    //     },
-    //     "C2.sol": {
-    //       "content": "pragma solidity ^0.4.24;\n\ncontract C2 {\n\n\tevent A(uint _a);\n\n\tfunction fc2() public {\n\t\temit A(5);\n\t}\n\n}\n"
-    //     }
-    //   },
-    //   "settings": {
-    //     "outputSelection": {
-    //       "*": {
-    //         "*": [
-    //           "evm.bytecode",
-    //           "evm.legacyAssembly",
-    //           "evm.deployedBytecode"
-    //         ]
-    //       }
-    //     }
-    //   }
-    // })))
     const contractWithExt = `${contractName}.sol`
-    console.log(JSON.stringify(compiledContract))
     const contract = compiledContract.contracts[contractWithExt][contractName];
     if (!contract) {
       throw new Error("Bad source code")
@@ -175,7 +151,7 @@ export class EVMDisassembler implements Disassembler {
     } as Operation
   }
 
-  private findImports(sources: any, content: string, path: string, filesChecked: string[]) {
+  private findImports(sources: any, content: string, path: string, filesChecked: string[], initialPath: string) {
     const regexp = /import "(.*)"|import '(.*)'/g
     const match = content.match(regexp)
     if (!match) {
@@ -195,22 +171,22 @@ export class EVMDisassembler implements Disassembler {
       if (!importFilePath.endsWith(nodePath.sep)) {
         importFilePath = importFilePath + nodePath.sep
       }
-      importFilePath = importFilePath + imp
-      const fileName = nodePath.basename(importFilePath)
-      if (filesChecked.includes(fileName)) {
-        continue
-      }
-      filesChecked.push(fileName)
+      importFilePath = nodePath.normalize(importFilePath + imp)
+      const importPathRelative = nodePath.relative(initialPath, importFilePath).replace('./', '').replace('../', '').replace(/^\./, '')
+      
       const importContent = fs.readFileSync(importFilePath).toString()
       let sourceFileName = imp.replace('./', '').replace('../', '')
       if (sourceFileName.startsWith('.')) {
         sourceFileName = sourceFileName.substr(1, sourceFileName.length)
       }
-
-      sources[fileName] = {
+      if (filesChecked.includes(importPathRelative)) {
+        continue
+      }
+      filesChecked.push(importPathRelative)
+      sources[importPathRelative] = {
         content: importContent
       }
-      this.findImports(sources, importContent, nodePath.normalize(nodePath.dirname(importFilePath)), filesChecked)
+      this.findImports(sources, importContent, nodePath.normalize(nodePath.dirname(importFilePath)), filesChecked, initialPath)
     }
   }
 
@@ -220,7 +196,7 @@ export class EVMDisassembler implements Disassembler {
       content: content
     }
     const filesChecked = []
-    this.findImports(sources, content, path, filesChecked)
+    this.findImports(sources, content, path, filesChecked, path)
     const compileJson = {
       language: 'Solidity',
       sources,

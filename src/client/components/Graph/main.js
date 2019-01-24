@@ -26,9 +26,9 @@ class ConnectedGraph extends React.Component {
 
     const graphclass = graphId.replace('.sol', '');
     const graphviz = d3.select(`.graph--${graphclass}--${graphType}`).graphviz()
+    graphviz.totalMemory(537395200)
     graphviz.renderDot(cfg);
     // TODO make it configurable?
-    graphviz.totalMemory(537395200)
     graphviz._zoomBehavior.scaleExtent([1/10, 10000]);
     d3.selectAll("a").attr("href", null).attr("title", null);
   }
