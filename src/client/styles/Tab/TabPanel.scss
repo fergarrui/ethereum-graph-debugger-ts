@@ -7,13 +7,13 @@
   border-bottom-right-radius: 8px;
 
   &__left {
-    width: 30%;
+    width: 40%;
     position: relative;
     padding-top: 30px;
 
     &__control {
       position: absolute;
-      top: -22px;
+      top: -14px;
       left: 10px;
       z-index: 4;
 
@@ -26,7 +26,7 @@
 
     &__side-bar {
       position: absolute;
-      top: 9px;
+      top: 30px;
       left: -262px;
       transition: left 0.2s;
       pointer-events: none;
