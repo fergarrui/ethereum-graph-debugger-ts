@@ -27,7 +27,11 @@ export class EVMDisassembler implements Disassembler {
     }
     const bytecode = contract.evm.bytecode.object
     const runtimeBytecode = compiledContract.contracts[contractWithExt][contractName].evm.deployedBytecode.object
-    const asmRuntime = compiledContract.contracts[contractWithExt][contractName].evm.legacyAssembly['.data'][0][
+    const contractAssembly = compiledContract.contracts[contractWithExt][contractName].evm.legacyAssembly;
+    if (!contractAssembly) {
+      throw new Error(`No code found in contract ${contractName}`)
+    }
+    const asmRuntime = contractAssembly['.data'][0][
       '.code'
     ].filter(elem => elem.name !== 'tag')
     const asmConstructor = compiledContract.contracts[contractWithExt][contractName].evm.legacyAssembly['.code'].filter(
@@ -149,13 +153,20 @@ export class EVMDisassembler implements Disassembler {
     } as Operation
   }
 
-  private findImports(sources: any, content: string, path: string) {
-    const regexp = /import "(.*)"/g
+  private findImports(sources: any, content: string, path: string, filesChecked: string[]) {
+    const regexp = /import "(.*)"|import '(.*)'/g
     const match = content.match(regexp)
     if (!match) {
       return
     }
-    const matches = match.map(imp => imp.split('"')[1])
+    const matches = match.map(imp => {
+      const splittedImp = imp.split('"')
+      if (splittedImp.length < 2) {
+        return imp.split('\'')[1]
+      } else {
+        return splittedImp[1]
+      }
+    })
     
     for (const imp of matches) {
       let importFilePath = path
@@ -164,6 +175,10 @@ export class EVMDisassembler implements Disassembler {
       }
       importFilePath = importFilePath + imp
       const fileName = nodePath.basename(importFilePath)
+      if (filesChecked.includes(fileName)) {
+        continue
+      }
+      filesChecked.push(fileName)
       const importContent = fs.readFileSync(importFilePath).toString()
       let sourceFileName = imp.replace('./', '').replace('../', '')
       if (sourceFileName.startsWith('.')) {
@@ -173,7 +188,7 @@ export class EVMDisassembler implements Disassembler {
       sources[fileName] = {
         content: importContent
       }
-      this.findImports(sources, importContent, nodePath.normalize(nodePath.dirname(importFilePath)))
+      this.findImports(sources, importContent, nodePath.normalize(nodePath.dirname(importFilePath)), filesChecked)
     }
   }
 
@@ -182,7 +197,8 @@ export class EVMDisassembler implements Disassembler {
     sources[`${contractName}.sol`] = {
       content: content
     }
-    this.findImports(sources, content, path)
+    const filesChecked = []
+    this.findImports(sources, content, path, filesChecked)
     const compileJson = {
       language: 'Solidity',
       sources,
