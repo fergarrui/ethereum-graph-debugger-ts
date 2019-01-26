@@ -19,7 +19,7 @@ const InnerTabPanel = ({ type, active, contractName, contractCode, contractPath,
 
   return (
     <div className={tabPanelClasses}>
-      {type === 'Debug Transaction' &&  
+      {type === 'Debug Transaction' && 
         <DebugTransactionComp 
           contractPath={contractPath} 
           contractName={contractName} 
@@ -29,15 +29,19 @@ const InnerTabPanel = ({ type, active, contractName, contractCode, contractPath,
         />
       }
       {type === 'Disassemble' && <DisassembleComp />}
-      {type === 'Control Flow Graph' && 
+      {type === 'Control Flow Graph' &&
         <ControlFlowGraphComp 
           contractPath={contractPath} 
           contractName={contractName} 
-          contractCode={contractCode} 
+          contractCode={contractCode}
+          cfg={cfg}
+          operations={operations} 
         />
       }
     </div>
   );
 }
+
+InnerTabPanel.displayName = 'InnerTabPanel';
 
 export default InnerTabPanel;

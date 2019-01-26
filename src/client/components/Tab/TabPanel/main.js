@@ -64,10 +64,23 @@ class ConnectedTabPanel extends React.Component {
       .catch(err => this.handleRequestFail(err));
   }
 
+  fetchGraphData(name, source, path) {
+    this.handleRequestPending();
+  
+    fetch(`http://localhost:9090/cfg/source?source=${encodeURIComponent(source)}&name=${name.replace('.sol', '')}&constructor=false&path=${encodeURIComponent(path)}`)
+      .then(res => res.json())
+      .then(data => {
+        data.error 
+        ? this.handleRequestFail(data.message) 
+        : this.handleGraphDataRequestSuccess(data);      
+      })
+      .catch(err => this.handleRequestFail(err));
+  }
 
   handleRequestPending() {
     this.setState({
       modalOpen: false,
+      sideBarOpen: false,
     });
 
     this.props.loadingMessageOn();
@@ -78,10 +91,24 @@ class ConnectedTabPanel extends React.Component {
     const newTabs = [...this.state.tabs, {'title': 'Debug Transaction', 'type': 'Debug Transaction'}];
 
     this.setState({
-      fetchRequestStatus: 'success',
       cfg: response.cfg,
       operations: response.operations,
       trace: response.trace,
+      fetchRequestStatus: 'success',
+      tabs: newTabs,
+    });
+
+    this.props.loadingMessageOff();
+  }
+
+  handleGraphDataRequestSuccess(response) {
+
+    const newTabs = [...this.state.tabs, {'title': 'Control Flow Graph', 'type': 'Control Flow Graph'}];
+
+    this.setState({
+      fetchRequestStatus: 'success',
+      cfg: response.cfg,
+      operations: response.operations,
       tabs: newTabs,
     });
 
@@ -141,14 +168,22 @@ class ConnectedTabPanel extends React.Component {
     });
   }
 
+  handleControlFlowGraphClick() {
+    const { name, path, code } = this.props;
+
+    this.fetchGraphData(name, code, path);
+
+    document.removeEventListener('click', this.handleOutsideClick);
+  }
+
   handleSideBarItemClick(compType) {
 
     const newTabs = [...this.state.tabs, {'title': compType, 'type': compType}];
-    
-    this.setState({
-      tabs: newTabs,
-      sideBarOpen: false,
-    }); 
+
+      this.setState({
+        tabs: newTabs,
+        sideBarOpen: false,
+      }); 
 
     document.removeEventListener('click', this.handleOutsideClick);
   }
@@ -213,6 +248,7 @@ class ConnectedTabPanel extends React.Component {
             <SideBar 
               onClick={(compType) => this.handleSideBarItemClick(compType)}
               onDebugTransactionClick={() => this.handleDebugTransactionClick()}
+              onControlFlowGraphClick={() => this.handleControlFlowGraphClick()}
             />
           </div>
           <div className={styles['tab-panel__left__data']}>
@@ -236,7 +272,6 @@ class ConnectedTabPanel extends React.Component {
             {children}
           </InnerTab>
         </div>
-        <div className={styles['tab-panel__modal']}>
         {
           modalOpen &&  
             <Modal 
@@ -245,7 +280,6 @@ class ConnectedTabPanel extends React.Component {
               onIconClick={() => this.handleModalIconClick()}
             />
         }
-        </div>
       </div>
     )
   }
