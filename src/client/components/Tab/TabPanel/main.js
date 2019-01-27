@@ -59,7 +59,7 @@ class ConnectedTabPanel extends React.Component {
       .then(data => {
         data.error 
         ? this.handleRequestFail(data.message) 
-        : this.handleRequestSuccess(data);      
+        : this.handleTraceRequestSuccess(data);      
       })
       .catch(err => this.handleRequestFail(err));
   }
@@ -77,6 +77,19 @@ class ConnectedTabPanel extends React.Component {
       .catch(err => this.handleRequestFail(err));
   }
 
+  fetchDisassembler(name, source, path) {
+    this.handleRequestPending();
+    
+    fetch(`http://localhost:9090/disassemble/?source=${encodeURIComponent(source)}&name=${name.replace('.sol', '')}&constructor=false&path=${encodeURIComponent(path)}`)
+    .then(res => res.json())
+    .then(data => {
+      data.error 
+      ? this.handleRequestFail(data.message) 
+      : this.handleDisassemblerRequestSuccess(data);      
+    })
+    .catch(err => this.handleRequestFail(err));
+  }
+
   handleRequestPending() {
     this.setState({
       modalOpen: false,
@@ -86,9 +99,8 @@ class ConnectedTabPanel extends React.Component {
     this.props.loadingMessageOn();
   }
 
-  handleRequestSuccess(response) {
-
-    const newTabs = [...this.state.tabs, {'title': 'Debug Transaction', 'type': 'Debug Transaction'}];
+  handleTraceRequestSuccess(response) {
+    const newTabs = [...this.state.tabs, {'title': 'Transaction Debugger', 'type': 'Transaction Debugger'}];
 
     this.setState({
       cfg: response.cfg,
@@ -102,7 +114,6 @@ class ConnectedTabPanel extends React.Component {
   }
 
   handleGraphDataRequestSuccess(response) {
-
     const newTabs = [...this.state.tabs, {'title': 'Control Flow Graph', 'type': 'Control Flow Graph'}];
 
     this.setState({
@@ -115,6 +126,20 @@ class ConnectedTabPanel extends React.Component {
     this.props.loadingMessageOff();
   }
 
+  handleDisassemblerRequestSuccess(response) {
+    const newTabs = [...this.state.tabs, {'title': 'Disassembler', 'type': 'Disassembler'}];
+
+    this.setState({
+      tabs: newTabs,
+      sideBarOpen: false,
+      bytecode: response.bytecode,
+      constructorOperations: response.constructorOperations,
+      runtimeOperations: response.runtimeOperations,
+    }); 
+
+    this.props.loadingMessageOff();
+  }
+
   handleRequestFail(message) {
     this.props.loadingMessageOff();
     this.props.errorMessageOn();
@@ -122,7 +147,6 @@ class ConnectedTabPanel extends React.Component {
   }
 
   handleInputChange(event) {
-
     const { value } = event.target;
 
     this.setState({
@@ -143,7 +167,6 @@ class ConnectedTabPanel extends React.Component {
   }
 
   handleMenuIconClick() {
-
     if (!this.state.sideBarOpen) {
       document.addEventListener('click', this.handleOutsideClick);
     } else {
@@ -156,7 +179,6 @@ class ConnectedTabPanel extends React.Component {
   }
 
   handleOutsideClick(e) {
-
     if (this.node.contains(e.target)) {
       return;
     }
@@ -176,20 +198,15 @@ class ConnectedTabPanel extends React.Component {
     document.removeEventListener('click', this.handleOutsideClick);
   }
 
-  handleSideBarItemClick(compType) {
+  handleDisassemblerClick() {
+    const { name, code, path } = this.props;
 
-    const newTabs = [...this.state.tabs, {'title': compType, 'type': compType}];
-
-      this.setState({
-        tabs: newTabs,
-        sideBarOpen: false,
-      }); 
+    this.fetchDisassembler(name, code, path);
 
     document.removeEventListener('click', this.handleOutsideClick);
   }
 
   handleMenuItemIconClick(index) {
-
     const newTabs = this.state.tabs.filter((item, i) => i !== index);
 
     this.setState({
@@ -203,7 +220,7 @@ class ConnectedTabPanel extends React.Component {
     });
   }
 
-  handleDebugTransactionClick() {
+  handleTransactionDebuggerClick() {
     this.setState({
       modalOpen: true,
       sideBarOpen: false,
@@ -221,7 +238,7 @@ class ConnectedTabPanel extends React.Component {
   render() {
     
     const { code, name, path, active, index, children, evm } = this.props;
-    const { tabs, sideBarOpen, operations, cfg, trace, modalOpen } = this.state;
+    const { tabs, sideBarOpen, operations, cfg, trace, modalOpen, bytecode, runtimeOperations, constructorOperations } = this.state;
 
     const tabPanelClasses = cx({
       'tab-panel': true,
@@ -246,8 +263,8 @@ class ConnectedTabPanel extends React.Component {
             ref={node => { this.node = node; }}
           > 
             <SideBar 
-              onClick={(compType) => this.handleSideBarItemClick(compType)}
-              onDebugTransactionClick={() => this.handleDebugTransactionClick()}
+              onDisassemblerClick={() => this.handleDisassemblerClick()}
+              onTransactionDebuggerClick={() => this.handleTransactionDebuggerClick()}
               onControlFlowGraphClick={() => this.handleControlFlowGraphClick()}
             />
           </div>
@@ -267,6 +284,9 @@ class ConnectedTabPanel extends React.Component {
               cfg={cfg}
               operations={operations}
               trace={trace}
+              bytecode={bytecode}
+              runtimeOperations={runtimeOperations}
+              constructorOperations={constructorOperations}
               onMenuItemIconClick={this.handleMenuItemIconClick} 
             >
             {children}

@@ -1,8 +1,8 @@
 import React from 'react';
 
-import DebugTransactionComp from '../../DebugTransactionComp/main.js';
-import DisassembleComp from '../../DisassembleComp/main.js';
-import ControlFlowGraphComp from '../../ControlFlowGraphComp/main.js';
+import TransactionDebugger from '../../TransactionDebugger/main.js';
+import Disassembler from '../../Disassembler/main.js';
+import ControlFlowGraph from '../../ControlFlowGraph/main.js';
 
 import styles from '../../../styles/Tab/InnerTabPanel.scss';
 
@@ -10,7 +10,7 @@ import classnames from 'classnames/bind';
 
 const cx = classnames.bind(styles);
 
-const InnerTabPanel = ({ type, active, contractName, contractCode, contractPath, cfg, operations, trace }) => {
+const InnerTabPanel = ({ type, active, contractName, contractCode, contractPath, cfg, operations, bytecode, constructorOperations, runtimeOperations, trace }) => {
 
   const tabPanelClasses = cx({
     'inner-tab-panel': true,
@@ -19,8 +19,8 @@ const InnerTabPanel = ({ type, active, contractName, contractCode, contractPath,
 
   return (
     <div className={tabPanelClasses}>
-      {type === 'Debug Transaction' && 
-        <DebugTransactionComp 
+      {type === 'Transaction Debugger' && 
+        <TransactionDebugger 
           contractPath={contractPath} 
           contractName={contractName} 
           cfg={cfg} 
@@ -28,9 +28,15 @@ const InnerTabPanel = ({ type, active, contractName, contractCode, contractPath,
           trace={trace}
         />
       }
-      {type === 'Disassemble' && <DisassembleComp />}
+      {type === 'Disassembler' && 
+        <Disassembler
+          runtimeOperations={runtimeOperations}
+          constructorOperations={constructorOperations}
+          bytecode={bytecode}
+        />
+      }
       {type === 'Control Flow Graph' &&
-        <ControlFlowGraphComp 
+        <ControlFlowGraph 
           contractPath={contractPath} 
           contractName={contractName} 
           contractCode={contractCode}
