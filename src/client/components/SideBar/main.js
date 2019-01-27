@@ -10,15 +10,15 @@ class SideBar extends React.Component {
 
   render() {
 
-    const { onDebugTransactionClick, onControlFlowGraphClick } = this.props;
+    const { onTransactionDebuggerClick, onControlFlowGraphClick, onDisassemblerClick } = this.props;
 
     return (
       <div className={styles['side-bar']}>
-        <div className={styles['side-bar__item']} onClick={onDebugTransactionClick}>
+        <div className={styles['side-bar__item']} onClick={onTransactionDebuggerClick}>
           <span>Debug Transaction</span>
         </div>
-        <div className={styles['side-bar__item']} onClick={() => this.handleClick('Disassemble')}>
-          <span>Disassemble</span>
+        <div className={styles['side-bar__item']} onClick={onDisassemblerClick}>
+          <span>Disassembler</span>
         </div>
         <div className={styles['side-bar__item']} onClick={onControlFlowGraphClick}>
           <span>Control Flow Graph</span>

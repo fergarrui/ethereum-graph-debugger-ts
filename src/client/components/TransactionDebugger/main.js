@@ -2,12 +2,12 @@ import React from 'react';
 
 import Graph from '../Graph/main.js';
 
-import styles from '../../styles/DebugTransactionComp.scss';
+import styles from '../../styles/TransactionDebugger.scss';
 
-const DebugTransactionComp = ({ cfg, operations, contractName, contractPath, trace }) => {
+const TransactionDebugger = ({ cfg, operations, contractName, contractPath, trace }) => {
 
   return (
-    <div className={styles['debug-transaction-comp']}>
+    <div className={styles['transaction-debugger']}>
         <Graph 
           graphId={contractName} 
           contractPath={contractPath} 
@@ -20,6 +20,6 @@ const DebugTransactionComp = ({ cfg, operations, contractName, contractPath, tra
   );
 }
 
-DebugTransactionComp.displayName = 'DebugTransactionComp';
+TransactionDebugger.displayName = 'TransactionDebugger';
 
-export default DebugTransactionComp;
+export default TransactionDebugger;

@@ -1,0 +1,11 @@
+.operations {
+  display: flex;
+  justify-content: flex-start;
+
+  &__item {
+
+    &:not(:first-of-type) {
+      padding-left: 20px;
+    }
+  }
+}
