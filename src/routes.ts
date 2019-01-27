@@ -54,13 +54,6 @@ const models: TsoaRoute.Models = {
             "from": { "dataType": "string", "required": true },
         },
     },
-    "DebugTrace": {
-        "properties": {
-            "id": { "dataType": "double", "required": true },
-            "jsonrpc": { "dataType": "double", "required": true },
-            "result": { "dataType": "any", "required": true },
-        },
-    },
     "GFCResponse": {
         "properties": {
             "cfg": { "dataType": "string", "required": true },
@@ -77,6 +70,10 @@ export function RegisterRoutes(app: any) {
                 source: { "in": "query", "name": "source", "required": true, "dataType": "string" },
                 name: { "in": "query", "name": "name", "required": true, "dataType": "string" },
                 path: { "in": "query", "name": "path", "required": true, "dataType": "string" },
+                blockchainHost: { "in": "query", "name": "blockchainHost", "dataType": "string" },
+                blockchainProtocol: { "in": "query", "name": "blockchainProtocol", "dataType": "string" },
+                blockchainBasicAuthUsername: { "in": "query", "name": "blockchainBasicAuthUsername", "dataType": "string" },
+                blockchainBasicAuthPassword: { "in": "query", "name": "blockchainBasicAuthPassword", "dataType": "string" },
             };
 
             let validatedArgs: any[] = [];
@@ -146,6 +143,10 @@ export function RegisterRoutes(app: any) {
         function(request: any, response: any, next: any) {
             const args = {
                 tx: { "in": "path", "name": "tx", "required": true, "dataType": "string" },
+                blockchainHost: { "in": "query", "name": "blockchainHost", "dataType": "string" },
+                blockchainProtocol: { "in": "query", "name": "blockchainProtocol", "dataType": "string" },
+                blockchainBasicAuthUsername: { "in": "query", "name": "blockchainBasicAuthUsername", "dataType": "string" },
+                blockchainBasicAuthPassword: { "in": "query", "name": "blockchainBasicAuthPassword", "dataType": "string" },
             };
 
             let validatedArgs: any[] = [];
@@ -162,28 +163,6 @@ export function RegisterRoutes(app: any) {
 
 
             const promise = controller.getReceipt.apply(controller, validatedArgs);
-            promiseHandler(controller, promise, response, next);
-        });
-    app.get('/tx/:tx/trace',
-        function(request: any, response: any, next: any) {
-            const args = {
-                tx: { "in": "path", "name": "tx", "required": true, "dataType": "string" },
-            };
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = getValidatedArgs(args, request);
-            } catch (err) {
-                return next(err);
-            }
-
-            const controller = iocContainer.get<TransactionController>(TransactionController);
-            if (typeof controller['setStatus'] === 'function') {
-                (<any>controller).setStatus(undefined);
-            }
-
-
-            const promise = controller.getTransactionTrace.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, next);
         });
     app.get('/cfg/source',

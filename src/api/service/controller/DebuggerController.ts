@@ -9,6 +9,7 @@ import { DebugTrace } from '../../symbolic/evm/DebugTrace'
 import { OperationResponse } from '../response/OperationResponse'
 import { TraceResponse } from '../response/TraceResponse'
 import { logger } from '../../../Logger'
+import { Web3Configuration } from 'src/api/blockchain/Web3Configuration';
 
 @Route('debug')
 @provideSingleton(DebuggerController)
@@ -26,13 +27,23 @@ export class DebuggerController extends Controller {
     @Path() tx: string,
     @Query('source') source: string,
     @Query('name') name: string,
-    @Query('path') path: string
+    @Query('path') path: string,
+    @Query('blockchainHost') blockchainHost?: string,
+    @Query('blockchainProtocol') blockchainProtocol?: string,
+    @Query('blockchainBasicAuthUsername') blockchainBasicAuthUsername?: string,
+    @Query('blockchainBasicAuthPassword') blockchainBasicAuthPassword?: string
   ): Promise<TraceResponse> {
     // TODO: Do detect constructor
     try {
+      const config = {
+        blockchainHost,
+        blockchainProtocol,
+        blockchainBasicAuthUsername,
+        blockchainBasicAuthPassword
+      } as Web3Configuration
       const contractBlocks: CFGContract = await this.cfgService.buildCFGFromSource(name, source, path)
       const runtimeRawBytecode = `0x${contractBlocks.contractRuntime.rawBytecode}`
-      const trace: DebugTrace = await this.transactionService.findTransactionTrace(tx, runtimeRawBytecode)
+      const trace: DebugTrace = await this.transactionService.findTransactionTrace(tx, runtimeRawBytecode, config)
       const cfg = this.createCFG(contractBlocks, false, trace)
       return this.buildResponse(contractBlocks, false, cfg, trace)
     } catch (err) {
