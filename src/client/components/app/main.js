@@ -6,6 +6,7 @@ import { showLoadingMessage, showErrorMessage, hideLoadingMessage, getErrorMessa
 import TopNavBar from '../TopNavBar/main.js';
 import Tab from '../Tab/main.js';
 import MessageComp from '../MessageComp/main.js';
+import SettingsSidebar from '../SettingsSidebar/main.js';
 
 import styles from '../../styles/App.scss';
 
@@ -35,9 +36,11 @@ class ConnectedApp extends React.Component {
       parameter: '',
       fetchRequestStatus: undefined,
       contracts: [],
+      settingsVisible: false,
     }
 
     this.handleMenuItemIconClick = this.handleMenuItemIconClick.bind(this);
+    this.handleOutsideClick = this.handleOutsideClick.bind(this);
   }
 
   handleMenuItemIconClick(index) {
@@ -64,6 +67,7 @@ class ConnectedApp extends React.Component {
 
     this.setState({
       parameter: inputValue,
+      settingsVisible: false,
     });
 
     this.fetchData(parameter);
@@ -102,39 +106,71 @@ class ConnectedApp extends React.Component {
     this.props.getErrorMessage(message);
   }
 
-  handleMessageButtonClick() {
+  handleSettingsiconClick() {
+    this.toggleOutsideClick();
+
+    this.setState(prevState => ({
+      settingsVisible: !prevState.settingsVisible,
+    }))
+  }
+
+  handleSettingsButtonClick() {
+    this.toggleOutsideClick();
+
     this.setState({
-      messageVisible: false,
+      settingsVisible: false,
+    });
+  }
+
+  toggleOutsideClick() {
+    if (!this.state.settingsVisible) {
+      document.addEventListener('click', this.handleOutsideClick);
+    } else {
+      document.removeEventListener('click', this.handleOutsideClick);
+    }
+  }
+
+  handleOutsideClick(e) {
+    if (this.node.contains(e.target)) {
+      return;
+    }
+
+    document.removeEventListener('click', this.handleOutsideClick);
+  
+    this.setState({
+      settingsVisible: false,
     });
   }
 
   render() {
 
-    const { fetchRequestStatus, contracts } = this.state;
-    const { children, showLoadingMessage, showErrorMessage, errorMessage } = this.props;
+    const { fetchRequestStatus, contracts, settingsVisible } = this.state;
+    const { children, showLoadingMessage, showErrorMessage, errorMessage, globalConfig } = this.props;
 
     return (
       <div className={styles['app']}>
-        <div classname={styles['app__navigation']}>
-          <TopNavBar
-            onInputChange={(e) => this.handleInputChange(e)}
-            onInputSubmit={() => this.handleInputSubmit()}
-          />
+        <TopNavBar
+          onInputChange={(e) => this.handleInputChange(e)}
+          onInputSubmit={() => this.handleInputSubmit()}
+          onIconClick={() => this.handleSettingsiconClick()}
+        />
+        <div ref={node => { this.node = node; }}>
+          <SettingsSidebar active={!!settingsVisible} onButtonClick={() => this.handleSettingsButtonClick()} />
         </div>
+        { showLoadingMessage &&
+          <MessageComp message='Loading...' />
+        }
+        { showErrorMessage &&
+          <MessageComp 
+            message={errorMessage}
+            onMessageButtonClick={() => this.handleMessageButtonClick()}
+           />
+        }
         <div className={styles['app__tabs']}>
-          { showLoadingMessage &&
-            <MessageComp message='Loading...' />
-          }
           {fetchRequestStatus === 'success' && 
           <Tab data={contracts} onMenuItemIconClick={this.handleMenuItemIconClick}>
             {children}
           </Tab>        
-          }
-          { showErrorMessage &&
-            <MessageComp 
-              message={errorMessage}
-              onMessageButtonClick={() => this.handleMessageButtonClick()}
-             />
           }
         </div>
       </div>

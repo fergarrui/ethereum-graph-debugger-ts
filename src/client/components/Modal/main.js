@@ -18,7 +18,7 @@ const Modal =  ({ onIconClick, onInputChange, onInputSubmit }) => {
         <div className={styles['modal__main__input']}>
           <Input 
             placeholder='Transaction hash'
-            value='Debug'
+            buttonValue='Debug'
             onChange={onInputChange}
             onSubmit={onInputSubmit}
           />

@@ -62,7 +62,7 @@ class Input extends React.Component {
         <div className={styles['input__item']}>
           <input 
             type='submit' 
-            value={value}
+            buttonValue={value}
             onClick={(e) => this.handleClick(e)}
           />
         </div>
