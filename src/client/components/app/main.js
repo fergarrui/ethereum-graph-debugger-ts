@@ -6,7 +6,7 @@ import { showLoadingMessage, showErrorMessage, hideLoadingMessage, getErrorMessa
 import TopNavBar from '../TopNavBar/main.js';
 import Tab from '../Tab/main.js';
 import MessageComp from '../MessageComp/main.js';
-import SettingsSidebar from '../SettingsSidebar/main.js';
+import SettingsBar from '../SettingsBar/main.js';
 
 import styles from '../../styles/App.scss';
 
@@ -155,7 +155,7 @@ class ConnectedApp extends React.Component {
           onIconClick={() => this.handleSettingsiconClick()}
         />
         <div ref={node => { this.node = node; }}>
-          <SettingsSidebar active={!!settingsVisible} onButtonClick={() => this.handleSettingsButtonClick()} />
+          <SettingsBar active={!!settingsVisible} onButtonClick={() => this.handleSettingsButtonClick()} />
         </div>
         { showLoadingMessage &&
           <MessageComp message='Loading...' />

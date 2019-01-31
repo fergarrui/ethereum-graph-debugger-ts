@@ -59,7 +59,7 @@ class ConnectedTabPanel extends React.Component {
       url += '?';
     }
 
-    url += paramKeys.map( key=> `${key}=${parameters[key]}`).join('&');
+    url += paramKeys.filter(key => parameters[key]).map( key=> `${key}=${parameters[key]}`).join('&');
     return url;
   }
 
@@ -143,7 +143,11 @@ class ConnectedTabPanel extends React.Component {
     const params = {
       name: name.replace('.sol', ''),
       path: encodeURIComponent(path),
-      source: encodeURIComponent(code)
+      source: encodeURIComponent(code),
+      blockchainHost: localStorage.getItem('host'),
+      blockchainProtocol: localStorage.getItem('protocol'),
+      blockchainBasicAuthUsername: localStorage.getItem('username'),
+      blockchainBasicAuthPassword: localStorage.getItem('password')
     }
 
     this.fetchData(this.getUrl(`debug/${parameter}/`, params), 'Transaction Debugger');
