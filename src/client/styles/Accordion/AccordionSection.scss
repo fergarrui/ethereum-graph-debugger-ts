@@ -16,7 +16,7 @@ $parent: '.accordion-section__content';
     border-bottom: 1px solid $color-green;
     text-align: left;
     text-transform: uppercase;
-    transition: color 0.5s, background 0.5s;
+    transition: color 0.3s, background 0.3s;
 
     &::after {
       content: "+";
@@ -55,12 +55,12 @@ $parent: '.accordion-section__content';
       padding: 30px 0;
       margin: 0;
       opacity: 0;
-      transition: .5s;
+      transition: opacity .5s;
     }
     
     &--expanded {
-      max-height: 5000px;
-      overflow: hidden;
+      max-height: 500px;
+      overflow: auto;
 
       #{$parent}__item {
         opacity: 1;

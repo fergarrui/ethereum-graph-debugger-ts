@@ -7,12 +7,13 @@ import CircleRight from './SVG/circle-right.svg';
 import Cross from './SVG/cross.svg';
 import Menu from './SVG/menu.svg';
 import Spinner from './SVG/spinner.svg';
+import Cogs from './SVG/cogs.svg';
 
 import styles from '../../styles/Icon.scss';
 
 const Icon = ({ iconName }) => {
 
-  const icons = { CircleLeft, CircleRight, Menu, Cross, Spinner };
+  const icons = { CircleLeft, CircleRight, Menu, Cross, Spinner, Cogs };
 
   return (
     <div className={styles['icon']}>

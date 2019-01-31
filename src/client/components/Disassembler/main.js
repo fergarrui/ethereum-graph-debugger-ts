@@ -9,10 +9,6 @@ import styles from '../../styles/Disassembler.scss';
 
 const Disassembler = ({ constructorOperations, runtimeOperations, bytecode }) => {
 
-  console.log(bytecode)
-  console.log(constructorOperations)
-  console.log(runtimeOperations)
-
     return (
       <div className={styles['disassemble-comp']}>
         <Accordion>

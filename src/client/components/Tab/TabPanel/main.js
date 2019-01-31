@@ -51,44 +51,67 @@ class ConnectedTabPanel extends React.Component {
     this.handleOutsideClick = this.handleOutsideClick.bind(this);
   }
 
-  fetchTrace(name, source, path, parameter) {
-    this.handleRequestPending();
-    
-    fetch(`http://localhost:9090/debug/${parameter}/?source=${encodeURIComponent(source)}&name=${name.replace('.sol', '')}&path=${encodeURIComponent(path)}`)
-      .then(res => res.json())
-      .then(data => {
-        data.error 
-        ? this.handleRequestFail(data.message) 
-        : this.handleTraceRequestSuccess(data);      
-      })
-      .catch(err => this.handleRequestFail(err));
+  getUrl(endPoint, parameters) {
+    let url = `http://localhost:9090/${endPoint}`
+    const paramKeys = Object.keys(parameters)
+    if (paramKeys.length) {
+      url += '?';
+    }
+    url += paramKeys.map( key=> `${key}=${parameters[key]}`).join('&');
+    return url;
   }
 
-  fetchGraphData(name, source, path) {
-    this.handleRequestPending();
-  
-    fetch(`http://localhost:9090/cfg/source?source=${encodeURIComponent(source)}&name=${name.replace('.sol', '')}&constructor=false&path=${encodeURIComponent(path)}`)
-      .then(res => res.json())
-      .then(data => {
-        data.error 
-        ? this.handleRequestFail(data.message) 
-        : this.handleGraphDataRequestSuccess(data);      
-      })
-      .catch(err => this.handleRequestFail(err));
-  }
+ fetchData(url, type) {
+   this.handleRequestPending();
 
-  fetchDisassembler(name, source, path) {
-    this.handleRequestPending();
-    
-    fetch(`http://localhost:9090/disassemble/?source=${encodeURIComponent(source)}&name=${name.replace('.sol', '')}&constructor=false&path=${encodeURIComponent(path)}`)
+   fetch(url)
     .then(res => res.json())
     .then(data => {
       data.error 
       ? this.handleRequestFail(data.message) 
-      : this.handleDisassemblerRequestSuccess(data);      
+      : this.handleRequestSuccess(data, type);      
     })
     .catch(err => this.handleRequestFail(err));
-  }
+ }
+
+  // fetchTrace(name, source, path, parameter) {
+  //   this.handleRequestPending();
+    
+  //   fetch(`http://localhost:9090/debug/${parameter}/?source=${encodeURIComponent(source)}&name=${name.replace('.sol', '')}&path=${encodeURIComponent(path)}`)
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       data.error 
+  //       ? this.handleRequestFail(data.message) 
+  //       : this.handleTraceRequestSuccess(data);      
+  //     })
+  //     .catch(err => this.handleRequestFail(err));
+  // }
+
+  // fetchGraphData(name, source, path) {
+  //   this.handleRequestPending();
+  
+  //   fetch(`http://localhost:9090/cfg/source?source=${encodeURIComponent(source)}&name=${name.replace('.sol', '')}&constructor=false&path=${encodeURIComponent(path)}`)
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       data.error 
+  //       ? this.handleRequestFail(data.message) 
+  //       : this.handleGraphDataRequestSuccess(data);      
+  //     })
+  //     .catch(err => this.handleRequestFail(err));
+  // }
+
+  // fetchDisassembler(name, source, path) {
+  //   this.handleRequestPending();
+    
+  //   fetch(`http://localhost:9090/disassemble/?source=${encodeURIComponent(source)}&name=${name.replace('.sol', '')}&constructor=false&path=${encodeURIComponent(path)}`)
+  //   .then(res => res.json())
+  //   .then(data => {
+  //     data.error 
+  //     ? this.handleRequestFail(data.message) 
+  //     : this.handleDisassemblerRequestSuccess(data);      
+  //   })
+  //   .catch(err => this.handleRequestFail(err));
+  // }
 
   handleRequestPending() {
     this.setState({
@@ -99,42 +122,50 @@ class ConnectedTabPanel extends React.Component {
     this.props.loadingMessageOn();
   }
 
-  handleTraceRequestSuccess(response) {
-    const newTabs = [...this.state.tabs, {'title': 'Transaction Debugger', 'type': 'Transaction Debugger'}];
+  // handleTraceRequestSuccess(response, type) {
+  //   const newTabs = [...this.state.tabs, {'title': 'Transaction Debugger', 'type': 'Transaction Debugger'}];
+
+  //   this.setState({
+  //     cfg: response.cfg,
+  //     operations: response.operations,
+  //     trace: response.trace,
+  //     fetchRequestStatus: 'success',
+  //     tabs: newTabs,
+  //   });
+
+  //   this.props.loadingMessageOff();
+  // }
+
+  // handleGraphDataRequestSuccess(response) {
+  //   const newTabs = [...this.state.tabs, {'title': 'Control Flow Graph', 'type': 'Control Flow Graph'}];
+
+  //   this.setState({
+
+
+  //     tabs: newTabs,
+  //   });
+
+  //   this.props.loadingMessageOff();
+  // }
+
+  handleRequestSuccess(response, type) {
+    const newTabs = [...this.state.tabs, {'title': type, 'type': type}];
+
+    if(type === 'Disassembler') {
+      this.setState({
+        bytecode: response.bytecode,
+        constructorOperations: response.constructorOperations,
+        runtimeOperations: response.runtimeOperations,
+      });
+    }
 
     this.setState({
+      fetchRequestStatus: 'success',
+      tabs: newTabs,
       cfg: response.cfg,
       operations: response.operations,
       trace: response.trace,
-      fetchRequestStatus: 'success',
-      tabs: newTabs,
-    });
-
-    this.props.loadingMessageOff();
-  }
-
-  handleGraphDataRequestSuccess(response) {
-    const newTabs = [...this.state.tabs, {'title': 'Control Flow Graph', 'type': 'Control Flow Graph'}];
-
-    this.setState({
-      fetchRequestStatus: 'success',
-      cfg: response.cfg,
-      operations: response.operations,
-      tabs: newTabs,
-    });
-
-    this.props.loadingMessageOff();
-  }
-
-  handleDisassemblerRequestSuccess(response) {
-    const newTabs = [...this.state.tabs, {'title': 'Disassembler', 'type': 'Disassembler'}];
-
-    this.setState({
-      tabs: newTabs,
       sideBarOpen: false,
-      bytecode: response.bytecode,
-      constructorOperations: response.constructorOperations,
-      runtimeOperations: response.runtimeOperations,
     }); 
 
     this.props.loadingMessageOff();
@@ -163,7 +194,13 @@ class ConnectedTabPanel extends React.Component {
       parameter: inputValue,
     });
 
-    this.fetchTrace(name, code, path, parameter);
+    const params = {
+      name: name.replace('.sol', ''),
+      path: encodeURIComponent(path),
+      source: encodeURIComponent(code)
+    }
+
+    this.fetchData(this.getUrl(`debug/${parameter}/`, params), 'Transaction Debugger');
   }
 
   handleMenuIconClick() {
@@ -193,7 +230,13 @@ class ConnectedTabPanel extends React.Component {
   handleControlFlowGraphClick() {
     const { name, path, code } = this.props;
 
-    this.fetchGraphData(name, code, path);
+    const params = {
+      name: name.replace('.sol', ''),
+      path: encodeURIComponent(path),
+      source: encodeURIComponent(code),
+      'constructor': false
+    }
+    this.fetchData(this.getUrl('cfg/source', params), 'Control Flow Graph');
 
     document.removeEventListener('click', this.handleOutsideClick);
   }
@@ -201,7 +244,12 @@ class ConnectedTabPanel extends React.Component {
   handleDisassemblerClick() {
     const { name, code, path } = this.props;
 
-    this.fetchDisassembler(name, code, path);
+    const params = {
+      name: name.replace('.sol', ''),
+      path: encodeURIComponent(path),
+      source: encodeURIComponent(code)
+    }
+    this.fetchData(this.getUrl('disassemble', params), 'Disassembler');
 
     document.removeEventListener('click', this.handleOutsideClick);
   }
