@@ -18,7 +18,7 @@ describe('Selfdestruct', () => {
   })
 
   it('Test Selfdestruct', () => {
-    const bytecode = '6010ff'
+    const bytecode = '60106020ff'
     const executor: EVMExecutor = createExecutor(disassembler, bytecode, cfgCreator, opcodeExecutor)
     executor.run(0)
     expect(executor.evm.stack.get(0)).toEqual(Word.createLiteral('10'))
