@@ -4,15 +4,15 @@ import Graph from '../Graph/main.js';
 
 import styles from '../../styles/ControlFlowGraph.scss';
 
-const ControlFlowGraph = ({ contractName, contractPath, cfg, operations }) => {
+const ControlFlowGraph = ({ contractName, contractPath, graphResponse }) => {
   return (
     <div className={styles['control-flow-graph']}>
         <Graph 
           graphType="cfg" 
           graphId={contractName} 
           contractPath={contractPath} 
-          cfg={cfg} 
-          operations={operations}
+          cfg={graphResponse.cfg} 
+          operations={graphResponse.operations}
         />
     </div>
   );

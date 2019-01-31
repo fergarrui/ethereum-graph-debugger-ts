@@ -7,19 +7,19 @@ import Bytecode from './Bytecode/main.js';
 
 import styles from '../../styles/Disassembler.scss';
 
-const Disassembler = ({ constructorOperations, runtimeOperations, bytecode }) => {
+const Disassembler = ({ disassemblerResponse }) => {
 
     return (
       <div className={styles['disassemble-comp']}>
         <Accordion>
           <AccordionSection title='Bytecode'>
-            <Bytecode bytecode={bytecode} />
+            <Bytecode bytecode={disassemblerResponse.bytecode} />
           </AccordionSection>
           <AccordionSection title='Constructor Operations'>
-            <Operations items={constructorOperations} />
+            <Operations items={disassemblerResponse.constructorOperations} />
           </AccordionSection>
           <AccordionSection title='Runtime Operations'>
-            <Operations items={runtimeOperations} />
+            <Operations items={disassemblerResponse.runtimeOperations} />
           </AccordionSection>
         </Accordion>
       </div>
