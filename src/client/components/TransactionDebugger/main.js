@@ -4,17 +4,17 @@ import Graph from '../Graph/main.js';
 
 import styles from '../../styles/TransactionDebugger.scss';
 
-const TransactionDebugger = ({ cfg, operations, contractName, contractPath, trace }) => {
+const TransactionDebugger = ({ contractName, contractPath, debuggerResponse }) => {
 
   return (
     <div className={styles['transaction-debugger']}>
         <Graph 
           graphId={contractName} 
           contractPath={contractPath} 
-          cfg={cfg} 
+          cfg={debuggerResponse.cfg} 
           graphType="debug"
-          operations={operations}
-          trace={trace}
+          operations={debuggerResponse.operations}
+          trace={debuggerResponse.trace}
         />
     </div>
   );
