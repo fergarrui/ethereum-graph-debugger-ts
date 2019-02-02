@@ -76,7 +76,7 @@ class ConnectedApp extends React.Component {
   fetchData(parameter) {
     this.handleRequestPending();
 
-    fetch(`http://localhost:9090/files/${encodeURIComponent(parameter)}?extension=sol`)
+    fetch(`http://localhost:9090/files/${encodeURIComponent(parameter) || ' '}?extension=sol`)
       .then(res => res.json())
       .then(data => {
         data.error 
@@ -114,7 +114,7 @@ class ConnectedApp extends React.Component {
     }))
   }
 
-  handleSettingsButtonClick() {
+  handleSettingsSaveButtonClick() {
     this.toggleOutsideClick();
 
     this.setState({
@@ -144,8 +144,8 @@ class ConnectedApp extends React.Component {
 
   render() {
 
-    const { fetchRequestStatus, contracts, settingsVisible } = this.state;
-    const { children, showLoadingMessage, showErrorMessage, errorMessage, globalConfig } = this.props;
+    const { fetchRequestStatus, contracts, settingsVisible, configPlaceholder } = this.state;
+    const { children, showLoadingMessage, showErrorMessage, errorMessage } = this.props;
 
     return (
       <div className={styles['app']}>
@@ -155,7 +155,10 @@ class ConnectedApp extends React.Component {
           onIconClick={() => this.handleSettingsiconClick()}
         />
         <div ref={node => { this.node = node; }}>
-          <SettingsBar active={!!settingsVisible} onButtonClick={() => this.handleSettingsButtonClick()} />
+          <SettingsBar 
+            active={!!settingsVisible}
+            onSaveButtonClick={() => this.handleSettingsSaveButtonClick()}
+          />
         </div>
         { showLoadingMessage &&
           <MessageComp message='Loading...' />

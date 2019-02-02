@@ -2,21 +2,29 @@
   width: 50%;
   background: $color-dark-grey;
   position: absolute;
-  padding: 0 30px 5px 0;
-  top: -287px;
-  right: 0;
-  transition: top 0.3s;
+  padding: 0 5px 10px 5px;
+  top: 29px;
+  right: -100%;
+  transition: right 0.3s;
   z-index: 2;
 
   &--active {
-    top: 29px
+    right: 0;
   }
 
   &__item {
     padding: 5px 10px;
 
-    &:last-of-type {
-      float: right;
+    p {
+      color: $color-green;
+      text-align: center;
+      padding: 20px 0 0 0;
+    }
+
+    &:nth-of-type(5) {
+      display: flex;
+      justify-content: space-between;
+      padding: 20px 10px 0 10px;
     }
 
     input {
