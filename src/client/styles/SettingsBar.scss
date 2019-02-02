@@ -3,13 +3,13 @@
   background: $color-dark-grey;
   position: absolute;
   padding: 0 5px 10px 5px;
-  top: 29px;
-  right: -100%;
-  transition: right 0.3s;
+  top: -262px;
+  right: 0;
+  transition: top 0.3s;
   z-index: 2;
 
   &--active {
-    right: 0;
+    top: 29px;
   }
 
   &__item {
