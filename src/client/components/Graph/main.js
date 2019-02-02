@@ -16,7 +16,10 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
+const previousPolygons = []
+
 class ConnectedGraph extends React.Component {
+
   constructor() {
     super();
   }
@@ -38,21 +41,31 @@ class ConnectedGraph extends React.Component {
     
     if (event.target.tagName === 'text') {
       const elem = d3.select(event.target.parentElement.parentElement);
-      const id = elem.attr('id').replace('a_', '') ;
+      const domId = elem.attr('id')
+      const id = domId.replace('a_', '');
       const idNum = parseInt(id, 16);
-
       if(trace && trace[idNum]) {
-          selectEVMState(trace[idNum]);
-        } else {
-          unselectEVMState();
-        }
-
+        selectEVMState(trace[idNum]);
+      } else {
+        unselectEVMState();
+      }
+      const polygon = document.getElementById(domId).getElementsByTagName("polygon")[0];
+      polygon.setAttribute('fill', 'white');
+      this.clearPreviousPolygons();
+      previousPolygons.push(polygon)
       const selectedOperation = operations.find(op => op.offset === idNum);
 
       if (selectedOperation && selectedOperation.begin && selectedOperation.end) {
         selectLines([selectedOperation.begin, selectedOperation.end]);
       }
     }
+  }
+
+  clearPreviousPolygons() {
+    for (const pol of previousPolygons) {
+      pol.setAttribute('fill', 'none');
+    }
+    previousPolygons.length = 0
   }
 
   render() {
